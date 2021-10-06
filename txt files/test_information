@@ -1,0 +1,31 @@
+Test Business User
+test_busi1 = BusinessUser(bu_email="test@test.test", bu_password="pw123", bu_name="Testie Test", bu_business="Testie's Business")
+test_busi2 = BusinessUser(bu_email="lester@test.test", bu_password="password1", bu_name="Lett Tuss", bu_business="Lettuce Company")
+
+test_busi3 = BusinessUser(bu_email="business@test.test", bu_password="pw321", bu_name="Busi Tester", bu_business="Testing Co.")
+
+test_busi_query = BusinessUser.query.all()
+
+Test Client
+test_client1 = Client(client_name="Client Test", client_email="clienttest@test.test", reward_point=2, num_of_reward=0)
+test_client2 = Client(client_name="Esther", client_email="esther@test.test", reward_point=5, num_of_reward=1)
+
+test_client3 = Client(client_name="Dave", client_email="dave@test.test", reward_point=9, num_of_reward=0)
+
+test_client_query = Client.query.all()
+
+Test Transaction
+test_transac1 = Transaction(appointment_type="Test type", transaction_date=datetime.now(), total_cost=70.00)
+test_transac2 = Transaction(appointment_type="Test type1", transaction_date=datetime.now(), total_cost=120.00)
+
+test_transac3 = Transaction(appointment_type="Test type3", transaction_date=datetime.now(), total_cost=90.00)
+
+test_transac_query = Transaction.query.all()
+
+Test Reward 
+test_reward1 = Reward(reward_type="free service", reward_cost=10)
+test_reward2 = Reward(reward_type="discounted service", reward_cost=5)
+
+test_reward3 = Reward(reward_type="extended service", reward_cost=13)
+
+test_reward_query = Reward.query.all()

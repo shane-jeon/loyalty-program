@@ -1,0 +1,8 @@
+curl "https://api.mockaroo.com/api/60e95de0?count=20&key=e421b220" > "bu_dummydata.json"
+
+curl "https://api.mockaroo.com/api/b9681850?count=20&key=e421b220" > "client_dummydata.json"
+
+curl "https://api.mockaroo.com/api/77400dc0?count=1000&key=e421b220" > "rewards_dummydata.json"
+
+curl "https://api.mockaroo.com/api/437a4f30?count=20&key=e421b220" > "transaction_dummydata.json"
+
