@@ -14,4 +14,9 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def homepage():
     """View homepage"""
-    return "Hello World"
+    return "Welcome to the Small Business Owner's Loyalty Page!"
+
+
+if __name__ == '__main__':
+    connect_to_db(app)
+    app.run(host='0.0.0.0', debug=True)
