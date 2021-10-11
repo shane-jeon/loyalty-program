@@ -1,12 +1,68 @@
 {% extends 'base.html' %}
 
-{% block title %} Welcome {% endblock %}
+{% block title %} HausStar {% endblock %}
 
 {% block body %}
-  <!-- Mount your react components on to this element. -->
-  <div id="app"></div>
+  
+  <div>
+    <h2>Welcome.</h2>
+  </div>
+    
+  <div>
+    {% if session['register'] %}
+    <p>Welcome {{ name }}!</p>
+  </div>
+
+    {% else %}
+    
+    <h2>Log In</h2>
+    <form action="/login" method="POST">
+      <p>
+        Email <input type="email" name="login-email">
+      </p>
+
+      <p>
+        Password <input type="password" name="login-password">
+      </p>
+
+      <p>
+        <input type="submit">
+      </p>
+    </form>
+
+
+    <h3>No account? </h3>
+    <h2>Please register as a user</h2>
+
+    <form class="user-registration" method="POST" action="/register">
+      <div>
+        <label>Email</label>
+        <input type="email" name="registration-email" required>
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="text" name="registration-password" required>  
+      </div>
+      <div>
+        <label>Name</label>
+        <input type="text" name="name" required>
+      </div>
+      <div>
+        <label>Business Name</label>
+        <input type="text" name="business" required>  
+      </div>
+      <div>
+        <label>Profile Picture</label>
+        <input type="url" name="pic_path" url="https://indianakitchen.com/wp-content/uploads/2015/03/Ham-Sandwich.jpg">  
+      </div>
+    <div>
+      <input type="submit" value="Register" class="btn btn-primary">
+    </div>
+  </form>
+
+  {% endif %}
 {% endblock %}
 
 {% block js %}
-	<script src="/static/js/homepage.jsx" type="text/jsx"></script>
+
 {% endblock %}

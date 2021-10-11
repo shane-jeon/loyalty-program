@@ -30,6 +30,14 @@ def get_business_user_by_id(business_user_id):
 
     return business_user
 
+def get_business_user_by_email(bu_email):
+    """Checks if email exists"""
+    print("reached here")
+    business_user = BusinessUser.query.filter_by(bu_email=bu_email).first()
+    print("reached here 2")
+    print(business_user)
+    return business_user
+
 def create_client(client_name, client_email, 
                   reward_point, num_of_reward):
     """Create client."""
