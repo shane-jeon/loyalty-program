@@ -55,7 +55,7 @@ def process_login():
     print(bu_email)
     print(bu_password)
 
-    business_user = crud.get_user_by_email(bu_email)
+    business_user = crud.get_business_user_by_email(bu_email)
 
     if not business_user or business_user.bu_password != bu_password:
         flash("The e-mail or password you entered is incorrect. Try again.")
@@ -63,9 +63,14 @@ def process_login():
         session["bu_email"] = business_user.bu_email
         flash(f"Welcome back {business_user.bu_name}!")
 
-    return redirect("/")
+    return redirect("/directory")
 
-
+@app.route("/directory/<business_user_id>")
+def directory(business_user_id):
+    """Show business user's directory."""
+    
+    business_user = crud.get_business_user_by_id(business_user_id)
+    return render_template('directory.html',business_user=business_user)
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application
