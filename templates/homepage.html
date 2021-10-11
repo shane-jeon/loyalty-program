@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}Loyalty Program Home{% endblock %}
+
+{% block title %} Welcome {% endblock %}
 
 {% block body %}
-    <h1>
-        Greetings!
-    </h1>
+  <!-- Mount your react components on to this element. -->
+  <div id="app"></div>
+{% endblock %}
 
-    <h2>Navigation</h2>
-    <ul>
-        <!-- <li><a href="/x></a></li> -->
-    </ul>
-{%%}
+{% block js %}
+	<script src="/static/js/homepage.jsx" type="text/jsx"></script>
+{% endblock %}

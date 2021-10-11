@@ -36,7 +36,8 @@ class BusinessUserTestcase(unittest.TestCase):
         # assign crud functions w/test values to overall test variable
         test_business_user = crud.create_business_user(bu_email="test@test.test", 
                                               bu_password="pw123", bu_name="Testie Test", 
-                                              bu_business="Testie's Business", bu_pic_path="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thebalancesmb.com%2Fimprove-your-small-business-2951413&psig=AOvVaw1QpHUzhVJssfOXotWwZ0a_&ust=1633719579591000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMiQuuz9uPMCFQAAAAAdAAAAABAD") 
+                                              bu_business="Testie's Business", 
+                                              bu_pic_path="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thebalancesmb.com%2Fimprove-your-small-business-2951413&psig=AOvVaw1QpHUzhVJssfOXotWwZ0a_&ust=1633719579591000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCMiQuuz9uPMCFQAAAAAdAAAAABAD") 
 
         # performing typical commands used to create business user
         model.db.session.add(test_business_user)
@@ -55,5 +56,15 @@ class BusinessUserTestcase(unittest.TestCase):
         # checks if the test query is equal to the function output
         self.assertEqual(test_show_all_business_user, crud_show_all_business_user)
 
-if __name__ == "__main__":
-    unittest.main()
+
+    def test_get_business_user_by_id(self):
+
+        test_business_user_id = crud.get_business_user_by_id(business_user_id=3)
+
+
+        test_query_by = model.BusinessUser.query.get(model.BusinessUser.business_user_id)
+        self.assertEqual(test_business_user_id, test_query_by)
+
+
+    if __name__ == "__main__":
+        unittest.main()

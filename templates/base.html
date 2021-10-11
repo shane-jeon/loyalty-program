@@ -1,17 +1,112 @@
+<!-- HyperText Markup Language -->
+<!-- SYNTAX:
+        "Element": type of HTML component--fundamental unit, so <p><img> etc.
+
+        "Attribute": ex: src="", class="", id="" Boolean attributes default to
+        false <input required="true"> or <input required>
+         
+        "Entities": shortcuts for displaying special characters, used to 
+        display reserved characters in HTML
+         ex: to show (<) sign, need to use "&lt;" or "&#60;" instead (common: &, <, >, ")
+         for more ENTITIES examples 
+            https://www.w3schools.com/html/html_entities.asp
+
+
+        BLOCK elements: <p>, <h#>, <table>, <ul>, <ol>, <li>, <div>*
+        INLINE elements: <a>, <img>, <strong>, <em>, <span>*
+            *when content isnt any element of above use these
+        -->
+
+<!-- STANDARDS: double-quotes, line length < 80 characters -->
+
+
+<!-- declaring to browser page is written in HTML -->
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width">
-        <title>
-            {% block title %}{% endblock %}
-        </title>
 
-        {% block head %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
+<!-- all HTML content should be w/in html element -->
+<html lang="en">
 
-        {%% block after_body %}{% endblock %}
-    </body>
+<!-- for all metadata (data about data) 
+    for all of the following: <title>(browser tab), <style>(css), 
+    <meta>(specifications), <link>(url), <script>(client-side JS), 
+    <base>(specifies base URL) -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Why Does Everything I Touch Die?</title>
+  </head>
+
+  <!-- content user will see -->
+  <body>
+    <!-- Page content goes here -->
+    <div>
+        <!-- form accepts user input and sends its to server for processing -->
+        <!-- forms have own input elements: <input>: text, checkbox,
+            radio(radio button), <select>: select dropdown,
+            <textarea> inputting text longer than a phrase -->
+        
+
+        <!-- basic form input requires type, name, value(optional) -->
+        <form>
+            <label>Enter Email</label>
+        </form>
+        
+        <!-- text input -->
+        <form>
+            <input type="text" email="email">
+        </form>>
+
+        <!-- radio buttons -->
+        <form>
+            <input type="radio" name="test button A" value="example A">
+            <lable>Radio button, example 1</lable>
+
+            <input type="radio" name="test button B" value="example B">
+            <lable>Radio button, example 2</lable>
+        </form>
+
+        <!-- checkboxes -->
+        <form>
+            Why does everything I touch Die?
+            <input type="checkbox" name="reasons" value="Your hand is part of the void">
+            <label>the void</label>
+
+            <input type="checkbox" name="reasons" value="I really don't know">
+            <label>idk</label>
+
+            <input type="checkbox" name="reasons" value="me too">
+            <label>me2</label>
+        </form>
+
+        <!-- dropdown menus -->
+        <form>
+            Another question here:
+
+            <select name="option">
+                <option value="x">X</option>
+                <option value="y">Y</option>
+                <option value="z">Z</option>
+            </select>
+        </form>
+
+        <!-- textareas -->
+        <form>
+            <label>Tell me about yourself:</label>
+            <textarea name="Say Something"></textarea>
+        </form>
+
+        <!-- submit button -->
+            <!-- 2 ways to create submit button -->
+
+        <!-- method 1 -->
+        <form>
+            <input type="submit">
+        </form>
+
+        <!-- method 2 -->
+        <form>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+  </body>
 </html>

@@ -30,7 +30,8 @@ def get_business_user_by_id(business_user_id):
 
     return business_user
 
-def create_client(client_name, client_email, reward_point, num_of_reward):
+def create_client(client_name, client_email, 
+                  reward_point, num_of_reward):
     """Create client."""
     
     client = Client(client_name=client_name,
