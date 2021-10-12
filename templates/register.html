@@ -1,2 +1,32 @@
 {% extends 'base.html' %}
 
+{% block body %}
+<h2>Please register as a user</h2>
+
+    <form class="user-registration" method="POST" action="/registration">
+      <div>
+        <label>Email</label>
+        <input type="email" name="registration-email" required>
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="text" name="registration-password" required>  
+      </div>
+      <div>
+        <label>Name</label>
+        <input type="text" name="name" required>
+      </div>
+      <div>
+        <label>Business Name</label>
+        <input type="text" name="business" required>  
+      </div>
+      <div>
+        <label>Profile Picture</label>
+        <input type="url" name="pic_path" url="https://indianakitchen.com/wp-content/uploads/2015/03/Ham-Sandwich.jpg">  
+      </div>
+    <div>
+      <input type="submit" value="Register" class="btn btn-primary">
+    </div>
+  </form>
+
+{% endblock %}

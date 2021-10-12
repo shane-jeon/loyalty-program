@@ -5,7 +5,7 @@ from flask import (Flask, session, render_template, request, flash, redirect)
 from flask_debugtoolbar import DebugToolbarExtension
 from model import BusinessUser, connect_to_db
 import crud
-# from jinja2 import StrictUndefined
+from jinja2 import StrictUndefined
 
 
 app = Flask(__name__)
@@ -20,10 +20,14 @@ def homepage():
     
     return render_template('homepage.html')
 
+@app.route("/register")
+def render_form():
+    # purely for display NOT action
+    return render_template('register.html')
 
-@app.route("/register", methods=['POST'])
+@app.route("/registration", methods=['POST'])
 def register_user():
-    """Register as new user."""
+    """Register new business user."""
 
     bu_email = request.form.get("registration-email")
     bu_password = request.form.get("registration-password")
@@ -39,7 +43,6 @@ def register_user():
 
     if business_user:
         flash("There's already an account with that e-mail! Try again.")
-        return redirect("/login")
     else:
         crud.create_business_user(bu_email, bu_password, bu_name, bu_business, bu_pic_path)
         flash("Account created! Please log in.")
@@ -59,17 +62,23 @@ def process_login():
 
     if not business_user or business_user.bu_password != bu_password:
         flash("The e-mail or password you entered is incorrect. Try again.")
+
+        return redirect("/")
+
     else:
         session["bu_email"] = business_user.bu_email
         flash(f"Welcome back {business_user.bu_name}!")
 
-    return redirect("/directory")
+        return redirect(f"/directory/{business_user.business_user_id}")
+
 
 @app.route("/directory/<business_user_id>")
 def directory(business_user_id):
     """Show business user's directory."""
     
     business_user = crud.get_business_user_by_id(business_user_id)
+
+    # returns TEMPLATE, and variable from above w/field
     return render_template('directory.html',business_user=business_user)
 
 ## if this script is being called directly, than run(method) app(instance) 
