@@ -19,12 +19,13 @@ class BusinessUser(db.Model):
     # email is String type w/max size of 120 characters
     bu_email = db.Column(db.String(120), nullable=False, unique=True)
     # changed "bu_password" to "bu_password_hash", is 128 character hash
-    bu_password_hash = db.Column(db.String(128), nullable=False)
+    bu_password_hash = db.Column(db.String(128), nullable=True)
     bu_name = db.Column(db.String, nullable=False)
     bu_business = db.Column(db.String, nullable=False, unique=True)
     bu_pic_path = db.Column(db.String, nullable=True)
 
     # creating pw hashing functions
+    # write test for following later (return to)
     def set_password(self, password):
         """Sets PW hash using werkzeug."""
         self.bu_password_hash = generate_password_hash(password)

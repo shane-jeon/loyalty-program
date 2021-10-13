@@ -1,18 +1,22 @@
-"""CRUD operations."""
+"""CRUD ('CREATE, READ, UPDATE, DELETE') operations."""
 
+# CRUD.py acts as a bridge from database tables to python
+
+# importing database, classes, and connect_to_db from model.py
 from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, connect_to_db
 
-def create_business_user(bu_email, bu_password, bu_name, bu_business, bu_pic_path):
-    """Create and return new business user."""
+
+def create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path):
+    """Create, add, & return new business user."""
 
     business_user = BusinessUser(bu_email=bu_email, 
-                                bu_password=bu_password, 
+                                bu_password_hash=bu_password_hash, 
                                 bu_name=bu_name, 
                                 bu_business=bu_business,
                                 bu_pic_path=bu_pic_path
     )
 
-
+    # 
     db.session.add(business_user)
     db.session.commit()
 
@@ -24,14 +28,15 @@ def show_all_business_user():
     return BusinessUser.query.all()
 
 def get_business_user_by_id(business_user_id):
-    """Display e-mail by user_id"""
+    """Gets business user by business_user_id"""
 
     business_user = BusinessUser.query.get(business_user_id)
 
     return business_user
 
 def get_business_user_by_email(bu_email):
-    """Checks if email exists"""
+    """Checks if business user email exists in database"""
+
     print("reached here")
     business_user = BusinessUser.query.filter_by(bu_email=bu_email).first()
     print("reached here 2")
@@ -40,7 +45,7 @@ def get_business_user_by_email(bu_email):
 
 def create_client(client_name, client_email, 
                   reward_point, num_of_reward):
-    """Create client."""
+    """Creates a business user's new client."""
     
     client = Client(client_name=client_name,
                     client_email=client_email,

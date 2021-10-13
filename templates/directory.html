@@ -6,5 +6,17 @@
 <h2>Welcome {{ business_user.bu_name }}!</h2>
 <h3>
     User Profile:
-</h3>{{ business_user.bu_email }}</h2>
+</h3>
+<!-- {{ business_user.bu_pic_path }} -->
+<img src={{ business_user.bu_pic_path }}>
+<h2>{{ business_user.bu_email }}</h2>
+
+<a href="/"
+<ul>
+    <li>{{ client.client_name }}</li>
+</ul>
 {% endblock %}
+
+
+<!-- need list of clients, be able to click on client name to go to client profile -->
+<!-- link to see user profile -->

@@ -18,15 +18,15 @@ with open('data/bu_dummydata.json') as f:
 
 bus_in_db = []
 for bu in bu_data:
-    bu_email, bu_password, bu_name, bu_business, bu_pic_path = (
+    bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path = (
         bu['bu_email'],
-        bu['bu_password'],
+        bu['bu_password_hash'],
         bu['bu_name'],
         bu['bu_business'],
         bu['bu_pic_path']
     )    
 
-    db_bu = crud.create_business_user(bu_email, bu_password, bu_name, bu_business,
+    db_bu = crud.create_business_user(bu_email, bu_password_hash, bu_name, bu_business,
                                       bu_pic_path)
     bus_in_db.append(db_bu)
 
