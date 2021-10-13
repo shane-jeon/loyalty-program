@@ -1,20 +1,39 @@
 """Models for loyalty program project"""
 
+# import SQL alchemy to link SQL and PYTHON
 from flask_sqlalchemy import SQLAlchemy
+# importing werkzeug
+from werkzeug.security import generate_password_hash, check_password_hash
 
+# db object, representing database
 db = SQLAlchemy()
 
+# business_users table
 class BusinessUser(db.Model):
-    """a business user"""
+    """Business user information."""
 
     __tablename__ = 'business_users'
 
+    # table fields
     business_user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    bu_email = db.Column(db.String(254), nullable=False, unique=True)
-    bu_password = db.Column(db.String(16), nullable=False)
+    # email is String type w/max size of 120 characters
+    bu_email = db.Column(db.String(120), nullable=False, unique=True)
+    # changed "bu_password" to "bu_password_hash", is 128 character hash
+    bu_password_hash = db.Column(db.String(128), nullable=False)
     bu_name = db.Column(db.String, nullable=False)
     bu_business = db.Column(db.String, nullable=False, unique=True)
     bu_pic_path = db.Column(db.String, nullable=True)
+
+    # creating pw hashing functions
+    def set_password(self, password):
+        """Sets PW hash using werkzeug."""
+        self.bu_password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        """Compares input pw w/corresponding PW hash."""
+        return check_password_hash(self.bu_password_hash, password)
+
+
 
     def __repr__(self):
         return f"""<Business_user business_user_id={self.business_user_id} bu_email={self.bu_email} 
