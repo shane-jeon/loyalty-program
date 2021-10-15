@@ -51,7 +51,7 @@ class Client(db.Model):
     client_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     client_name = db.Column(db.Text, nullable=False)
     client_email = db.Column(db.String(254), nullable=False, unique=True)
-    reward_point = db.Column(db.Integer, nullable=False)
+    reward_point = db.Column(db.Integer, nullable=True)
     business_user_id = db.Column(db.Integer, db.ForeignKey('business_users.business_user_id'))
     num_of_reward = db.Column(db.Integer, nullable=True)
 
@@ -79,7 +79,7 @@ class Transaction(db.Model):
 
 
     def __repr__(self):
-        return f'<Transaction transaction_id={self.transaction_id} appointment_type={self.appointment_type}, transaction_date={self.transaction_date}>'
+        return f'<Transaction transaction_id={self.transaction_id} appointment_type={self.appointment_type}, transaction_date={self.transaction_date}, client_id={self.client_id}>'
 
     client = db.relationship('Client', back_populates='transaction')
 
@@ -125,6 +125,6 @@ def connect_to_db(flask_app, db_uri='postgresql:///loyalty', echo=True):
     print('Connected to the db!')
 
 if __name__ == "__main__":
-    from server import app
-
+    from flask import Flask
+    app = Flask(__name__)
     connect_to_db(app)

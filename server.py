@@ -1,7 +1,7 @@
 """HausStar Server"""
 
 ## from the flask library, import ...
-from flask import (Flask, session, render_template, request, flash, redirect)
+from flask import (Flask, session, render_template, request, jsonify, flash, redirect)
 from flask_debugtoolbar import DebugToolbarExtension
 from model import BusinessUser, connect_to_db
 import crud
@@ -80,13 +80,87 @@ def directory(business_user_id):
     
     # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
     business_user = crud.get_business_user_by_id(business_user_id)
+    clients = crud.show_all_client()
     # client = in crud.py call function "get_client_by_id(client_id)"
-    client = crud.get_client_by_id(client_id)
+    # client = crud.get_client_by_id(client_id)
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('directory.html',business_user=business_user, client=client)
+    return render_template('directory.html',business_user=business_user, clients=clients)
 
-@app.route("/")
+@app.route("/new_client")
+def new_client_form():
+    """Show form to sign up a new client."""
+    return render_template('register_client.html')
+
+@app.route("/new_client_signup", methods=['POST'])
+def signup_new_client():
+    """Add new client to business user's profile"""
+
+    client_name = request.form.get("name")
+    client_email = request.form.get("email")
+    bu_email = request.form.get("bu_email")
+    # print(business_email)
+    # RETURN TO CHANGE
+    # print(bu_email)
+    # print(bu_password_hash)
+
+
+    client = crud.get_client_by_email(client_email)
+    business_user = crud.get_business_user_by_email(bu_email)
+    # print(client)
+
+    if client:
+        flash("There's already a client with that e-mail! Try again.")
+
+        return redirect("/new_client")
+    else:
+        crud.create_client(client_name, client_email, business_user)
+        flash("New client added.")
+    
+        return redirect("/new_client")
+
+
+# shows directory for corresponding business user id
+@app.route("/clients/<client_id>")
+def client_profile(client_id):
+    """Show client profile."""
+    
+    # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
+    clients = crud.get_client_by_id(client_id)
+    # transactions = crud.show_all_transaction()
+    # business_user = crud.show_all_business_user()
+    # client = in crud.py call function "get_client_by_id(client_id)"
+    # client = crud.get_client_by_id(client_id)
+
+    # returns TEMPLATE, and variable from above w/field
+    return render_template('client_profile.html',clients=clients)
+
+@app.route('/add_transaction/<client_id>')
+def show_transaction_page(client_id):
+    """Show form to add client transaction"""
+    clients = crud.get_client_by_id(client_id)
+
+    return render_template('add_transaction.html',clients=clients)
+
+@app.route('/new_transaction', methods=['POST'])
+def add_transaction():
+    """Add transaction to client profile."""
+
+    # assigning variable to get entry from html form
+    transaction_date = request.form.get('transaction_date')
+    appointment_type = request.form.get('appointment_type')
+    total_cost = request.form.get('total_cost')
+    client_id = request.form.get("client_id")
+
+    # transaction = crud.get_transaction_by_id(transaction_id)
+    # clients = crud.get_client_by_id(client_id)
+
+    client = crud.get_client_by_id(client_id)
+    # calling crud function
+    crud.create_transaction(transaction_date, appointment_type, total_cost, client)
+    flash("Transaction added.")
+
+    return redirect(f"/add_transaction/{client.client_id}")
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application

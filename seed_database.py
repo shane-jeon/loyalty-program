@@ -1,6 +1,6 @@
 import os
 import json
-# from random import choice, randint
+from random import choice
 from datetime import datetime
 
 import crud
@@ -16,8 +16,11 @@ model.db.create_all()
 with open('data/bu_dummydata.json') as f:
     bu_data = json.loads(f.read())
 
+# business_user info in list
 bus_in_db = []
+# for item in list
 for bu in bu_data:
+    # assigning respective variables to access keys?
     bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path = (
         bu['bu_email'],
         bu['bu_password_hash'],
@@ -26,23 +29,29 @@ for bu in bu_data:
         bu['bu_pic_path']
     )    
 
+    # db_bu is creating business user 
     db_bu = crud.create_business_user(bu_email, bu_password_hash, bu_name, bu_business,
                                       bu_pic_path)
+
+    # appending created business_user to bus_in_db
     bus_in_db.append(db_bu)
 
 with open('data/client_dummydata.json') as f:
     client_data = json.loads(f.read())
 
+
+
 clients_in_db = []
 for client in client_data:
-    client_name, client_email, reward_point, num_of_reward = (
+    client_name, client_email, business, reward_point, num_of_reward = (
         client['client_name'],
         client['client_email'],
+        choice(bus_in_db),
         client['reward_point'],
         client['num_of_reward']
     )    
 
-    db_client = crud.create_client(client_name, client_email, 
+    db_client = crud.create_client(client_name, client_email, business, 
                                    reward_point, num_of_reward)
 
     clients_in_db.append(db_client)
@@ -55,16 +64,17 @@ with open('data/transaction_dummydata.json') as f:
 
 transaction_in_db = []
 for transaction in transaction_data:
-    appointment_type, transaction_date, total_cost = (
+    transaction_date, appointment_type, total_cost, client = (
         transaction['appointment_type'],
         transaction['transaction_date'],
-        transaction['total_cost']
+        transaction['total_cost'],
+        choice(clients_in_db)
     )    
 
     db_transaction = crud.create_transaction(appointment_type, transaction_date, 
-                                             total_cost)
+                                             total_cost, client)
 
-    clients_in_db.append(db_client)
+    transaction_in_db.append(db_transaction)
     
 
 

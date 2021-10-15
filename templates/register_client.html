@@ -1,1 +1,23 @@
-{% extend base %}
+{% extends 'base.html' %}
+
+{% block body %}
+
+<p>{{ session.get('bu_email')}}</p>
+<form class="new-client" method="POST" action="/new_client_signup">
+      <div>
+        <label>Client Name</label>
+        <input type="text" name="name" required>
+      </div>
+      <div>
+        <label>Client Email</label>
+        <input type="email" name="email" required>  
+      </div>
+      <div>
+        <input hidden type="text" name="bu_email" value={{ session.get('bu_email') }}>  
+      </div>
+    <div>
+      <input type="submit" value="add client" class="btn btn-primary">
+    </div>
+  </form>
+
+{% endblock %}

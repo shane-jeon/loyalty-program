@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %} {{clients.client_name}} {% endblock %}
+
+{% block body %}
+<h2>Client Profile</h2>
+
+<h3> {{clients.client_name}} </h3>
+
+<p>Reward Points: </p>
+
+<p>Rewards Available: </p>
+
+<h3>
+    <a href="/add_transaction/{{ clients.client_id }}">add client transaction</a>
+</h3>
+
+<!-- <h3>client transactions</h3>
+<p>{{ clients.transaction_type}}</p>
+
+
+<p> 
+  <a href="/directory/{{ clients.business_user_id }}">return to directory</a>
+</p> -->
+
+{% endblock %}

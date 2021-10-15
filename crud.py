@@ -43,15 +43,19 @@ def get_business_user_by_email(bu_email):
     print(business_user)
     return business_user
 
-def create_client(client_name, client_email, 
-                  reward_point, num_of_reward):
+# don't need to add reward point, default to none
+def create_client(client_name, client_email, business,
+                  reward_point=None, num_of_reward=None):
     """Creates a business user's new client."""
     
     client = Client(client_name=client_name,
                     client_email=client_email,
+                    # associated w/model.py BusinessUser
+                    business_user_id=business.business_user_id,
                     reward_point=reward_point,
                     num_of_reward=num_of_reward
     )
+    # pass in business name
 
     db.session.add(client)
     db.session.commit()
@@ -70,12 +74,47 @@ def get_client_by_id(client_id):
 
     return client
 
-def create_transaction(appointment_type, transaction_date, total_cost):
+def get_client_by_email(client_email):
+    """Checks if business user email exists in database"""
+
+    # print("reached here")
+    client = Client.query.filter_by(client_email=client_email).first()
+    # print("reached here 2")
+    # print(client_name)
+    return client
+
+
+# Left Join
+# SELECT client_name FROM clients AS c LEFT JOIN business_users AS bu USING(business_user_id);
+
+# SELECT client_name FROM clients
+# SELECT * --> .all()
+# client = BusinessUser.query.get('business_users)
+# def get_clients_by_business_user_id(business_user_id):
+#     """Gets client through business_users table."""
+#     clients=set()
+    
+#     for business_users in(
+#         BusinessUser.query.options(db.joinedload("clients")).filter_by(business_user_id=business_user_id)
+#         .all()
+
+#     ):
+#         clients.add(business_users.client_name)
+
+#     return list(clients)
+
+# bu_clients = db.session.query(Client, BusinessUser).outerjoin(BusinessUser).all()
+# problem, need to assign business user id to clients
+
+
+def create_transaction(transaction_date, appointment_type, total_cost, client):
     """Create client transaction."""
 
-    transaction = Transaction(appointment_type=appointment_type,
-                              transaction_date=transaction_date,
-                              total_cost=total_cost)
+    transaction = Transaction(transaction_date=transaction_date,
+                              appointment_type=appointment_type,
+                              total_cost=total_cost,
+                              client_id=client.client_id
+    )
 
     db.session.add(transaction)
     db.session.commit()
