@@ -1,23 +1,37 @@
 {% extends 'base.html' %}
 
-{% block title %} {{clients.client_name}} {% endblock %}
+{% block title %} {{client.client_name}} {% endblock %}
 
 {% block body %}
+
+
+{% for client_reward in client.client_reward %}
+  {{ client_reward.reward.reward_type }}
+  {{ client_reward.reward.reward_cost }}
+{% endfor %}
+  
+
 <h2>Client Profile</h2>
 
-<h3> Client Name: {{clients.client_name}} </h3>
+<h3> Client Name: {{client.client_name}} </h3>
+
+<h4>
+  <a href="/rewards/<business_user_id">edit rewards</a>
+</h4>
 
 <p>Reward Points: </p>
-
 <p>Rewards Available: </p>
 
+<p>
+  <a href="/
+</p>
 <h3>
-    <a href="/add_transaction/{{ clients.client_id }}">add client transaction</a>
+    <a href="/add_transaction/{{ client.client_id }}">add client transaction</a>
 </h3>
 
-<h3>{{ clients.client_name }}'s' transactions</h3>
+<h3>{{ client.client_name }}'s' transactions</h3>
 {% for transaction in transactions %}
-  {% if transaction.client_id == clients.client_id %}
+  {% if transaction.client_id == client.client_id %}
   <p>
     Transaction Date: {{ transaction.transaction_date}} <br>
     Appointment Type: {{ transaction.appointment_type }} <br>

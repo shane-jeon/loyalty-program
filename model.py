@@ -92,7 +92,7 @@ class ClientReward(db.Model):
     reward_id = db.Column(db.Integer, db.ForeignKey('rewards.reward_id'))
 
     def __repr__(self):
-        return f'<ClientReward clients_rewards_id={self.clients_rewards_id}>'
+        return f'<ClientReward client_reward_id={self.client_reward_id}>'
 
     # relationship to rewards table
     reward = db.relationship('Reward', back_populates='client_reward')

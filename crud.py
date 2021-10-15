@@ -133,6 +133,16 @@ def get_transaction_by_id(transaction_id):
 
     return transaction
 
+def create_client_reward(client_id, reward_id):
+    """Create client reward."""
+
+    client_reward = ClientReward(client_id=client_id, reward_id=reward_id)
+
+    db.session.add(client_reward)
+    db.session.commit()
+
+    return client_reward
+    
 def create_reward(reward_type, reward_cost):
     """Create reward."""
 

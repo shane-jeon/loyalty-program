@@ -127,18 +127,19 @@ def client_profile(client_id):
     """Show client profile."""
     
     # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
-    clients = crud.get_client_by_id(client_id)
+    client = crud.get_client_by_id(client_id)
     transactions = crud.show_all_transaction()
     # business_user = crud.show_all_business_user()
     # client = in crud.py call function "get_client_by_id(client_id)"
     # client = crud.get_client_by_id(client_id)
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('client_profile.html',clients=clients, transactions=transactions)
+    return render_template('client_profile.html',client=client, transactions=transactions)
 
 @app.route('/add_transaction/<client_id>')
 def show_transaction_page(client_id):
     """Show form to add client transaction"""
+    # change to singular later
     clients = crud.get_client_by_id(client_id)
 
     return render_template('add_transaction.html',clients=clients)
@@ -163,11 +164,23 @@ def add_transaction():
 
     return redirect(f"/add_transaction/{client.client_id}")
 
-@app.route("/rewards")
-def show_rewards_page():
+# @app.route("/rewards/<business_user_id>")
+# def show_rewards_page():
 
-    return render_template('rewards.html')
+#     return render_template('rewards.html')
 
+# @app.route("/add_rewards", methods=["POST"])
+# def add_reward():
+#     """Adds new reward for business user."""
+
+#     reward_type = request.form.get('reward_type')
+#     reward_cost = request.form.get('reward_cost')
+ 
+#     crud.create_reward(reward_type, reward_cost)
+
+#     flash("Reward added.")
+
+#     return redirect("/rewards/<business_user_id>")
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application
 if __name__ == "__main__":

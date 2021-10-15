@@ -1,6 +1,6 @@
 import os
 import json
-from random import choice
+from random import choice, randint
 from datetime import datetime
 
 import crud
@@ -91,3 +91,8 @@ for reward in reward_data:
     db_reward = crud.create_reward(reward_type, reward_cost)
 
     reward_in_db.append(db_reward)    
+
+for client in clients_in_db:
+    crud.create_client_reward(client.client_id, randint(1, 20))
+
+
