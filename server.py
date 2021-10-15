@@ -127,13 +127,13 @@ def client_profile(client_id):
     
     # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
     clients = crud.get_client_by_id(client_id)
-    # transactions = crud.show_all_transaction()
+    transactions = crud.show_all_transaction()
     # business_user = crud.show_all_business_user()
     # client = in crud.py call function "get_client_by_id(client_id)"
     # client = crud.get_client_by_id(client_id)
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('client_profile.html',clients=clients)
+    return render_template('client_profile.html',clients=clients, transactions=transactions)
 
 @app.route('/add_transaction/<client_id>')
 def show_transaction_page(client_id):
@@ -161,6 +161,11 @@ def add_transaction():
     flash("Transaction added.")
 
     return redirect(f"/add_transaction/{client.client_id}")
+
+@app.route("/rewards")
+def show_rewards_page():
+
+    return render_template('rewards.html')
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application
