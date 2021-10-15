@@ -90,6 +90,7 @@ def directory(business_user_id):
 @app.route("/new_client")
 def new_client_form():
     """Show form to sign up a new client."""
+    
     return render_template('register_client.html')
 
 @app.route("/new_client_signup", methods=['POST'])

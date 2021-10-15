@@ -5,7 +5,7 @@
 {% block body %}
 <h2>Client Profile</h2>
 
-<h3> {{clients.client_name}} </h3>
+<h3> Client Name: {{clients.client_name}} </h3>
 
 <p>Reward Points: </p>
 
@@ -15,12 +15,20 @@
     <a href="/add_transaction/{{ clients.client_id }}">add client transaction</a>
 </h3>
 
-<h3>client transactions</h3>
-<p>{{ transactions.client_id}}</p>
+<h3>{{ clients.client_name }}'s' transactions</h3>
+{% for transaction in transactions %}
+  {% if transaction.client_id == clients.client_id %}
+  <p>
+    Transaction Date: {{ transaction.transaction_date}} <br>
+    Appointment Type: {{ transaction.appointment_type }} <br>
+  </p>
+
+  {% endif %}
+{% endfor %}
 
 
-<!-- <p> 
+<p> 
   <a href="/directory/{{ transactions.business_user_id }}">return to directory</a>
-</p> -->
+</p>
 
 {% endblock %}
