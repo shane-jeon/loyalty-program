@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>Create new reward type</h2>
+
+<form class='add-reward', method='POST' action="/add_rewards">
+  <div>
+      <label>Reward type</label>
+      <input type="text" name="reward_type">
+  </div>
+  <div>
+      <label>Required number of points</label>
+      <input type="number" name="reward_cost">
+  </div>
+  <div>
+    <input hidden type="text" name="business_user_id" value={{ business.business_user_id }}>
+</div>
+  <div>
+      <button type="submit">add reward</button>
+  </div>
+</form>
+
+{% endblock %}

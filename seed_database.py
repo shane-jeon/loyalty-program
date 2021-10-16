@@ -88,7 +88,7 @@ for reward in reward_data:
         reward['reward_cost']
     )    
 
-    db_reward = crud.create_reward(reward_type, reward_cost)
+    db_reward = crud.create_reward(reward_type, reward_cost, business)
 
     reward_in_db.append(db_reward)    
 

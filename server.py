@@ -1,4 +1,4 @@
-"""HausStar Server"""
+"""GlowUp Server"""
 
 ## from the flask library, import ...
 from flask import (Flask, session, render_template, request, jsonify, flash, redirect)
@@ -12,6 +12,12 @@ app = Flask(__name__)
 app.secret_key = "sk"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+#################################################
+#################################################
+###############   login &      ##################
+###############  registration  ##################
+#################################################
+#################################################
 
 @app.route('/')
 ## view function: function that returns web response (response is string, usually HTML)
@@ -73,6 +79,14 @@ def process_login():
         return redirect(f"/directory/{business_user.business_user_id}")
 
 
+
+#################################################
+#################################################
+###############   DIRECTORY     ##################
+#################################################
+#################################################
+
+
 # shows directory for corresponding business user id
 @app.route("/directory/<business_user_id>")
 def directory(business_user_id):
@@ -87,11 +101,23 @@ def directory(business_user_id):
     # returns TEMPLATE, and variable from above w/field
     return render_template('directory.html',business_user=business_user, clients=clients)
 
+
+
+#################################################
+#################################################
+###############   CLIENTS     ##################
+#################################################
+#################################################
+
+#####################    @APP.ROUTE/NEW_CLIENT     ###############################
+
 @app.route("/new_client")
 def new_client_form():
     """Show form to sign up a new client."""
     
     return render_template('register_client.html')
+
+################  @APP.ROUTE("/NEW_CLIENT_SIGNUP").  ##############################
 
 @app.route("/new_client_signup", methods=['POST'])
 def signup_new_client():
@@ -120,6 +146,7 @@ def signup_new_client():
     
         return redirect("/new_client")
 
+###################  @APP.ROUTE("/CLIENTS/<CLIENT_ID>")  ###########################
 
 # shows directory for corresponding business user id
 @app.route("/clients/<client_id>")
@@ -129,13 +156,25 @@ def client_profile(client_id):
     # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
     client = crud.get_client_by_id(client_id)
     transactions = crud.show_all_transaction()
-    # business_user = crud.show_all_business_user()
+    business_user = crud.show_all_business_user()
     # client = in crud.py call function "get_client_by_id(client_id)"
     # client = crud.get_client_by_id(client_id)
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('client_profile.html',client=client, transactions=transactions)
+    return render_template('client_profile.html',client=client, transactions=transactions, business_user=business_user)
 
+
+#################################################################################
+
+
+#################################################
+#################################################
+###############  TRANSACTIONS  ##################
+#################################################
+#################################################
+
+
+################  @APP.ROUTE("/ADD_TRANSACTION/<CLIENT_ID>").  ####################
 @app.route('/add_transaction/<client_id>')
 def show_transaction_page(client_id):
     """Show form to add client transaction"""
@@ -143,6 +182,8 @@ def show_transaction_page(client_id):
     clients = crud.get_client_by_id(client_id)
 
     return render_template('add_transaction.html',clients=clients)
+
+##################  @APP.ROUTE("/NEW_TRANSACTION").  ##############################
 
 @app.route('/new_transaction', methods=['POST'])
 def add_transaction():
@@ -164,23 +205,45 @@ def add_transaction():
 
     return redirect(f"/add_transaction/{client.client_id}")
 
-# @app.route("/rewards/<business_user_id>")
-# def show_rewards_page():
 
-#     return render_template('rewards.html')
+#################################################
+#################################################
+###############    REWARDS     ##################
+#################################################
+#################################################
 
-# @app.route("/add_rewards", methods=["POST"])
-# def add_reward():
-#     """Adds new reward for business user."""
+################  @APP.ROUTE("/REWARDS/<BUSINESS_USER_ID") ########################
 
-#     reward_type = request.form.get('reward_type')
-#     reward_cost = request.form.get('reward_cost')
+@app.route("/rewards/<business_user_id>")
+def show_rewards_page(business_user_id):
+
+    rewards = crud.show_all_reward
+    business_users = crud.get_business_user_by_id(business_user_id)
+
+    return render_template('add_reward.html', business_users=business_users)
+
+########################  @APP.ROUTE("/ADD_REWARDS")  ##############################
+
+@app.route("/add_rewards", methods=["POST"])
+def add_reward():
+    """Adds new reward for business user."""
+
+    reward_type = request.form.get('reward_type')
+    reward_cost = request.form.get('reward_cost')
+    business_user_id = request.form.get('business_user_id')
  
-#     crud.create_reward(reward_type, reward_cost)
+    # RETURNS LIST OF BUSINESS USER, WILL NEED TO ITERATE TO GRAB BU_ID
+    # business_user = crud.show_all_business_user()
+   
+#    MY ERROR, CAN ADD BUSINESS_USER_ID BUT NEED TO ADD AS HIDDEN INPUT
+    business = crud.get_business_user_by_id
+    # print(business_user_id)
+    crud.create_reward(reward_type, reward_cost, business_user_id)
+    
+    flash("Reward added.")
 
-#     flash("Reward added.")
+    return redirect(f"/rewards/{ business.business_user_id}")
 
-#     return redirect("/rewards/<business_user_id>")
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application
 if __name__ == "__main__":

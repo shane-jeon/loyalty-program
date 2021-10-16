@@ -1,10 +1,23 @@
-"""CRUD ('CREATE, READ, UPDATE, DELETE') operations."""
+"""CRUD ('CREATE, READ, UPDATE, DESTROY') operations."""
 
 # CRUD.py acts as a bridge from database tables to python
 
 # importing database, classes, and connect_to_db from model.py
 from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, connect_to_db
 
+
+
+#################################################
+#################################################
+###########    BUSINESS_USERS     ###############
+#################################################
+#################################################
+
+
+
+####################################################################
+################  def CREATE_BUSINESS_USER() ########################
+####################################################################
 
 def create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path):
     """Create, add, & return new business user."""
@@ -22,10 +35,24 @@ def create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pi
 
     return business_user
 
+
+
+####################################################################
+################  def SHOW_ALL_BUSINESS_USER() ######################
+####################################################################
+
+
+
 def show_all_business_user():
     """Return all business users"""
 
     return BusinessUser.query.all()
+
+
+
+####################################################################
+################  def GET_BUSINESS_USER_BY_ID ######################
+####################################################################
 
 def get_business_user_by_id(business_user_id):
     """Gets business user by business_user_id"""
@@ -33,6 +60,11 @@ def get_business_user_by_id(business_user_id):
     business_user = BusinessUser.query.get(business_user_id)
 
     return business_user
+
+
+####################################################################
+################  def CREATE_BUSINESS_USER_BY_EMAIL ################
+####################################################################
 
 def get_business_user_by_email(bu_email):
     """Checks if business user email exists in database"""
@@ -42,6 +74,12 @@ def get_business_user_by_email(bu_email):
     print("reached here 2")
     print(business_user)
     return business_user
+
+
+
+####################################################################
+#######################  def CREATE_CLIENT #########################
+####################################################################
 
 # don't need to add reward point, default to none
 def create_client(client_name, client_email, business,
@@ -62,10 +100,21 @@ def create_client(client_name, client_email, business,
 
     return client
 
+
+
+####################################################################
+#######################  def SHOW_ALL_CLIENT ########################
+####################################################################
+
 def show_all_client():
     """Return all clients"""
 
     return Client.query.all()
+
+
+####################################################################
+####################  def GET_CLIENT_BY_ID #########################
+####################################################################
 
 def get_client_by_id(client_id):
     """Gets client by client_id"""
@@ -73,6 +122,11 @@ def get_client_by_id(client_id):
     client = Client.query.get(client_id)
 
     return client
+
+
+####################################################################
+###################  def GET_CLIENT_BY_EMAIL #######################
+####################################################################
 
 def get_client_by_email(client_email):
     """Checks if business user email exists in database"""
@@ -106,6 +160,9 @@ def get_client_by_email(client_email):
 # bu_clients = db.session.query(Client, BusinessUser).outerjoin(BusinessUser).all()
 # problem, need to assign business user id to clients
 
+####################################################################
+####################  def CREATE_TRANSACTION #########################
+####################################################################
 
 def create_transaction(transaction_date, appointment_type, total_cost, client):
     """Create client transaction."""
@@ -121,10 +178,20 @@ def create_transaction(transaction_date, appointment_type, total_cost, client):
 
     return transaction
 
+
+####################################################################
+###################  def SHOW_ALL_TRANSACTION #######################
+####################################################################
+
 def show_all_transaction():
     """Show all client transactions."""
     
     return Transaction.query.all()
+
+
+####################################################################
+###################  def GET_TRANSACTION_BY_ID ######################
+####################################################################
 
 def get_transaction_by_id(transaction_id):
     """Display transaction by transaction_id."""
@@ -132,6 +199,11 @@ def get_transaction_by_id(transaction_id):
     transaction = Transaction.query.get(transaction_id)
 
     return transaction
+
+
+####################################################################
+###################  def CREATE_CLIENT_REWARD ######################
+####################################################################
 
 def create_client_reward(client_id, reward_id):
     """Create client reward."""
@@ -142,22 +214,38 @@ def create_client_reward(client_id, reward_id):
     db.session.commit()
 
     return client_reward
-    
-def create_reward(reward_type, reward_cost):
+
+
+####################################################################
+######################  def CREATE_REWARD ##########################
+####################################################################
+
+def create_reward(reward_type, reward_cost, business):
     """Create reward."""
 
     reward = Reward(reward_type=reward_type,
-                    reward_cost=reward_cost)
+                    reward_cost=reward_cost,
+                    business_user_id=business.business_user_id)
 
     db.session.add(reward)
     db.session.commit()
 
     return reward
 
+
+####################################################################
+#######################  def SHOW_ALL_REWARD #######################
+####################################################################
+
 def show_all_reward():
     """Show all reward."""
 
     return Reward.query.all()
+
+
+####################################################################
+#######################  def GET_REWARD_BY_ID #######################
+####################################################################
 
 def get_reward_by_id(reward_id):
     """Get reward by reward_id."""
@@ -166,6 +254,8 @@ def get_reward_by_id(reward_id):
 
     return reward
 
+
+############################################################################
 
 if __name__ == '__main__':
     from server import app
