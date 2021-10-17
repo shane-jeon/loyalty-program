@@ -271,11 +271,12 @@ def edit_client_reward(business_user_id, client_id):
 
     business_user = crud.get_business_user_by_id(business_user_id)
     client = crud.get_client_by_id(client_id)
+    rewards = crud.show_all_reward()
     # rewards = crud.get_reward_by_id(reward_id)
     
 
 
-    return render_template('edit_reward.html', business_user=business_user, client=client)
+    return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application

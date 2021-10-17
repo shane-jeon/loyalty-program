@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %} rewards {% endblock %}
+{% block title %} {{client.client_name }}'s available rewards {% endblock %}
 
 {% block body %}
 
 <header>
-  <h1>Edit Client Rewards</h1>
+  <h2>edit {{client.client_name}}'s Rewards</h2>
 </header>
 
 <!-- <p>
@@ -17,25 +17,20 @@
 </p> -->
 
 <main>
-  <h2>client account</h2>
-      <!-- JINJA -->
   <section id="menu">
-    <h2>Add Reward Point</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Transaction</th>
-                <th colspan="2">Point</th>
-            </tr>
-        </thead>
-        
-        <tbody>
-            <tr>
-                <td>
-                  Service
-                    <!--INSERT JINJA  -->
-                </td>
-                <td>1</td>
+    <h3>transactions</h3>
+    <table> <table>
+      <tr>
+        <th>Service</th>
+        <th colspan="10">Point</th>
+        {% for reward in rewards %}
+          <tr>
+            <td>
+              {{ reward.reward_type }}</td>
+            <td>{{ reward.reward_cost }}</td>
+          </tr>     
+        {% endfor %}
+          <tr>
                 <td>
                     <button class="add-to-points">
                         add
@@ -43,7 +38,7 @@
                     </button>
                 </td>
             </tr>
-        </tbody>
+  
     </table>  
   </section>
 
