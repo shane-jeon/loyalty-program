@@ -4,10 +4,73 @@
 
 {% block body %}
 
+<header>
+  <h1>Edit Client Rewards</h1>
+</header>
 
+<!-- <p>
+  Reward Points: <span id="points-add-counter">0</span> 
+</p>
 
-<p>Reward Points: </p>
-<p>Rewards Available: </p>
+<p>
+  Rewards Available: <span id="reward-number">0</span> 
+</p> -->
 
+<main>
+  <h2>client account</h2>
+      <!-- JINJA -->
+  <section id="menu">
+    <h2>Add Reward Point</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction</th>
+                <th colspan="2">Point</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            <tr>
+                <td>
+                  Service
+                    <!--INSERT JINJA  -->
+                </td>
+                <td>1</td>
+                <td>
+                    <button class="add-to-points">
+                        add
+                        <!-- JINJA -->
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>  
+  </section>
+
+<br>
+  <section id="total-reward">
+<br>
+      <table>
+          <thead>
+              <tr>
+                  <th>Reward Bank</th>
+              </tr>
+          </thead>
+          <tbody id="total-rewards"></tbody>
+      </table>
+      <h3>
+          <div>
+              Total: <span id="reward-total-counter">0</span>
+          </div>
+          <br>
+          <div>
+              <button id="place-order">Redeem Reward</button>
+          </div>
+      </h3>
+  </section>
+
+</main>
+
+<script src="/static/js/point_adder.js"></script>
 
 {% endblock %}
