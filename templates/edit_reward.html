@@ -3,9 +3,12 @@
 {% block title %} {{client.client_name }}'s available rewards {% endblock %}
 
 {% block body %}
+<p> 
+    <a href="/directory/{{ business_user.business_user_id }}">return to directory</a>
+</p>
 
 <header>
-  <h2>edit {{client.client_name}}'s Rewards</h2>
+  <h2>edit {{client.client_name}}'s rewards</h2>
 </header>
 
 <!-- <p>

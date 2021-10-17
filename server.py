@@ -149,7 +149,7 @@ def signup_new_client():
         crud.create_client(client_name, client_email, business_user)
         flash("New client added.")
     
-    return redirect("/new_client")
+    return redirect("/new_client/<business_user_id>")
 
 #################  @APP.ROUTE("/CLIENTS/<BUSINESS_USER_ID>/<CLIENT_ID>/<REWARD_ID>")  #################
 
@@ -240,7 +240,7 @@ def show_rewards_page(business_user_id):
     rewards = crud.show_all_reward
     business_user = crud.get_business_user_by_id(business_user_id)
 
-    return render_template('add_reward.html', business_user=business_user)
+    return render_template('add_reward.html', business_user=business_user, rewards=rewards)
 
 ########################  @APP.ROUTE("/ADD_REWARDS")  ##############################
 
@@ -258,7 +258,7 @@ def add_reward():
 #    MY ERROR, CAN ADD BUSINESS_USER_ID BUT NEED TO ADD AS HIDDEN INPUT
     business = crud.get_business_user_by_id
     # print(business_user_id)
-    crud.create_reward(reward_type, reward_cost, business_user_id)
+    crud.create_reward(reward_type, reward_cost)
     
     flash("Reward added.")
 
@@ -273,10 +273,28 @@ def edit_client_reward(business_user_id, client_id):
     client = crud.get_client_by_id(client_id)
     rewards = crud.show_all_reward()
     # rewards = crud.get_reward_by_id(reward_id)
-    
-
 
     return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
+
+
+# NEED WAY TO ADD POINTS TO DATABASE
+
+# @app.route("/edit_client_rewards", methods=['POST'])
+# def finagle_with_client_points():
+#     """Allows user to add and redeem points"""
+
+#     reward_point=request.form.get("point")
+#     # reward_type = request.form.get('reward_type')
+#     # client_id = request.form.get('client')
+#     # business_user_id = request.form.get('business_user_id')
+
+#     business = crud.show_all_business_user()
+#     client = crud.show_all_client()
+
+
+
+
+
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application
