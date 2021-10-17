@@ -8,7 +8,16 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # db object, representing database
 db = SQLAlchemy()
 
-# business_users table
+
+
+
+#################################################
+#################################################
+###############  business_users  ################
+###############    table       ##################
+#################################################
+#################################################
+
 class BusinessUser(db.Model):
     """Business user information."""
 
@@ -43,6 +52,16 @@ class BusinessUser(db.Model):
     # variable = db.relationship('Class', back_populates='class_relationship_varaible')
     client = db.relationship('Client', back_populates='business_user')
 
+
+
+
+#################################################
+#################################################
+###############  clients         ################
+###############    table       ##################
+#################################################
+#################################################
+
 class Client(db.Model):
     """a client"""
     
@@ -66,6 +85,15 @@ class Client(db.Model):
     transaction = db.relationship('Transaction', back_populates='client')
 
 
+
+
+#################################################
+#################################################
+###############  transactions.   ################
+###############    table       ##################
+#################################################
+#################################################
+
 class Transaction(db.Model):
     """a transaction"""
 
@@ -83,6 +111,16 @@ class Transaction(db.Model):
 
     client = db.relationship('Client', back_populates='transaction')
 
+
+
+
+#################################################
+#################################################
+###############  client_rewards  ################
+###############    table       ##################
+#################################################
+#################################################
+
 class ClientReward(db.Model):
     """client reward association table"""
 
@@ -99,6 +137,15 @@ class ClientReward(db.Model):
     # relationship to clients table
     client = db.relationship('Client', back_populates='client_reward')
 
+
+
+#################################################
+#################################################
+###############    rewards       ################
+###############    table       ##################
+#################################################
+#################################################
+
 class Reward(db.Model):
 
     __tablename__ = 'rewards'
@@ -107,11 +154,19 @@ class Reward(db.Model):
     reward_type = db.Column(db.Text, nullable=False)
     reward_cost = db.Column(db.Integer, nullable=False)
 
+
     def __repr__(self):
-        return f'<Reward reward_id={self.reward_id} reward_type={self.reward_type} reward_cost={self.reward_cost}>'
+        return f'<Reward reward_id={self.reward_id} reward_type={self.reward_type}>'
 
     client_reward = db.relationship('ClientReward', back_populates='reward')
 
+
+
+#################################################
+#################################################
+###############  connect_to_db   ################
+#################################################
+#################################################
 
 def connect_to_db(flask_app, db_uri='postgresql:///loyalty', echo=True):
     """Connect to the database."""
@@ -123,6 +178,14 @@ def connect_to_db(flask_app, db_uri='postgresql:///loyalty', echo=True):
     db.init_app(flask_app)
 
     print('Connected to the db!')
+
+
+
+#################################################
+#################################################
+############__name__ == "__main__"   ############
+#################################################
+#################################################
 
 if __name__ == "__main__":
     from flask import Flask

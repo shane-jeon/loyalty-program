@@ -13,13 +13,13 @@
 
 <h2>Your Clients</h2>
 <h3>
-    <a href="/new_client">add a new client</a>
+    <a href="/new_client/{{ business_user.business_user_id }}">add a new client</a>
 </h3>
 <ul>
     {% for client in clients %}
         {% if client.business_user_id == business_user.business_user_id %}
           <li>
-            <a href="/clients/{{ client.client_id }}">
+            <a href="/clients/{{ business_user.business_user_id }}/{{ client.client_id }}">
               {{ client.client_name }}
             </a>
           </li>

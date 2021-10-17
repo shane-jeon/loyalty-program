@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
+
+{% block title %} add client transaction {% endblock %}
+
 {% block body %}
+
 
 <h2>Create a transaction for the client</h2>
 
@@ -26,8 +30,10 @@
     </div>
 </form>
 
+
+<!-- LOOK INTO/RETURN TO SQLALCHEMY CHAINING 10/16 8:53PM -->
 <p> 
-  <a href="/clients/{{ clients.client_id }}">return to client profile</a>
+  <a href="/clients/{{ business_user.business_user_id }}/{{ clients.client_id }}">return to client profile</a>
 </p>
 
 

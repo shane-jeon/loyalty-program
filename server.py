@@ -95,11 +95,12 @@ def directory(business_user_id):
     # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
     business_user = crud.get_business_user_by_id(business_user_id)
     clients = crud.show_all_client()
+    rewards = crud.show_all_reward()
     # client = in crud.py call function "get_client_by_id(client_id)"
     # client = crud.get_client_by_id(client_id)
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('directory.html',business_user=business_user, clients=clients)
+    return render_template('directory.html',business_user=business_user, clients=clients, rewards=rewards)
 
 
 
@@ -111,11 +112,13 @@ def directory(business_user_id):
 
 #####################    @APP.ROUTE/NEW_CLIENT     ###############################
 
-@app.route("/new_client")
-def new_client_form():
+@app.route("/new_client/<business_user_id>")
+def new_client_form(business_user_id):
     """Show form to sign up a new client."""
     
-    return render_template('register_client.html')
+    business_user = crud.get_business_user_by_id(business_user_id)
+
+    return render_template('register_client.html', business_user=business_user)
 
 ################  @APP.ROUTE("/NEW_CLIENT_SIGNUP").  ##############################
 
@@ -125,6 +128,8 @@ def signup_new_client():
 
     client_name = request.form.get("name")
     client_email = request.form.get("email")
+    # change to business_user for consistency 10/16 8:40pm
+    # NVM 8:42pm bu_email is for FORM and NOT "dictionary"
     bu_email = request.form.get("bu_email")
     # print(business_email)
     # RETURN TO CHANGE
@@ -139,26 +144,38 @@ def signup_new_client():
     if client:
         flash("There's already a client with that e-mail! Try again.")
 
-        return redirect("/new_client")
+        # return redirect("/new_client")
     else:
         crud.create_client(client_name, client_email, business_user)
         flash("New client added.")
     
-        return redirect("/new_client")
+    return redirect("/new_client")
 
-###################  @APP.ROUTE("/CLIENTS/<CLIENT_ID>")  ###########################
+#################  @APP.ROUTE("/CLIENTS/<BUSINESS_USER_ID>/<CLIENT_ID>/<REWARD_ID>")  #################
+
+@app.route("/new_client/<business_user_id>/<client_id>/<reward_id>")
+def edit_client_rewards(business_user_id, client_id, reward_id):
+    """Show form to sign up a new client."""
+    
+    business_user = crud.get_business_user_by_id(business_user_id)
+    client = crud.get_client_by_id(client_id)
+    rewards = crud.get_reward_by_id(reward_id)
+
+    return render_template('register_client.html', business_user=business_user, client=client, rewards=rewards)
+
+
+#################  @APP.ROUTE("/CLIENTS/<BUSINESS_USER_ID>/<CLIENT_ID>")  #################
 
 # shows directory for corresponding business user id
-@app.route("/clients/<client_id>")
-def client_profile(client_id):
+@app.route("/clients/<business_user_id>/<client_id>")
+def client_profile(business_user_id, client_id):
     """Show client profile."""
     
     # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
     client = crud.get_client_by_id(client_id)
     transactions = crud.show_all_transaction()
-    business_user = crud.show_all_business_user()
-    # client = in crud.py call function "get_client_by_id(client_id)"
-    # client = crud.get_client_by_id(client_id)
+    business_user = crud.get_business_user_by_id(business_user_id)
+ 
 
     # returns TEMPLATE, and variable from above w/field
     return render_template('client_profile.html',client=client, transactions=transactions, business_user=business_user)
@@ -174,14 +191,17 @@ def client_profile(client_id):
 #################################################
 
 
-################  @APP.ROUTE("/ADD_TRANSACTION/<CLIENT_ID>").  ####################
-@app.route('/add_transaction/<client_id>')
-def show_transaction_page(client_id):
+################  @APP.ROUTE("/ADD_TRANSACTION/<BUSINESS_USER_ID/<CLIENT_ID>").  ####################
+@app.route('/add_transaction/<business_user_id>/<client_id>')
+def show_transaction_page(business_user_id,client_id):
     """Show form to add client transaction"""
     # change to singular later
+    # "clients" is a way to tap into database THEN use crud function to grab w/e
+    business_user = crud.get_business_user_by_id(business_user_id)
     clients = crud.get_client_by_id(client_id)
 
-    return render_template('add_transaction.html',clients=clients)
+    # SOOOOOO clients = clients is so i can put that before whatever attribute i need
+    return render_template('add_transaction.html',business_user=business_user,clients=clients)
 
 ##################  @APP.ROUTE("/NEW_TRANSACTION").  ##############################
 
@@ -218,9 +238,9 @@ def add_transaction():
 def show_rewards_page(business_user_id):
 
     rewards = crud.show_all_reward
-    business_users = crud.get_business_user_by_id(business_user_id)
+    business_user = crud.get_business_user_by_id(business_user_id)
 
-    return render_template('add_reward.html', business_users=business_users)
+    return render_template('add_reward.html', business_user=business_user)
 
 ########################  @APP.ROUTE("/ADD_REWARDS")  ##############################
 
@@ -242,7 +262,20 @@ def add_reward():
     
     flash("Reward added.")
 
-    return redirect(f"/rewards/{ business.business_user_id}")
+    return redirect(f"/rewards/{ business_user_id }")
+
+
+@app.route("/edit_rewards/<business_user_id>/<client_id>")
+def edit_client_reward(business_user_id, client_id):
+    """Allows user to edit a client's points, rewards."""
+
+    business_user = crud.get_business_user_by_id(business_user_id)
+    client = crud.get_client_by_id(client_id)
+    # rewards = crud.get_reward_by_id(reward_id)
+    
+
+
+    return render_template('edit_reward.html', business_user=business_user, client=client)
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application

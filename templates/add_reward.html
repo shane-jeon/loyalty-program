@@ -14,11 +14,15 @@
       <input type="number" name="reward_cost">
   </div>
   <div>
-    <input hidden type="text" name="business_user_id" value={{ business.business_user_id }}>
+    <input hidden type="text" name="business_user_id" value={{ business_user.business_user_id }}>
 </div>
   <div>
       <button type="submit">add reward</button>
   </div>
 </form>
+
+<p> 
+  <a href="/directory/{{ business_user.business_user_id }}">return to directory</a>
+</p>
 
 {% endblock %}

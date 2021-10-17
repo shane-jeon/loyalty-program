@@ -220,12 +220,12 @@ def create_client_reward(client_id, reward_id):
 ######################  def CREATE_REWARD ##########################
 ####################################################################
 
-def create_reward(reward_type, reward_cost, business):
+def create_reward(reward_type, reward_cost):
     """Create reward."""
 
     reward = Reward(reward_type=reward_type,
                     reward_cost=reward_cost,
-                    business_user_id=business.business_user_id)
+    )
 
     db.session.add(reward)
     db.session.commit()
@@ -256,6 +256,7 @@ def get_reward_by_id(reward_id):
 
 
 ############################################################################
+
 
 if __name__ == '__main__':
     from server import app
