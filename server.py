@@ -23,7 +23,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 ## view function: function that returns web response (response is string, usually HTML)
 def homepage():
     """Show homepage."""
-    
+   
     return render_template('homepage.html')
 
 @app.route("/register")
@@ -44,7 +44,7 @@ def register_user():
     # print(bu_password_hash)
 
 
-    business_user = crud.get_business_user_by_email(bu_email)
+    business_user = crud.get_business_user_by_email(bu_email).first()
     print(business_user)
 
     if business_user:

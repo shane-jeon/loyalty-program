@@ -69,10 +69,10 @@ def get_business_user_by_id(business_user_id):
 def get_business_user_by_email(bu_email):
     """Checks if business user email exists in database"""
 
-    print("reached here")
+    # print("reached here")
     business_user = BusinessUser.query.filter_by(bu_email=bu_email).first()
-    print("reached here 2")
-    print(business_user)
+    # print("reached here 2")
+    # print(business_user)
     return business_user
 
 
