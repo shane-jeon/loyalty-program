@@ -184,6 +184,17 @@ def client_profile(business_user_id, client_id):
 #################################################################################
 
 
+# @app.route("/whatever", methods = ['POST']) methods=['POST', 'DELETE']
+# def get_points_added():
+
+# need to make get request
+# everytime request is made, will add points in database
+# pointadder.js/.jsx will hit this route (by making post request)
+# and so will add points to database
+# delete points (same, but method is delete) methods=['DELETE']
+# do array methods POST and DELETE
+
+
 #################################################
 #################################################
 ###############  TRANSACTIONS  ##################
