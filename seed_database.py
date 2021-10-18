@@ -55,16 +55,15 @@ with open('data/client_dummydata.json') as f:
 
 clients_in_db = []
 for client in client_data:
-    client_name, client_email, business, reward_point, num_of_reward = (
+    client_name, client_email, business, reward_point = (
         client['client_name'],
         client['client_email'],
         choice(bus_in_db),
         client['reward_point'],
-        client['num_of_reward']
     )    
 
     db_client = crud.create_client(client_name, client_email, business, 
-                                   reward_point, num_of_reward)
+                                   reward_point)
 
     clients_in_db.append(db_client)
 

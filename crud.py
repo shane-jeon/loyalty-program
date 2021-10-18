@@ -83,7 +83,7 @@ def get_business_user_by_email(bu_email):
 
 # don't need to add reward point, default to none
 def create_client(client_name, client_email, business,
-                  reward_point=None, num_of_reward=None):
+                  reward_point=None):
     """Creates a business user's new client."""
     
     client = Client(client_name=client_name,
@@ -91,7 +91,6 @@ def create_client(client_name, client_email, business,
                     # associated w/model.py BusinessUser
                     business_user_id=business.business_user_id,
                     reward_point=reward_point,
-                    num_of_reward=num_of_reward
     )
     # pass in business name
 
@@ -129,13 +128,29 @@ def get_client_by_id(client_id):
 ####################################################################
 
 def get_client_by_email(client_email):
-    """Checks if business user email exists in database"""
+    """Checks if business user email exists in database."""
 
     # print("reached here")
     client = Client.query.filter_by(client_email=client_email).first()
     # print("reached here 2")
     # print(client_name)
     return client
+
+
+####################################################################
+def adding_point(reward_point):
+    """Adds reward point to client account."""
+    # creating the point
+####################################################################
+def deleting_point(reward_point):
+    """Subtracts reward point to client account."""
+####################################################################
+def redeeming_points(reward_point):
+    """Redeem points by subtracting 10 points from total count."""
+####################################################################
+def reversing_redeeming_points(reward_point):
+    """Reverses redeemed action by adding 10 points back to total count."""
+
 
 
 # Left Join
@@ -220,15 +235,15 @@ def create_client_reward(client_id, reward_id):
 ###################  def ADD_CLIENT_POINTS.   ######################
 ####################################################################
 
-def add_client_points(reward_point):
-    """Create client reward."""
+def add_client_point(reward_point):
+    """Add point to client reward account."""
 
-    client_points = Client(reward_point=reward_point)
+    client_point = Client(reward_point=reward_point)
 
-    db.session.add(client_points)
+    db.session.add(client_point)
     db.session.commit()
 
-    return client_points
+    return client_point
 
 ####################################################################
 ######################  def CREATE_REWARD ##########################

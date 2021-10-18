@@ -62,6 +62,9 @@ class BusinessUser(db.Model):
 #################################################
 #################################################
 
+
+# 10/17/2021, 10:01PMremoved "num_of_rewards"
+# removed from model.py; crud.py; seed_database.py
 class Client(db.Model):
     """a client"""
     
@@ -72,7 +75,6 @@ class Client(db.Model):
     client_email = db.Column(db.String(254), nullable=False, unique=True)
     reward_point = db.Column(db.Integer, nullable=True)
     business_user_id = db.Column(db.Integer, db.ForeignKey('business_users.business_user_id'))
-    num_of_reward = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         return f'<Client client_id={self.client_id}, client_name={self.client_name}, client_email={self.client_email}>'

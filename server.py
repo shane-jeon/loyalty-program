@@ -195,6 +195,25 @@ def client_profile(business_user_id, client_id):
 # do array methods POST and DELETE
 
 
+# create route to add points
+# @app.route("/add_point", methods=['POST'])
+# def get_points_added(reward_point):
+#   """Request point addition from JS form (form?)"""
+
+#   reward_point = crud.add_client_point(reward_point)
+
+# create route to delete points
+# (crud)
+# create route to redeem points
+# (crud)
+# @app.route('/redeem_points", methods=['POST'])
+# def redeem_points_for_reward():
+
+# create route to undo
+# (crud)
+
+
+
 #################################################
 #################################################
 ###############  TRANSACTIONS  ##################
@@ -288,14 +307,15 @@ def edit_client_reward(business_user_id, client_id):
     return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
 
 
+
+# 10/17 8PM ish
 # NEED WAY TO ADD POINTS TO DATABASE
 
-# @app.route("/edit_client_rewards", methods=['POST'])
-# def finagle_with_client_points():
-#     """Allows user to add and redeem points"""
+# @app.route("/add_reward_point", methods=['POST'])
+# def adding_reward_point():
+#     """Allows user to add point(s) to client account."""
 
 #     reward_point=request.form.get("point")
-#     # reward_type = request.form.get('reward_type')
 #     # client_id = request.form.get('client')
 #     # business_user_id = request.form.get('business_user_id')
 
