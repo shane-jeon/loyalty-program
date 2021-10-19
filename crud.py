@@ -83,7 +83,7 @@ def get_business_user_by_email(bu_email):
 
 # don't need to add reward point, default to none
 def create_client(client_name, client_email, business,
-                  reward_point=None):
+                  reward_point=0):
     """Creates a business user's new client."""
     
     client = Client(client_name=client_name,
@@ -138,18 +138,47 @@ def get_client_by_email(client_email):
 
 
 ####################################################################
-def adding_point(reward_point):
+def adjust_client_points(client_id, reward_point):
     """Adds reward point to client account."""
+    # EDGECASE ==> GOING INTO NEGATIVE
+    client = Client.query.get(client_id)
+
+
+    client.reward_point += reward_point
+
+
+
+    # when calling funciton, call w/client_id and 2nd argument, pass
+    # in number that can be positive or negative
+
+    db.session.add()
+    db.session.commit()
+
+    return client
+
+# business user in session
+# client_obj = adjust_client_points(client_id=1, reward_point=1)
+# returns client object
+# client_obj.reward_point --> final total of reward points
+# def show_adjusted_points():
+#     """Show adjusted total points."""
+
+#     final_point = Client.query.filter_by(client_id=client_id).first()
+# # use returned client object
+# # prevent from going into negative
+#     return final_point
+# multiple clients can have same number of points (filtering by
+# points will add clients w/x amount of points)
     # creating the point
-####################################################################
-def deleting_point(reward_point):
-    """Subtracts reward point to client account."""
-####################################################################
-def redeeming_points(reward_point):
-    """Redeem points by subtracting 10 points from total count."""
-####################################################################
-def reversing_redeeming_points(reward_point):
-    """Reverses redeemed action by adding 10 points back to total count."""
+# ####################################################################
+# def deleting_point(reward_point):
+#     """Subtracts reward point to client account."""
+# ####################################################################
+# def redeeming_points(reward_point):
+#     """Redeem points by subtracting 10 points from total count."""
+# ####################################################################
+# def reversing_redeeming_points(reward_point):
+#     """Reverses redeemed action by adding 10 points back to total count."""
 
 
 

@@ -1,6 +1,6 @@
 'use strict';
 
-
+// i have no idea what this does
 const addTransaction = (serviceAdded) => {
     $('#add-to-points').append(`
         <tr>
@@ -9,18 +9,46 @@ const addTransaction = (serviceAdded) => {
     `);
 };
 
-const resetCount = () => {
-    $('#reward-total-counter').html('0');
-    $('#total-rewards').empty();
-};
+// I don't think i have to reset right now
+// const resetCount = () => {
+//     $('#reward-total-counter').html('0');
+//     $('#total-rewards').empty();
+// };
 
-const incrementRewardTotal = (cost) => {
+const redeemPoints = (cost) => {
     const rewardTotal = $('#reward-total-counter');
-    
+
+    let total = Number(rewardTotal.html());
+    total -= cost;
+
+    rewardTotal.html(total.toFixed());
+}
+
+const undoRedeem = (cost) => {
+    const rewardTotal = $('#reward-total-counter');
+
     let total = Number(rewardTotal.html());
     total += cost;
 
-    rewardTotal.html(total.toFixed(2));
+    rewardTotal.html(total.toFixed());
+}
+
+const incrementRewardTotal = (point) => {
+    const rewardTotal = $('#reward-total-counter');
+    
+    let total = Number(rewardTotal.html());
+    total += point;
+
+    rewardTotal.html(total.toFixed());
+};
+
+const decrementRewardTotal = (point) => {
+    const rewardTotal = $('#reward-total-counter');
+    
+    let total = Number(rewardTotal.html());
+    total -= point;
+
+    rewardTotal.html(total.toFixed());
 };
 
 // const incrementRewardsGained = (amountGained) => {
@@ -35,9 +63,18 @@ $('.add-to-points').on('click', () => {
     incrementRewardTotal(1);
 });
 
-$('#place-order').on('click', () => {
-    
-    resetCount();
+$('.sub-from-points').on('click', () => {
+    addTransaction('facial');
+    decrementRewardTotal(1);
+});
 
-    setProgressAndStatus(0, 'Reward has been cashed in!');
+// EDGECASE (sorta), redeem num f-string way
+$('.redeem-points').on('click', () => {
+    addTransaction('facial');
+    redeemPoints(10);
+});
+
+$('.undo-redeem').on('click', () => {
+    addTransaction('facial');
+    undoRedeem(10);
 });

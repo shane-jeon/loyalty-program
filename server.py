@@ -193,24 +193,55 @@ def client_profile(business_user_id, client_id):
 # and so will add points to database
 # delete points (same, but method is delete) methods=['DELETE']
 # do array methods POST and DELETE
+@app.route("/edit_rewards/<business_user_id>/<client_id>")
+def edit_client_reward(business_user_id, client_id):
+    """Allows user to edit a client's points, rewards."""
+
+    business_user = crud.get_business_user_by_id(business_user_id)
+    client = crud.get_client_by_id(client_id)
+    rewards = crud.show_all_reward()
+    # rewards = crud.get_reward_by_id(reward_id)
+
+    return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
+
 
 
 # create route to add points
+# @app.route("/adjust_points", methods=['POST', 'DELETE'])
+@app.route("/adjusting_points", methods=['POST'])
+def adjusting_points(client_id, reward_point):
+  """Adjust user points."""
+
+  reward_point = request.form.get('reward_point')
+
+  client_point = crud.adjust_client_points(client_id, reward_point)
+#   if redeem, minus 10 points
+
+  total_client_point = client_point.reward_point
+
+  return flash(f"{total_client_point}")
 # @app.route("/add_point", methods=['POST'])
-# def get_points_added(reward_point):
-#   """Request point addition from JS form (form?)"""
-
-#   reward_point = crud.add_client_point(reward_point)
-
 # create route to delete points
 # (crud)
+# @app.route("/add_point", methods=['POST'])
 # create route to redeem points
 # (crud)
+# @app.route("/add_point", methods=['POST'])
 # @app.route('/redeem_points", methods=['POST'])
 # def redeem_points_for_reward():
 
 # create route to undo
 # (crud)
+
+# susie and bob (query parameters) or add in route
+# /add_transaction/susie/bob
+# /add_transaction?bu=susie&cu=bob
+# /add_transction/susie?cu=bob
+
+
+# @app.route('/data/bu=<business_user_id>', methods=['GET'])
+# def get_query_string():
+#     return request.query_string
 
 
 
@@ -295,16 +326,16 @@ def add_reward():
     return redirect(f"/rewards/{ business_user_id }")
 
 
-@app.route("/edit_rewards/<business_user_id>/<client_id>")
-def edit_client_reward(business_user_id, client_id):
-    """Allows user to edit a client's points, rewards."""
+# @app.route("/edit_rewards/<business_user_id>/<client_id>")
+# def edit_client_reward(business_user_id, client_id):
+#     """Allows user to edit a client's points, rewards."""
 
-    business_user = crud.get_business_user_by_id(business_user_id)
-    client = crud.get_client_by_id(client_id)
-    rewards = crud.show_all_reward()
-    # rewards = crud.get_reward_by_id(reward_id)
+#     business_user = crud.get_business_user_by_id(business_user_id)
+#     client = crud.get_client_by_id(client_id)
+#     rewards = crud.show_all_reward()
+#     # rewards = crud.get_reward_by_id(reward_id)
 
-    return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
+#     return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
 
 
 

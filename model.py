@@ -77,7 +77,7 @@ class Client(db.Model):
     business_user_id = db.Column(db.Integer, db.ForeignKey('business_users.business_user_id'))
 
     def __repr__(self):
-        return f'<Client client_id={self.client_id}, client_name={self.client_name}, client_email={self.client_email}>'
+        return f'<Client client_id={self.client_id}, client_name={self.client_name}, client_email={self.client_email}, reward_point={self.reward_point}>'
 
     # relationship to business_users table
     business_user = db.relationship('BusinessUser', back_populates='client')

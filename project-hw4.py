@@ -44,3 +44,55 @@ app for small business owners to create simple loyalty program
 
 haven't thought this far
 
+
+
+##########10/18 (Monday after end of 1st sprint)###############
+### data
+user:
+    name, email, password, business name, business profile picture
+client:
+    name, email, reward point count
+transactions:
+    appointment type, transaction date, total cost
+rewards:
+    reward type
+    reward cost
+
+### MVP 
+-user login & create account
+-created directory for user
+-(used hashed pw)
+-create a client
+-add transactions
+-add reward types
+-created tests for tables
+-started point adjustment option for adding reward points
+
+
+### 2.0
+-finish point adjustment function
+    -get points to database
+    -create redeem
+-change login to flask login
+-amp security
+    -strong password policy in place
+    -use 2FA (two-factor authentication)
+    -use SSL (or TLS) encryption for HTTPs
+    -prevent sql injections
+        -DON'T WRITE DYNAMIC QUERIES
+        -prevent user supplied input whichi contains malicious SQL
+        from affecting logic of executed query
+    -use patchstack
+-change url links to queries
+
+
+### 3.0
+-edge cases (?)
+-ability to undo redeems...
+-more security
+    -check out cross site scripting
+    -insecure deserialization
+    -broken authentication
+    -cross site request forgery attacks
+    -sensitive data exposure
+    -create way to have security check scans
