@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<h2>Change client points</h2>
+
+<form class='adjust-points' method=['POST', 'DELETE'] action="/adjust_points">
+  <div>
+      <label>Points</label>
+      <input type="number" name="reward_point">
+  </div>
+  <div>
+      <button type="submit">edit points</button>
+  </div>
+</form>
+
+{% endblock %}
