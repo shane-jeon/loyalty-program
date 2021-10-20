@@ -142,19 +142,21 @@ def adjust_client_points(client_id, reward_point):
     """Adds reward point to client account."""
     # EDGECASE ==> GOING INTO NEGATIVE
     client = Client.query.get(client_id)
+    print(client)
 
 
     client.reward_point += reward_point
+    print(client.reward_point)
 
+    # # # when calling funciton, call w/client_id and 2nd argument, pass
+    # # # in number that can be positive or negative
 
-
-    # when calling funciton, call w/client_id and 2nd argument, pass
-    # in number that can be positive or negative
-
-    db.session.add()
+    # db.session.add()
     db.session.commit()
 
-    return client
+    return client.reward_point
+
+    
 
 # business user in session
 # client_obj = adjust_client_points(client_id=1, reward_point=1)
@@ -163,7 +165,7 @@ def adjust_client_points(client_id, reward_point):
 # def show_adjusted_points():
 #     """Show adjusted total points."""
 
-#     final_point = Client.query.filter_by(client_id=client_id).first()
+    # final_point = Client.query.filter_by(client_id=client_id).first()
 # # use returned client object
 # # prevent from going into negative
 #     return final_point
@@ -188,18 +190,6 @@ def adjust_client_points(client_id, reward_point):
 # SELECT client_name FROM clients
 # SELECT * --> .all()
 # client = BusinessUser.query.get('business_users)
-# def get_clients_by_business_user_id(business_user_id):
-#     """Gets client through business_users table."""
-#     clients=set()
-    
-#     for business_users in(
-#         BusinessUser.query.options(db.joinedload("clients")).filter_by(business_user_id=business_user_id)
-#         .all()
-
-#     ):
-#         clients.add(business_users.client_name)
-
-#     return list(clients)
 
 # bu_clients = db.session.query(Client, BusinessUser).outerjoin(BusinessUser).all()
 # problem, need to assign business user id to clients
@@ -264,15 +254,15 @@ def create_client_reward(client_id, reward_id):
 ###################  def ADD_CLIENT_POINTS.   ######################
 ####################################################################
 
-def add_client_point(reward_point):
-    """Add point to client reward account."""
+# def add_client_point(reward_point):
+#     """Add point to client reward account."""
+#     client = Client.query.all()
+#     client_point = client.reward_point=reward_point
 
-    client_point = Client(reward_point=reward_point)
+#     db.session.add(client_point)
+#     db.session.commit()
 
-    db.session.add(client_point)
-    db.session.commit()
-
-    return client_point
+#     return client_point
 
 ####################################################################
 ######################  def CREATE_REWARD ##########################

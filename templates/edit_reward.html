@@ -13,67 +13,79 @@
 
 <!-- <p>
   Reward Points: <span id="points-add-counter">0</span> 
-</p>
-
-<p>
-  Rewards Available: <span id="reward-number">0</span> 
 </p> -->
 
-<main>
-  <section id="menu">
-    <h3>transactions</h3>
+
+<!-- OK....SO I DO HAVE TO USE EVENT LISTENERS -->
+
+    <!-- <h3>transactions</h3>
     <table> <table>
+
       <tr>
         <th>Service</th>
         <th colspan="10">Point</th>
-        {% for reward in rewards %}
-          <tr>
-            <td>
-              {{ reward.reward_type }}</td>
-            <td>{{ reward.reward_cost }}</td>
-          </tr>     
+          {% for reward in rewards %}
+      </tr>
+
+      <tr>
+        <td>
+          {{ reward.reward_type }}
+        </td>
+        <td>
+          {{ reward.reward_cost }}
+        </td>
         {% endfor %}
+      </tr>     
+        
           <tr>
-                <td>
-                    <button class="add-to-points">
-                        add
-                        <!-- JINJA -->
-                    </button>
-                </td>
-                <td>
-                  <button class="sub-from-points">
-                      sub
-                     
-                  </button>
-                </td>
-            </tr>
+            <td>  -->
+              <form action="/adjusting_points" method="POST">
+                <div>
+                  <!-- <input hidden type="number" name="plus-count" value=1> -->
+                  <button type="submit" name="plus-count" value="1">plus</button>
+
+                  <!-- <input hidden type="number" name="plus-count" value=-1> -->
+                  <button type="submit" name="plus-count" value="-1">sub</button>
+
+                  <input hidden type="text" name="client_id" value="{{ client.client_id }}">
+                  <input hidden type="text" name="business_user_id" value="{{ business_user.business_user_id }}">
+                </div>
+              </form>
+            </td>
+          </tr>
   
     </table>  
-  </section>
-
-<br>
+</section>
+ 
+  <br>
   <section id="total-reward">
-<br>
-      <table>
-          <thead>
-              <tr>
-                  <th>Reward Bank</th>
-              </tr>
+  <br>
+
+  <table>
+    <thead>
+
+      <tr>
+        <th>Reward Bank</th>
+      </tr>
           </thead>
           <tbody id="total-rewards"></tbody>
-      </table>
 
-          <div>
-              Total: <span id="reward-total-counter">0</span>
-          </div>
-          <br>
-          <div>
-              <button class="redeem-points">Redeem Reward</button>
-          </div>
-          <div>
-            <p>Accidentally redeemed?</p>
-            <button class="undo-redeem">Undo</button>
-        </div>
+  </table>
+
+  <div>
+    Total: <span id="reward-total-counter">0</span>
+  </div>
+
+  <br>
+
+  <div>
+    <button id="redeem-points">Redeem Reward</button>
+  </div>
+
+  <div>
+    <p>Accidentally redeemed?</p>
+    <button id="undo-redeem">Undo</button>
+  </div>
 
   </section>
 
@@ -82,3 +94,4 @@
 <script src="/static/js/point_adder.js"></script>
 
 {% endblock %}
+

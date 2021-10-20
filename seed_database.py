@@ -62,7 +62,7 @@ for client in client_data:
         client['reward_point'],
     )    
 
-    db_client = crud.create_client(client_name, client_email, business, 
+    db_client = crud.create_client(client_name, client_email, business,
                                    reward_point)
 
     clients_in_db.append(db_client)

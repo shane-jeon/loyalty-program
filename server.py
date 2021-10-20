@@ -209,17 +209,30 @@ def edit_client_reward(business_user_id, client_id):
 # create route to add points
 # @app.route("/adjust_points", methods=['POST', 'DELETE'])
 @app.route("/adjusting_points", methods=['POST'])
-def adjusting_points(client_id, reward_point):
-  """Adjust user points."""
+def adjusting_points():
+    """Adjust user points."""
 
-  reward_point = request.form.get('reward_point')
+    reward_point = int(request.form.get('plus-count'))
+    client_id = request.form.get('client_id')
+    business_user_id = request.form.get('business_user_id')
+    print(client_id)
+    print(type(client_id))
+    print(reward_point)
+    print(type(reward_point))
 
-  client_point = crud.adjust_client_points(client_id, reward_point)
-#   if redeem, minus 10 points
+    business = crud.get_business_user_by_id(business_user_id)
+    client = crud.get_client_by_id(client_id)
 
-  total_client_point = client_point.reward_point
+    # client_point = crud.adjust_client_points(client_id, reward_point)
+    client_point = crud.adjust_client_points(client_id, reward_point)
+    print("got here")
+    #   if redeem, minus 10 points
 
-  return flash(f"{total_client_point}")
+    total_client_point = client.reward_point
+
+    flash(f"{total_client_point}")
+    return redirect(f"/edit_rewards/{business.business_user_id}/{client.client_id}")
+    # return flash(f"{total_client_point}")
 # @app.route("/add_point", methods=['POST'])
 # create route to delete points
 # (crud)
