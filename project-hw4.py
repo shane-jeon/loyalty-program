@@ -77,10 +77,9 @@ rewards:
 -amp security
     -strong password policy in place
     -use 2FA (two-factor authentication)
-    -use SSL (or TLS) encryption for HTTPs
     -prevent sql injections
         -DON'T WRITE DYNAMIC QUERIES
-        -prevent user supplied input whichi contains malicious SQL
+        -prevent user supplied input which contains malicious SQL
         from affecting logic of executed query
     -use patchstack
 -change url links to queries

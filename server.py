@@ -1,17 +1,34 @@
 """GlowUp Server"""
 
 ## from the flask library, import ...
-from flask import (Flask, session, render_template, request, jsonify, flash, redirect)
+from flask import (
+    Flask,
+    g,
+    session,
+    render_template,
+    request,
+    jsonify,
+    flash,
+    redirect)
 from flask_debugtoolbar import DebugToolbarExtension
+from flask_login import (
+    LoginManager,
+    login_required,
+    logout_user,
+    current_user)
 from model import BusinessUser, connect_to_db
 import crud
 from jinja2 import StrictUndefined
 
 
 app = Flask(__name__)
-app.secret_key = "sk"
+app.secret_key = "*xZJ_0d7c#+ii0C"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# create Login Manager instance
+login_manager = LoginManager() 
+# configure for login
+login_manager.init_app(app) 
 #################################################
 #################################################
 ###############   login &      ##################
@@ -19,68 +36,95 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #################################################
 #################################################
 
-# login_manager = LoginManager()
-# login_manager.init_app(app)
+@login_manager.user_loader
+def load_business_user(business_user_id):
+    return BusinessUser.query.get(business_user_id)
 
-@app.route('/')
-## view function: function that returns web response (response is string, usually HTML)
-def homepage():
-    """Show homepage."""
+# @app.route('/')
+# ## view function: function that returns web response (response is string, usually HTML)
+# def homepage():
+#     """Show homepage."""
    
-    return render_template('homepage.html')
+#     return render_template('homepage.html')
 
-@app.route("/register")
-def render_form():
-    # purely for display NOT action
-    return render_template('register.html')
+# @app.route('/')
+# ## view function: function that returns web response (response is string, usually HTML)
+# def index():
+#    business_user = BusinessUser.query.filter_by(bu_email).first()
+#    login_user(business_user)
+#    return "You are now logged in!"
 
-@app.route("/registration", methods=['POST'])
+# @app.route('/logout')
+# @login_required
+# def logout():
+#     logout_user()
+#     return "You are now logged out!"
+
+# @app.route('/home')
+# @login_required
+# def home():
+#     return "The current user is" + current_user.bu_email
+
+# @app.route("/register")
+# def render_form():
+#     # purely for display NOT action
+#     return render_template('register.html')
+
+@app.route("/register", methods=['GET','POST'])
 def register_user():
     """Register new business user."""
 
-    bu_email = request.form.get("registration-email")
-    bu_password_hash = request.form.get("registration-password")
-    bu_name = request.form.get("name")
-    bu_business = request.form.get("business")
-    bu_pic_path = request.form.get("pic_path")
-    # print(bu_email)
-    # print(bu_password_hash)
+    if request.method == 'POST':
+        bu_email = request.form.get("registration-email")
+        bu_password_hash = request.form.get("registration-password")
+        bu_name = request.form.get("name")
+        bu_business = request.form.get("business")
+        bu_pic_path = request.form.get("pic_path")
+        print(bu_email)
+        print(bu_password_hash)
 
 
-    business_user = crud.get_business_user_by_email(bu_email).first()
-    print(business_user)
+        business_user = crud.get_business_user_by_email(bu_email)
+        print(business_user)
 
-    if business_user:
-        flash("There's already an account with that e-mail! Try again.")
-    else:
-        crud.create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path)
-        flash("Account created! Please log in.")
+        if business_user:
+            flash("There's already an account with that e-mail! Try again.")
+        else:
+            crud.create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path)
+            flash("Account created! Please log in.")
     
-    return redirect("/")
+        return redirect("/")
+    
+    return render_template('register.html')
 
-@app.route("/login", methods=["POST"])
+
+@app.route("/", methods=["GET", "POST"])
 def process_login():
     """Process user login."""
 
-    bu_email = request.form.get("login-email")
-    bu_password_hash = request.form.get("login-password")
-    print(bu_email)
-    print(bu_password_hash)
+    if request.method == 'POST':
+        session.pop('bu_email', None)
+        bu_email = request.form.get("login-email")
+        bu_password_hash = request.form.get("login-password")
+        # print(bu_email)
+        # print(bu_password_hash)
 
-    business_user = crud.get_business_user_by_email(bu_email)
+        business_user = crud.get_business_user_by_email(bu_email)
 
-    # adjust bu_password later and in html
-    if not business_user or business_user.bu_password_hash != bu_password_hash:
-        flash("The e-mail or password you entered is incorrect. Try again.")
+ 
+        # # adjust bu_password later and in html
+        if not business_user or business_user.bu_password_hash != bu_password_hash:
+            flash("The e-mail or password you entered is incorrect. Try again.")
 
-        return redirect("/")
+            return redirect("/")
 
-    else:
-        session["bu_email"] = business_user.bu_email
-        flash(f"Welcome back {business_user.bu_name}!")
+        elif business_user == business_user and business_user.bu_password_hash == bu_password_hash:
+            session["bu_email"] = business_user.bu_email
+            flash(f"Welcome back {business_user.bu_name}!")
 
-        return redirect(f"/directory/{business_user.business_user_id}")
-
+            return redirect(f"/directory/{business_user.business_user_id}")
+    
+    return render_template('homepage.html')
 
 
 #################################################
@@ -92,6 +136,7 @@ def process_login():
 
 # shows directory for corresponding business user id
 @app.route("/directory/<business_user_id>")
+# @login_required
 def directory(business_user_id):
     """Show business user's directory."""
     
