@@ -156,32 +156,8 @@ def adjust_client_points(client_id, reward_point):
 
     return client.reward_point
 
-    
-
+ 
 # business user in session
-# client_obj = adjust_client_points(client_id=1, reward_point=1)
-# returns client object
-# client_obj.reward_point --> final total of reward points
-# def show_adjusted_points():
-#     """Show adjusted total points."""
-
-    # final_point = Client.query.filter_by(client_id=client_id).first()
-# # use returned client object
-# # prevent from going into negative
-#     return final_point
-# multiple clients can have same number of points (filtering by
-# points will add clients w/x amount of points)
-    # creating the point
-# ####################################################################
-# def deleting_point(reward_point):
-#     """Subtracts reward point to client account."""
-# ####################################################################
-# def redeeming_points(reward_point):
-#     """Redeem points by subtracting 10 points from total count."""
-# ####################################################################
-# def reversing_redeeming_points(reward_point):
-#     """Reverses redeemed action by adding 10 points back to total count."""
-
 
 
 # Left Join

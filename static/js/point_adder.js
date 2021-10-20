@@ -1,7 +1,7 @@
 'use strict';
 
 const redeemPoints = (cost) => {
-    const rewardTotal = $('#reward-total-counter');
+    const rewardTotal = $('.reward-total-counter');
 
     let total = Number(rewardTotal.html());
     total -= cost;
@@ -10,9 +10,8 @@ const redeemPoints = (cost) => {
 };
 
 
-
 const undoRedeem = (cost) => {
-    const rewardTotal = $('#reward-total-counter');
+    const rewardTotal = $('.reward-total-counter');
 
     let total = Number(rewardTotal.html());
     total += cost;
@@ -21,7 +20,7 @@ const undoRedeem = (cost) => {
 }
 
 const incrementRewardTotal = (point) => {
-    const rewardTotal = $('#reward-total-counter');
+    const rewardTotal = $('.reward-total-counter');
     
     let total = Number(rewardTotal.html());
     total += point;
@@ -30,7 +29,7 @@ const incrementRewardTotal = (point) => {
 };
 
 const decrementRewardTotal = (point) => {
-    const rewardTotal = $('#reward-total-counter');
+    const rewardTotal = $('.reward-total-counter');
     
     let total = Number(rewardTotal.html());
     total -= point;
@@ -39,14 +38,12 @@ const decrementRewardTotal = (point) => {
 };
 
 
-$('.add-to-points').on('click', () => {
-    addTransaction('facial');
+$('#add-to-points').on('click', () => {
     incrementRewardTotal(1);
 });
 
 
-$('.sub-from-points').on('click', () => {
-    addTransaction('facial');
+$('#sub-from-points').on('click', () => {
     decrementRewardTotal(1);
 });
 

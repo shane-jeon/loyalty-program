@@ -18,7 +18,7 @@
 
 <!-- OK....SO I DO HAVE TO USE EVENT LISTENERS -->
 
-    <!-- <h3>transactions</h3>
+    <h3>transactions</h3>
     <table> <table>
 
       <tr>
@@ -38,11 +38,11 @@
       </tr>     
         
           <tr>
-            <td>  -->
+            <td> 
               <form action="/adjusting_points" method="POST">
                 <div>
                   <!-- <input hidden type="number" name="plus-count" value=1> -->
-                  <button type="submit" name="plus-count" value="1">plus</button>
+                  <button type="submit" id="add-to-points" name="plus-count" value="1">plus</button>
 
                   <!-- <input hidden type="number" name="plus-count" value=-1> -->
                   <button type="submit" name="plus-count" value="-1">sub</button>
@@ -50,48 +50,32 @@
                   <input hidden type="text" name="client_id" value="{{ client.client_id }}">
                   <input hidden type="text" name="business_user_id" value="{{ business_user.business_user_id }}">
                 </div>
-              </form>
+           
             </td>
           </tr>
   
-    </table>  
-</section>
- 
-  <br>
-  <section id="total-reward">
-  <br>
+    </table>
 
-  <table>
-    <thead>
 
-      <tr>
-        <th>Reward Bank</th>
-      </tr>
-          </thead>
-          <tbody id="total-rewards"></tbody>
 
-  </table>
+  <p>Reward Bank</p>
 
   <div>
-    Total: <span id="reward-total-counter">0</span>
+    Total: <span class="reward-total-counter">{{ client.reward_point }}</span>
   </div>
 
   <br>
 
-  <div>
-    <button id="redeem-points">Redeem Reward</button>
-  </div>
-
-  <div>
-    <p>Accidentally redeemed?</p>
-    <button id="undo-redeem">Undo</button>
-  </div>
+  <button type="submit" id="redeem-points" name="plus-count" value="-10">redeem</button>
+  <p>Accidentally redeemed?</p>
+  <button type="submit" id="undo-redeem" name="plus-count" value="10">Undo</button>
+  </form>
 
   </section>
 
 </main>
 
-<script src="/static/js/point_adder.js"></script>
+<!-- <script src="/static/js/point_adder.js"></script> -->
 
 {% endblock %}
 

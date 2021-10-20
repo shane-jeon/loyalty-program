@@ -19,6 +19,9 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #################################################
 #################################################
 
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+
 @app.route('/')
 ## view function: function that returns web response (response is string, usually HTML)
 def homepage():
@@ -205,9 +208,6 @@ def edit_client_reward(business_user_id, client_id):
     return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
 
 
-
-# create route to add points
-# @app.route("/adjust_points", methods=['POST', 'DELETE'])
 @app.route("/adjusting_points", methods=['POST'])
 def adjusting_points():
     """Adjust user points."""
@@ -215,36 +215,24 @@ def adjusting_points():
     reward_point = int(request.form.get('plus-count'))
     client_id = request.form.get('client_id')
     business_user_id = request.form.get('business_user_id')
-    print(client_id)
-    print(type(client_id))
-    print(reward_point)
-    print(type(reward_point))
+    # print(client_id)
+    # print(type(client_id))
+    # print(reward_point)
+    # print(type(reward_point))
 
     business = crud.get_business_user_by_id(business_user_id)
     client = crud.get_client_by_id(client_id)
 
-    # client_point = crud.adjust_client_points(client_id, reward_point)
     client_point = crud.adjust_client_points(client_id, reward_point)
-    print("got here")
-    #   if redeem, minus 10 points
+    # print("got here")
+
 
     total_client_point = client.reward_point
 
-    flash(f"{total_client_point}")
+    # flash(f"{total_client_point}")
     return redirect(f"/edit_rewards/{business.business_user_id}/{client.client_id}")
     # return flash(f"{total_client_point}")
-# @app.route("/add_point", methods=['POST'])
-# create route to delete points
-# (crud)
-# @app.route("/add_point", methods=['POST'])
-# create route to redeem points
-# (crud)
-# @app.route("/add_point", methods=['POST'])
-# @app.route('/redeem_points", methods=['POST'])
-# def redeem_points_for_reward():
 
-# create route to undo
-# (crud)
 
 # susie and bob (query parameters) or add in route
 # /add_transaction/susie/bob
