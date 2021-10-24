@@ -16,8 +16,14 @@
     {% else %}
     
     <h2>Log In</h2>
-    <form action="/" method="POST">
-      <p>
+    <form action="/login" method="POST">
+
+      {{ form.hidden_tag() }}
+      {{ form.bu_username }}
+      {{ form.bu_password }}
+      {{ form.submit }}
+      <br>
+      <!-- <p>
         Email <input type="email" name="login-email">
       </p>
 
@@ -27,12 +33,12 @@
 
       <p>
         <input type="submit">
-      </p>
+      </p> -->
     </form>
 
 
     <h3>
-      <a href="/register">No Account?</a>
+      <a href="{{ url_for('register') }}">No Account?</a>
     </h3>
     
 

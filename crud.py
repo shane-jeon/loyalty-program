@@ -14,22 +14,23 @@ from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, c
 #################################################
 
 
-
 ####################################################################
 ################  def CREATE_BUSINESS_USER() ########################
 ####################################################################
 
-def create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path):
+
+
+def create_business_user(bu_email, bu_username, bu_password, bu_name, bu_business, bu_pic_path):
     """Create, add, & return new business user."""
 
     business_user = BusinessUser(bu_email=bu_email, 
-                                bu_password_hash=bu_password_hash, 
+                                bu_username=bu_username,
+                                bu_password=bu_password, 
                                 bu_name=bu_name, 
                                 bu_business=bu_business,
-                                bu_pic_path=bu_pic_path
-    )
+                                bu_pic_path=bu_pic_path)
 
-    # 
+    
     db.session.add(business_user)
     db.session.commit()
 
@@ -63,7 +64,23 @@ def get_business_user_by_id(business_user_id):
 
 
 ####################################################################
-################  def CREATE_BUSINESS_USER_BY_EMAIL ################
+################  def GET_BUSINESS_USER_BY_USERNAME ################
+####################################################################
+
+
+def get_business_user_by_username(bu_username):
+    """Checks if business user email exists in database"""
+
+    # print(bu_username)
+    # print("over_here")
+    business_user = BusinessUser.query.filter_by(bu_username=bu_username).first()
+    # print(business_user, "hi")
+    # print("reached here 2")
+    # print(business_user)
+    return business_user
+
+####################################################################
+################  def GET_BUSINESS_USER_BY_EMAIL ################
 ####################################################################
 
 def get_business_user_by_email(bu_email):
@@ -71,6 +88,7 @@ def get_business_user_by_email(bu_email):
 
     # print("reached here")
     business_user = BusinessUser.query.filter_by(bu_email=bu_email).first()
+    print(business_user, "email")
     # print("reached here 2")
     # print(business_user)
     return business_user

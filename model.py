@@ -2,8 +2,13 @@
 
 # import SQL alchemy to link SQL and PYTHON
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
+from flask_bcrypt import Bcrypt
+from flask_login import UserMixin
 # importing werkzeug
-from werkzeug.security import generate_password_hash, check_password_hash
+# from werkzeug.security import generate_password_hash, check_password_hash
 
 # db object, representing database
 db = SQLAlchemy()
@@ -18,7 +23,7 @@ db = SQLAlchemy()
 #################################################
 #################################################
 
-class BusinessUser(db.Model):
+class BusinessUser(db.Model, UserMixin):
     """Business user information."""
 
     __tablename__ = 'business_users'
@@ -27,32 +32,71 @@ class BusinessUser(db.Model):
     business_user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     # email is String type w/max size of 120 characters
     bu_email = db.Column(db.String(120), nullable=False, unique=True)
-    # changed "bu_password" to "bu_password_hash", is 128 character hash
-    bu_password_hash = db.Column(db.String(128), nullable=True)
+    bu_username = db.Column(db.String(30), nullable=False, unique=True)
+    # changed "bu_password" to "bu_password", is 128 character hash
+    bu_password = db.Column(db.String(80), nullable=True)
     bu_name = db.Column(db.String, nullable=False)
     bu_business = db.Column(db.String, nullable=False, unique=True)
     bu_pic_path = db.Column(db.String, nullable=True)
 
-    # creating pw hashing functions
-    # write test for following later (return to)
-    def set_password(self, password):
-        """Sets PW hash using werkzeug."""
-        self.bu_password_hash = generate_password_hash(password)
-
-    def check_password(self, password):
-        """Compares input pw w/corresponding PW hash."""
-        return check_password_hash(self.bu_password_hash, password)
-
 
 
     def __repr__(self):
-        return f"""<Business_user business_user_id={self.business_user_id} bu_email={self.bu_email} 
-        bu_name={self.bu_name} bu_business={self.bu_business}>"""
+        return f"""<Business_user business_user_id={self.business_user_id} bu_email={self.bu_email}
+        bu_username={self.bu_username} bu_business={self.bu_business}>"""
 
     # variable = db.relationship('Class', back_populates='class_relationship_varaible')
     client = db.relationship('Client', back_populates='business_user')
 
 
+# #################################################
+# #################################################
+# ###############  registration     ################
+# ###############   login       ##################
+# #################################################
+# #################################################
+
+# # created registration form that inherits from FlaskForm
+# class RegisterForm(FlaskForm):
+#     """Register user form."""
+#     # StringField allows user to see characters
+#     # InputRequired() --> must be filled out
+#     # min and max for characters username, placeholder is placeholder for Username, use with render_kw
+#     bu_username = StringField(validators=[InputRequired(), Length(
+#         min=4, max=20)], render_kw={"placeholder": "Username"})
+
+#     # instead use PasswordField, will show black dots
+#     # minimum difference is because password will hash (not sure how long, so in db is set to 80)
+#     bu_password = PasswordField(validators=[InputRequired(), Length(
+#         min=4, max=20)], render_kw={"placeholder": "Password"})
+
+#     # button to register
+#     submit = SubmitField("Register")
+
+#     # validates if there is username that has already been typed in
+#     # queries database, checks if similar username
+#     def validate_bu_username(self, bu_username):
+#         existing_business_user_bu_username = BusinessUser.query.filter_by(bu_username=bu_username.data).first()
+
+#         if existing_business_user_bu_username:
+#             raise ValidationError(
+#                 "That username already exists. PLease choose a different one.")
+
+# class LoginForm(FlaskForm):
+
+#     # StringField allows user to see characters
+#     # InputRequired() --> must be filled out
+#     # min and max for characters username, placeholder is placeholder for Username, use with render_kw
+#     bu_username = StringField(validators=[InputRequired(), Length(
+#         min=4, max=20)], render_kw={"placeholder": "Username"})
+
+#     # instead use PasswordField, will show black dots
+#     # minimum difference is because password will hash (not sure how long, so in db is set to 80)
+#     bu_password = PasswordField(validators=[InputRequired(), Length(
+#         min=4, max=20)], render_kw={"placeholder": "Password"})
+
+#     # button to register
+#     submit = SubmitField("Login")
 
 
 #################################################

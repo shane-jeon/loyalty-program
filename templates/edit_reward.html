@@ -45,8 +45,11 @@
                   <button type="submit" id="add-to-points" name="plus-count" value="1">plus</button>
 
                   <!-- <input hidden type="number" name="plus-count" value=-1> -->
+                  <!-- take in event, prevent default, will prevent form from refreshing the page -->
                   <button type="submit" name="plus-count" value="-1">sub</button>
 
+
+                  <!-- JS event listenering, event cancel to prevent reloading page -->
                   <input hidden type="text" name="client_id" value="{{ client.client_id }}">
                   <input hidden type="text" name="business_user_id" value="{{ business_user.business_user_id }}">
                 </div>

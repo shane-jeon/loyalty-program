@@ -3,129 +3,239 @@
 ## from the flask library, import ...
 from flask import (
     Flask,
-    g,
     session,
     render_template,
     request,
     jsonify,
     flash,
-    redirect)
+    redirect,
+    url_for,
+    Blueprint)
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_login import (
+    login_user,
     LoginManager,
     login_required,
     logout_user,
-    current_user)
+    current_user,
+    UserMixin
+    )
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, SubmitField, TextAreaField
+from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms.fields.html5 import URLField
+from flask_bcrypt import Bcrypt
 from model import BusinessUser, connect_to_db
+from sqlalchemy.sql import text
 import crud
 from jinja2 import StrictUndefined
+# from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
+bcrypt = Bcrypt(app)
 app.secret_key = "*xZJ_0d7c#+ii0C"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# create Login Manager instance
-login_manager = LoginManager() 
-# configure for login
-login_manager.init_app(app) 
-#################################################
-#################################################
-###############   login &      ##################
-###############  registration  ##################
-#################################################
-#################################################
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
 
 @login_manager.user_loader
 def load_business_user(business_user_id):
     return BusinessUser.query.get(business_user_id)
 
-# @app.route('/')
-# ## view function: function that returns web response (response is string, usually HTML)
-# def homepage():
-#     """Show homepage."""
-   
-#     return render_template('homepage.html')
 
-# @app.route('/')
-# ## view function: function that returns web response (response is string, usually HTML)
-# def index():
-#    business_user = BusinessUser.query.filter_by(bu_email).first()
-#    login_user(business_user)
-#    return "You are now logged in!"
+#################################################
+#################################################
+###############  registration     ################
+###############   login       ##################
+#################################################
+#################################################
 
-# @app.route('/logout')
-# @login_required
-# def logout():
-#     logout_user()
-#     return "You are now logged out!"
+# created registration form that inherits from FlaskForm
+class RegisterForm(FlaskForm):
+    """Register user form."""
+    # StringField allows user to see characters
+    # InputRequired() --> must be filled out
+    # min and max for characters username, placeholder is placeholder for Username, use with render_kw
 
-# @app.route('/home')
-# @login_required
-# def home():
-#     return "The current user is" + current_user.bu_email
+    bu_email = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "E-mail"})
 
-# @app.route("/register")
-# def render_form():
-#     # purely for display NOT action
-#     return render_template('register.html')
+    bu_username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Username"})
+
+    # instead use PasswordField, will show black dots
+    # minimum difference is because password will hash (not sure how long, so in db is set to 80)
+    bu_password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Password"})
+
+    bu_name = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Full Name"})
+
+    bu_business = StringField(validators=[InputRequired(), Length(
+    min=4, max=80)], render_kw={"placeholder": "Business Name"})
+
+    bu_pic_path = StringField(validators=[InputRequired(), Length(
+        min=4, max=500)], render_kw={"placeholder": "Profile Picture (optional) "})
+
+    # button to register
+    submit = SubmitField("Register")
+
+    # validates if there is username that has already been typed in
+    # queries database, checks if similar username
+    def validate_bu_username(self, bu_username):
+        existing_business_user_bu_username = crud.get_business_user_by_username(bu_username=bu_username.data)
+
+        if existing_business_user_bu_username:
+            raise ValidationError(
+                "That username already exists. PLease choose a different one.")
+
+class LoginForm(FlaskForm):
+
+    # StringField allows user to see characters
+    # InputRequired() --> must be filled out
+    # min and max for characters username, placeholder is placeholder for Username, use with render_kw
+    bu_username = StringField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Username"})
+    print(bu_username)
+
+    # instead use PasswordField, will show black dots
+    # minimum difference is because password will hash (not sure how long, so in db is set to 80)
+    bu_password = PasswordField(validators=[InputRequired(), Length(
+        min=4, max=20)], render_kw={"placeholder": "Password"})
+
+    # button to register
+    submit = SubmitField("Login")
+
+
+#################################################
+#################################################
+###############   login, logout &   ##############
+###############  registration  ##################
+#################################################
+#################################################
+
+
+
+@app.route('/')
+## view function: function that returns web response (response is string, usually HTML)
+def index():
+    """Show index."""
+    return render_template('index.html')
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        # print(form.bu_username.data)
+        # print(type(form.bu_username.data))
+        # print("got here")
+        business_user = crud.get_business_user_by_username(form.bu_username.data)
+        print(form.bu_username.data)
+        # print("got here 2")
+        print(business_user)
+        if business_user:
+            # print("hey2")
+            # print(business_user.bu_password, form.bu_password.data)
+            if bcrypt.check_password_hash(business_user.bu_password, form.bu_password.data):
+                print(form.bu_password.data)
+                login_user(business_user)
+                # print("got here")
+                # return redirect(url_for(f'directory/{business_user.business_user_id}'))
+                return redirect(url_for('directory', business_user_id = business_user.business_user_id))
+                
+
+    return render_template('login.html', form=form)
+
 
 @app.route("/register", methods=['GET','POST'])
-def register_user():
-    """Register new business user."""
+# @auth.route("/register", methods=['GET','POST'])
+def register():
+    form = RegisterForm()
+    # EDGE CASE ==> PREVENT USER FROM ENTERING USERNAME WITH SPACES
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.bu_password.data).decode('utf-8')
+        # print(hashed_password)
 
-    if request.method == 'POST':
-        bu_email = request.form.get("registration-email")
-        bu_password_hash = request.form.get("registration-password")
-        bu_name = request.form.get("name")
-        bu_business = request.form.get("business")
-        bu_pic_path = request.form.get("pic_path")
-        print(bu_email)
-        print(bu_password_hash)
+        crud.create_business_user(form.bu_email.data,
+                                  form.bu_username.data,
+                                  hashed_password,
+                                  form.bu_name.data,
+                                  form.bu_business.data,
+                                  form.bu_pic_path.data)
+
+        
+
+        return redirect(url_for('login'))
+
+    return render_template('register.html', form=form)
+
+# @app.route("/register", methods=['GET','POST'])
+# # @auth.route("/register", methods=['GET','POST'])
+# def register():
+#     """Register new business user."""
+
+#     if request.method == 'POST':
+#         bu_email = request.form.get("registration-email")
+#         bu_password_hash = request.form.get("registration-password")
+#         bu_name = request.form.get("name")
+#         bu_business = request.form.get("business")
+#         bu_pic_path = request.form.get("pic_path")
+#         print(bu_email)
+#         print(bu_password_hash)
 
 
-        business_user = crud.get_business_user_by_email(bu_email)
-        print(business_user)
+#         business_user = crud.get_business_user_by_email(bu_email)
+#         print(business_user)
 
-        if business_user:
-            flash("There's already an account with that e-mail! Try again.")
-        else:
-            crud.create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path)
-            flash("Account created! Please log in.")
+#         if business_user:
+#             flash("There's already an account with that e-mail! Try again.")
+#         else:
+#             crud.create_business_user(bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path)
+#             flash("Account created! Please log in.")
     
-        return redirect("/")
+#         return redirect("/login")
     
-    return render_template('register.html')
+#     return render_template('register.html')
 
 
-@app.route("/", methods=["GET", "POST"])
-def process_login():
-    """Process user login."""
+# @app.route("/login", methods=["GET", "POST"])
+# def login():
+#     """Process user login."""
 
-    if request.method == 'POST':
-        session.pop('bu_email', None)
-        bu_email = request.form.get("login-email")
-        bu_password_hash = request.form.get("login-password")
-        # print(bu_email)
-        # print(bu_password_hash)
+#     if request.method == 'POST':
+#         session.pop('bu_email', None)
+#         bu_email = request.form.get("login-email")
+#         bu_password_hash = request.form.get("login-password")
+#         # print(bu_email)
+#         # print(bu_password_hash)
 
-        business_user = crud.get_business_user_by_email(bu_email)
+#         business_user = crud.get_business_user_by_email(bu_email)
 
  
-        # # adjust bu_password later and in html
-        if not business_user or business_user.bu_password_hash != bu_password_hash:
-            flash("The e-mail or password you entered is incorrect. Try again.")
+#         # # adjust bu_password later and in html
+#         if not business_user or business_user.bu_password_hash != bu_password_hash:
+#             flash("The e-mail or password you entered is incorrect. Try again.")
 
-            return redirect("/")
+#             return redirect("/login")
 
-        elif business_user == business_user and business_user.bu_password_hash == bu_password_hash:
-            session["bu_email"] = business_user.bu_email
-            flash(f"Welcome back {business_user.bu_name}!")
+#         elif business_user == business_user and business_user.bu_password_hash == bu_password_hash:
+#             session["bu_email"] = business_user.bu_email
+#             flash(f"Weßlcome back {business_user.bu_name}!")
 
-            return redirect(f"/directory/{business_user.business_user_id}")
+#             return redirect(f"/directory/{business_user.business_user_id}")
     
-    return render_template('homepage.html')
+#     return render_template('login.html')
 
+@app.route('/logout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 #################################################
 #################################################
@@ -142,6 +252,7 @@ def directory(business_user_id):
     
     # business_user = in crud.py call function "get_business_user_by_id(business_user_id"
     business_user = crud.get_business_user_by_id(business_user_id)
+    print(business_user)
     clients = crud.show_all_client()
     rewards = crud.show_all_reward()
     # client = in crud.py call function "get_client_by_id(client_id)"
@@ -232,19 +343,10 @@ def client_profile(business_user_id, client_id):
 #################################################################################
 
 
-# @app.route("/whatever", methods = ['POST']) methods=['POST', 'DELETE']
-# def get_points_added():
-
-# need to make get request
-# everytime request is made, will add points in database
-# pointadder.js/.jsx will hit this route (by making post request)
-# and so will add points to database
-# delete points (same, but method is delete) methods=['DELETE']
-# do array methods POST and DELETE
-@app.route("/edit_rewards/<business_user_id>/<client_id>")
+@app.route("/edit_rewards/<business_user_id>/<client_id>", methods=['GET', 'POST'])
 def edit_client_reward(business_user_id, client_id):
     """Allows user to edit a client's points, rewards."""
-
+    
     business_user = crud.get_business_user_by_id(business_user_id)
     client = crud.get_client_by_id(client_id)
     rewards = crud.show_all_reward()
@@ -370,38 +472,6 @@ def add_reward():
     flash("Reward added.")
 
     return redirect(f"/rewards/{ business_user_id }")
-
-
-# @app.route("/edit_rewards/<business_user_id>/<client_id>")
-# def edit_client_reward(business_user_id, client_id):
-#     """Allows user to edit a client's points, rewards."""
-
-#     business_user = crud.get_business_user_by_id(business_user_id)
-#     client = crud.get_client_by_id(client_id)
-#     rewards = crud.show_all_reward()
-#     # rewards = crud.get_reward_by_id(reward_id)
-
-#     return render_template('edit_reward.html', business_user=business_user, client=client, rewards=rewards)
-
-
-
-# 10/17 8PM ish
-# NEED WAY TO ADD POINTS TO DATABASE
-
-# @app.route("/add_reward_point", methods=['POST'])
-# def adding_reward_point():
-#     """Allows user to add point(s) to client account."""
-
-#     reward_point=request.form.get("point")
-#     # client_id = request.form.get('client')
-#     # business_user_id = request.form.get('business_user_id')
-
-#     business = crud.show_all_business_user()
-#     client = crud.show_all_client()
-
-
-
-
 
 
 ## if this script is being called directly, than run(method) app(instance) 

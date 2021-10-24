@@ -28,16 +28,16 @@ bus_in_db = []
 
 for bu in bu_data:
     # assigning respective variables to access keys?
-    bu_email, bu_password_hash, bu_name, bu_business, bu_pic_path = (
+    bu_email, bu_username, bu_password, bu_name, bu_business, bu_pic_path = (
         bu['bu_email'],
-        bu['bu_password_hash'],
+        bu['bu_username'],
+        bu['bu_password'],
         bu['bu_name'],
         bu['bu_business'],
-        bu['bu_pic_path']
-    )    
+        bu['bu_pic_path'])
 
-    # db_bu is creating business user 
-    db_bu = crud.create_business_user(bu_email, bu_password_hash, bu_name, bu_business,
+    # db_bu is creating business user
+    db_bu = crud.create_business_user(bu_email, bu_username, bu_password, bu_name, bu_business,
                                       bu_pic_path)
 
     # appending created business_user to bus_in_db
@@ -59,7 +59,7 @@ for client in client_data:
         client['client_name'],
         client['client_email'],
         choice(bus_in_db),
-        client['reward_point'],
+        client['reward_point']
     )    
 
     db_client = crud.create_client(client_name, client_email, business,
@@ -115,4 +115,4 @@ for reward in reward_data:
 
 # for association table ("many-to-many")
 for client in clients_in_db:
-    crud.create_client_reward(client.client_id, randint(1, 20))
+    crud.create_client_reward(client.client_id, randint(1, 10))

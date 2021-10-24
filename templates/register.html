@@ -4,7 +4,31 @@
 <h2>Please register as a user</h2>
 
     <form class="user-registration" method="POST" action="/register">
-      <div>
+      {{ form.hidden_tag() }}
+      <br>
+      <br>
+      {{ form.bu_email }}
+      <br>
+      <br>
+      {{ form.bu_username }}
+      <br>
+      <br>
+      {{ form.bu_password }}
+      <br>
+      <br>
+      {{ form.bu_name }}
+      <br>
+      <br>
+      {{ form.bu_business }}
+      <br>
+      <br>
+      {{ form.bu_pic_path}}
+      <br>
+      <br>
+      {{ form.submit }}
+      <br>
+      <br>
+      <!-- <div>
         <label>Email</label>
         <input type="email" name="registration-email" required>
       </div>
@@ -26,7 +50,10 @@
       </div>
     <div>
       <input type="submit" value="Register" class="btn btn-primary">
-    </div>
+    </div> -->
   </form>
 
-{% endblock %}
+  <a href="{{ url_for('login') }}">already have an existing account?</a>
+  <br>
+
+  {% endblock %}
