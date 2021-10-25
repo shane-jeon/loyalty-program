@@ -4,7 +4,7 @@
 
 {% block body %}
 <p> 
-    <a href="/directory/{{ business_user.id }}">return to directory</a>
+    <a href="{{ url_for('directory', bu_id=business_user.id) }}">return to directory</a>
 </p>
 
 <header>

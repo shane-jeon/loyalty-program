@@ -33,7 +33,7 @@
 
 <!-- LOOK INTO/RETURN TO SQLALCHEMY CHAINING 10/16 8:53PM -->
 <p> 
-  <a href="/clients/{{ business_user.id}}/{{ clients.client_id }}">return to client profile</a>
+  <a href="{{ url_for('client_profile', bu_id=business_user.id, client_id=clients.client_id) }}">return to client profile</a>
 </p>
 
 

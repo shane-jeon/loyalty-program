@@ -21,7 +21,7 @@
         {% if client.id == business_user.id %}
         <!-- print({{ business_user.id }}) -->
           <li>
-            <a href="/clients/{{ business_user.id }}/{{ client.client_id }}">
+            <a href="{{ url_for('client_profile', bu_id=business_user.id, client_id=client.client_id) }}">
               {{ client.client_name }}
             </a>
           </li>
@@ -31,8 +31,9 @@
 
 <h3>Your Rewards</h3>
 <p>
-  <a href="/rewards/{{ business_user.id }}">rewards</a>
+  <a href="{{ url_for('rewards_page', bu_id=business_user.id) }}">current rewards</a>
 </p>
+
 <!-- RETURN TO 10/14 -->
 <!-- <h3>
     <a href="/add_transaction/{{ clients.client_id }}"></a>

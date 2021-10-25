@@ -2,11 +2,19 @@
 
 {% block body %}
 
-<h2>your reward program</h2>
+<h4>Your reward programs</h4>
+
+<p>
+  <a href="{{ url_for('add_reward', bu_id=business_user.id) }}">add new reward</a>
+</p>
 
 <ul>
   {% for reward in rewards %}
-  
+    {% if reward %}
+      <li>
+        {{ reward.reward_type }} {{ reward.reward_cost }} <br>
+      </li>
+    {% endif %}
   {% endfor %}
 </ul>
 
