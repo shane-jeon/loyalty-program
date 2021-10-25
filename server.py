@@ -1,7 +1,6 @@
 """GlowUp Server"""
 
 ## from the flask library, import ...
-import os
 from flask import (
     Flask,
     session,
@@ -121,7 +120,6 @@ class LoginForm(FlaskForm):
 ###############  registration  ##################
 #################################################
 #################################################
-
 
 
 @app.route('/')
@@ -299,6 +297,7 @@ def signup_new_client():
 
 # shows directory for corresponding business user id
 @app.route("/client_profile")
+@login_required
 def client_profile(bu_id=None, client_id=None):
     """Show client profile."""
     
@@ -320,6 +319,7 @@ def client_profile(bu_id=None, client_id=None):
 
 
 @app.route("/edit_rewards")
+@login_required
 def edit_client_reward(bu_id=None, client_id=None):
     """Allows user to edit a client's points, rewards."""
     
@@ -382,6 +382,7 @@ def adjusting_points():
 
 ################  @APP.ROUTE("/ADD_TRANSACTION/<BUSINESS_USER_ID/<CLIENT_ID>").  ####################
 @app.route('/add_transaction')
+@login_required
 def transaction(bu_id=None ,client_id=None):
     """Show form to add client transaction"""
     bu_id = request.args.get('bu_id')
@@ -427,6 +428,7 @@ def add_transaction():
 ################  @APP.ROUTE("/REWARDS/<BUSINESS_USER_ID") ########################
 
 @app.route("/rewards")
+@login_required
 def rewards_page(bu_id=None):
 
     bu_id = request.args.get('bu_id')
@@ -440,6 +442,7 @@ def rewards_page(bu_id=None):
 ########################  @APP.ROUTE("/ADD_REWARDS")  ##############################
 
 @app.route("/add_rewards")
+@login_required
 def add_reward(bu_id=None):
     """Adds new reward for business user."""
     
