@@ -4,7 +4,7 @@
 
 {% block body %}
 <p> 
-    <a href="/directory/{{ business_user.business_user_id }}">return to directory</a>
+    <a href="/directory/{{ business_user.id }}">return to directory</a>
 </p>
 
 <header>
@@ -42,16 +42,16 @@
               <form action="/adjusting_points" method="POST">
                 <div>
                   <!-- <input hidden type="number" name="plus-count" value=1> -->
-                  <button type="submit" id="add-to-points" name="plus-count" value="1">plus</button>
+                  <button type="submit" class="enter" id="add-to-points" name="plus-count" value="1">plus</button>
 
                   <!-- <input hidden type="number" name="plus-count" value=-1> -->
                   <!-- take in event, prevent default, will prevent form from refreshing the page -->
-                  <button type="submit" name="plus-count" value="-1">sub</button>
+                  <button type="submit" class="enter" name="plus-count" value="-1">sub</button>
 
 
                   <!-- JS event listenering, event cancel to prevent reloading page -->
                   <input hidden type="text" name="client_id" value="{{ client.client_id }}">
-                  <input hidden type="text" name="business_user_id" value="{{ business_user.business_user_id }}">
+                  <input hidden type="text" name="id" value="{{ business_user.id }}">
                 </div>
            
             </td>
@@ -69,16 +69,16 @@
 
   <br>
 
-  <button type="submit" id="redeem-points" name="plus-count" value="-10">redeem</button>
+  <button type="submit" class="enter" id="redeem-points" name="plus-count" value="-10">redeem</button>
   <p>Accidentally redeemed?</p>
-  <button type="submit" id="undo-redeem" name="plus-count" value="10">Undo</button>
+  <button type="submit" class="enter" id="undo-redeem" name="plus-count" value="10">Undo</button>
   </form>
 
   </section>
 
 </main>
 
-<!-- <script src="/static/js/point_adder.js"></script> -->
+<script src="/static/js/prevent_evt.js></script>
 
 {% endblock %}
 

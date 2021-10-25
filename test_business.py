@@ -50,11 +50,11 @@ class BusinessUserTestcase(unittest.TestCase):
 
     def test_get_business_user_by_id(self):
 
-        test_business_user_id = crud.get_business_user_by_id(business_user_id=3)
+        test_id = crud.get_business_user_by_id(id=3)
 
 
-        test_query_by = model.BusinessUser.query.get(model.BusinessUser.business_user_id)
-        self.assertEqual(test_business_user_id, test_query_by)
+        test_query_by = model.BusinessUser.query.get(model.BusinessUser.id)
+        self.assertEqual(test_id, test_query_by)
 
 
     def test_get_business_user_by_email(self):

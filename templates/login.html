@@ -3,8 +3,8 @@
 {% block title %} GlowUp {% endblock %}
 
 {% block body %}
-  
-  <div>
+  <div class="container">
+  <div class="row">
     <h2>Welcome.</h2>
   </div>
     
@@ -36,13 +36,19 @@
       </p> -->
     </form>
 
-
-    <h3>
+    <p>
       <a href="{{ url_for('register') }}">No Account?</a>
-    </h3>
+    </p>
+
+    <div class="row">
+      <div class="col-6">
+        Sidebar
+      </div>
+    </div>
     
 
   {% endif %}
+  </div>
 {% endblock %}
 
 {% block js %}

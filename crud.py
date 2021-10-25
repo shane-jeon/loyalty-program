@@ -55,10 +55,10 @@ def show_all_business_user():
 ################  def GET_BUSINESS_USER_BY_ID ######################
 ####################################################################
 
-def get_business_user_by_id(business_user_id):
-    """Gets business user by business_user_id"""
+def get_business_user_by_id(id):
+    """Gets business user by id"""
 
-    business_user = BusinessUser.query.get(business_user_id)
+    business_user = BusinessUser.query.get(id)
 
     return business_user
 
@@ -107,7 +107,7 @@ def create_client(client_name, client_email, business,
     client = Client(client_name=client_name,
                     client_email=client_email,
                     # associated w/model.py BusinessUser
-                    business_user_id=business.business_user_id,
+                    id=business.id,
                     reward_point=reward_point,
     )
     # pass in business name
@@ -179,7 +179,7 @@ def adjust_client_points(client_id, reward_point):
 
 
 # Left Join
-# SELECT client_name FROM clients AS c LEFT JOIN business_users AS bu USING(business_user_id);
+# SELECT client_name FROM clients AS c LEFT JOIN business_users AS bu USING(id);
 
 # SELECT client_name FROM clients
 # SELECT * --> .all()

@@ -16,7 +16,7 @@
 <h3> Client Name: {{client.client_name}} </h3>
 
 <h4>
-  <a href="/edit_rewards/{{ business_user.business_user_id}}/{{ client.client_id }}">edit rewards</a>
+  <a href="/edit_rewards/{{ business_user.id}}/{{ client.client_id }}">edit rewards</a>
 </h4>
 
 <!-- <p>Reward Points: {{ client.reward_point}} </p>
@@ -25,7 +25,7 @@
 
 
 <h3>
-    <a href="/add_transaction/{{ business_user.business_user_id }}/{{ client.client_id }}">add client transaction</a>
+    <a href="/add_transaction/{{ business_user.id }}/{{ client.client_id }}">add client transaction</a>
 </h3>
 
 <h3>{{ client.client_name }}'s' transactions</h3>
@@ -42,7 +42,7 @@
 
 
 <p> 
-  <a href="/directory/{{ business_user.business_user_id }}">return to directory</a>
+  <a href="/directory/{{ business_user.id }}">return to directory</a>
 </p>
 
 

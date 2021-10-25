@@ -29,7 +29,7 @@ class BusinessUser(db.Model, UserMixin):
     __tablename__ = 'business_users'
 
     # table fields
-    business_user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     # email is String type w/max size of 120 characters
     bu_email = db.Column(db.String(120), nullable=False, unique=True)
     bu_username = db.Column(db.String(30), nullable=False, unique=True)
@@ -42,7 +42,7 @@ class BusinessUser(db.Model, UserMixin):
 
 
     def __repr__(self):
-        return f"""<Business_user business_user_id={self.business_user_id} bu_email={self.bu_email}
+        return f"""<Business_user id={self.id} bu_email={self.bu_email}
         bu_username={self.bu_username} bu_business={self.bu_business}>"""
 
     # variable = db.relationship('Class', back_populates='class_relationship_varaible')
@@ -118,7 +118,7 @@ class Client(db.Model):
     client_name = db.Column(db.Text, nullable=False)
     client_email = db.Column(db.String(254), nullable=False, unique=True)
     reward_point = db.Column(db.Integer, nullable=True)
-    business_user_id = db.Column(db.Integer, db.ForeignKey('business_users.business_user_id'))
+    id = db.Column(db.Integer, db.ForeignKey('business_users.id'))
 
     def __repr__(self):
         return f'<Client client_id={self.client_id}, client_name={self.client_name}, client_email={self.client_email}, reward_point={self.reward_point}>'

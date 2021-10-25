@@ -4,7 +4,7 @@
 
 {% block body %}
 <h2>Welcome {{ business_user.bu_name }}!</h2>
-<h2>{{ business_user.bu_email }}</h2>
+<p>{{ business_user.bu_email }}</p>
 <a href="{{url_for('logout')}}">logout</a>
 <h3>
     User Profile:
@@ -12,16 +12,16 @@
 <!-- {{ business_user.bu_pic_path }} -->
 <img src={{ business_user.bu_pic_path }}>
 
-<h2>Your Clients</h2>
-<h3>
-    <a href="/new_client/{{ business_user.business_user_id }}">add a new client</a>
-</h3>
+<h3>Your Clients</h3>
+<p>
+    <a href="{{ url_for('new_client', bu_id=business_user.id) }}">add a new client</a>
+</p>
 <ul>
     {% for client in clients %}
-        {% if client.business_user_id == business_user.business_user_id %}
-        print({{ business_user.business_user_id }})
+        {% if client.id == business_user.id %}
+        <!-- print({{ business_user.id }}) -->
           <li>
-            <a href="/clients/{{ business_user.business_user_id }}/{{ client.client_id }}">
+            <a href="/clients/{{ business_user.id }}/{{ client.client_id }}">
               {{ client.client_name }}
             </a>
           </li>
@@ -29,10 +29,10 @@
     {% endfor %}
 </ul>
 
-<h2>Your Rewards</h2>
-<h3>
-  <a href="/rewards/{{ business_user.business_user_id }}">rewards</a>
-</h3>
+<h3>Your Rewards</h3>
+<p>
+  <a href="/rewards/{{ business_user.id }}">rewards</a>
+</p>
 <!-- RETURN TO 10/14 -->
 <!-- <h3>
     <a href="/add_transaction/{{ clients.client_id }}"></a>
