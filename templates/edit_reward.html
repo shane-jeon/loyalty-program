@@ -39,10 +39,11 @@
         
           <tr>
             <td> 
-              <form action="/adjusting_points" method="POST">
+              <form action="/adjusting_points" id=submit-form method="post">
                 <div>
                   <!-- <input hidden type="number" name="plus-count" value=1> -->
                   <button type="submit" class="enter" id="add-to-points" name="plus-count" value="1">plus</button>
+                  
 
                   <!-- <input hidden type="number" name="plus-count" value=-1> -->
                   <!-- take in event, prevent default, will prevent form from refreshing the page -->
@@ -50,8 +51,8 @@
 
 
                   <!-- JS event listenering, event cancel to prevent reloading page -->
-                  <input hidden type="text" name="client_id" value="{{ client.client_id }}">
-                  <input hidden type="text" name="id" value="{{ business_user.id }}">
+                  <input hidden type="text" id="client_id" name="client" value="{{ client.client_id }}">
+                  <input hidden type="text" bu_id="id" name="bu" value="{{ business_user.id }}">
                 </div>
            
             </td>
@@ -73,6 +74,8 @@
   <p>Accidentally redeemed?</p>
   <button type="submit" class="enter" id="undo-redeem" name="plus-count" value="10">Undo</button>
   </form>
+  <script src="static/js/prevent_evt.js"></script>
+  <!-- <script src="static/prevent_evt.js"></script> -->
 
   </section>
 

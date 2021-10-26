@@ -3,6 +3,15 @@
 {% block body %}
 <h2>Please register as a user</h2>
 
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="notification is-danger">
+        {{ messages[0] }} Go to <a href="{{url_for('login') }}">login page</a>
+        
+      </div>
+    {% endif %}
+    {% endwith%}
+
     <form class="user-registration" method="POST" action="/register">
       {{ form.hidden_tag() }}
       <br>

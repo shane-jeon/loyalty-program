@@ -95,3 +95,22 @@ rewards:
     -cross site request forgery attacks
     -sensitive data exposure
     -create way to have security check scans
+
+
+##########10/25 (Monday, last week of sprint 2)###############
+### data
+
+### 2.0
+-finish point adjustment function
+    -get points to database
+    -create redeem
+-change login to flask login
+-change url links to queries
+-get rid of bu_pic_path and add option to upload file
+-create user profile
+    -allow changing username and password? and other fields?
+
+
+### 3.0
+-edge cases (?)
+-ability to undo redeems...

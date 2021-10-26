@@ -93,7 +93,7 @@ class RegisterForm(FlaskForm):
 
         if existing_business_user_bu_username:
             raise ValidationError(
-                "That username already exists. PLease choose a different one.")
+                "That username already exists. Please choose a different one.")
 
 class LoginForm(FlaskForm):
 
@@ -148,7 +148,7 @@ def login():
             # print(business_user.bu_password)
             if bcrypt.check_password_hash(business_user.bu_password, form.bu_password.data):
                 # print(form.bu_password.data)
-                login_user(business_user)
+                login_user(business_user, remember=True)
                 # print("got here")
                 # return redirect(url_for(f'directory/{id}'))
                 # return redirect(url_for('directory'))
@@ -167,7 +167,17 @@ def login():
 def register():
     form = RegisterForm()
     # EDGE CASE ==> PREVENT USER FROM ENTERING USERNAME WITH SPACES
-    if form.validate_on_submit():
+
+    bu_email = form.bu_email.data
+
+    check_user = crud.get_business_user_by_email(bu_email)
+
+    if check_user:
+        flash("Email address already exists to another user.")
+        return redirect(url_for('register'))
+
+
+    elif form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.bu_password.data).decode('utf-8')
         # print(hashed_password)
 
@@ -177,8 +187,6 @@ def register():
                                   form.bu_name.data,
                                   form.bu_business.data,
                                   form.bu_pic_path.data)
-
-        
 
         return redirect(url_for('login'))
 
@@ -214,6 +222,25 @@ def directory(bu_id=None):
 
     return render_template('directory.html', query_string=query_string, business_user=business_user, clients=clients, rewards=rewards)
 
+
+#################################################
+#################################################
+###############   USER PROFILE    ###############
+#################################################
+#################################################
+
+@app.route("/user_profile")
+@login_required
+def user_profile(bu_id=None):
+    """Edit profile picture."""
+    if request.method == 'GET':
+        bu_id = request.args.get('bu_id')
+        query_string =f"?bu_id={bu_id}"
+
+    business_user = crud.get_business_user_by_id(bu_id)
+    # print(business_user)
+
+    return render_template('user_profile.html', query_string=query_string, business_user=business_user, clients=clients, rewards=rewards)
 
 
 #################################################
@@ -339,15 +366,17 @@ def edit_client_reward(bu_id=None, client_id=None):
 def adjusting_points():
     """Adjust user points."""
 
-    reward_point = int(request.form.get('plus-count'))
+    reward_point = int(request.form.get('point'))
     client_id = request.form.get('client_id')
-    bu_id = request.form.get('id')
+    print("checking", client_id)
+    bu_id = request.form.get('bu_id')
+    print("checking", reward_point)
     # print(client_id)
     # print(type(client_id))
     # print(reward_point)
     # print(type(reward_point))
 
-    business = crud.get_business_user_by_id(bu_id)
+    business_user = crud.get_business_user_by_id(bu_id)
     client = crud.get_client_by_id(client_id)
 
     client_point = crud.adjust_client_points(client_id, reward_point)
@@ -357,8 +386,9 @@ def adjusting_points():
     total_client_point = client.reward_point
 
     # flash(f"{total_client_point}")
-    return redirect(url_for('edit_client_reward', bu_id=business.id, client_id=client.client_id))
+    return redirect(url_for('edit_client_reward', business_user=business_user, client=client))
     # return flash(f"{total_client_point}")
+    # return "points have been adjusted!"
 
 
 # susie and bob (query parameters) or add in route
