@@ -156,23 +156,23 @@ def get_client_by_email(client_email):
 
 
 ####################################################################
-# def adjust_client_points(client_id, reward_point):
-#     """Adds reward point to client account."""
-#     # EDGECASE ==> GOING INTO NEGATIVE
-#     client = Client.query.get(client_id)
-#     print(client)
+def adjust_client_points(client_id, reward_point):
+    """Adds reward point to client account."""
+    # EDGECASE ==> GOING INTO NEGATIVE
+    client = Client.query.get(client_id)
+    print(client)
 
 
-#     client.reward_point += reward_point
-#     print(client.reward_point)
+    client.reward_point += reward_point
+    print(client.reward_point)
 
-#     # # # when calling funciton, call w/client_id and 2nd argument, pass
-#     # # # in number that can be positive or negative
+    # # # when calling funciton, call w/client_id and 2nd argument, pass
+    # # # in number that can be positive or negative
 
-#     # db.session.add()
-#     db.session.commit()
+    # db.session.add()
+    db.session.commit()
 
-#     return client.reward_point
+    return client.reward_point
 
 
  
