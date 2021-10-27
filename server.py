@@ -367,6 +367,8 @@ def adjusting_points():
     """Adjust user points."""
     # import pdb; pdb.set_trace()
     
+    # print("checkfirst", request.form.get('client_id'))
+    # print("check", request.form.get('point'))
     reward_point = int(request.form.get('point'))
     client_id = request.form.get('client_id')
     print("*"*20)
@@ -387,8 +389,9 @@ def adjusting_points():
 
     total_client_point = client.reward_point
 
+    # print(total_client_point)
     # flash(f"{total_client_point}")
-    return {"new_points": total_client_point}  
+    return {"new_points": total_client_point}
       
     # return redirect(url_for('edit_client_reward', business_user=business_user, client=client))
     # return flash(f"{total_client_point}")

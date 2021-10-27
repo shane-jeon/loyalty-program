@@ -10,7 +10,6 @@
 <header>
   <h2>edit {{client.client_name}}'s rewards</h2>
 </header>
-
 <!-- <p>
   Reward Points: <span id="points-add-counter">0</span> 
 </p> -->
@@ -42,17 +41,19 @@
               <form action="/adjusting_points" id=submit-form method="post">
                 <div>
                   <!-- <input hidden type="number" name="plus-count" value=1> -->
-                  <button type="submit" class="enter" id="add-to-points" name="plus-count" value="1">plus</button>
+                  <!-- <button type="submit" class="enter" id="add-to-points" name="plus-count" value="1">plus</button> -->
                   
 
                   <!-- <input hidden type="number" name="plus-count" value=-1> -->
                   <!-- take in event, prevent default, will prevent form from refreshing the page -->
-                  <button type="submit" class="enter" id="sub-from-points" name="plus-count" value="-1">sub</button>
+                  <!-- <button type="submit" class="enter" id="sub-from-points" name="plus-count" value="-1">sub</button> -->
 
-
+                  <!-- <button type="submit" id="onepoint" name="add-sub-points" val="1">submit</button> -->
                   <!-- JS event listenering, event cancel to prevent reloading page -->
                   <input hidden type="text" id="client_id" name="client" value="{{ client.client_id }}">
-                  <input hidden type="text" bu_id="id" name="bu" value="{{ business_user.id }}">
+                  <input hidden type="text" id="bu_id" name="bu" value="{{ business_user.id }}">
+                  <input type="number" id="num_point" name="bu" value=0>
+                  <button type="submit" class="enter" id="add-to-points" name="plus-count">submit</button>
                 </div>
            
             </td>
@@ -62,17 +63,17 @@
 
 
 
-  <p>Reward Bank</p>
+<br>
 
   <div>
-    Total: <span id="reward-total-counter">{{ client.reward_point }}</span>
+    Current Point Total: <span id="reward-total-counter"></span>
   </div>
 
   <br>
 
-  <button type="submit" class="enter" id="redeem-points" name="plus-count" value="-10">redeem</button>
+  <!-- <button type="submit" class="enter" id="redeem-points" name="plus-count" value="-10">redeem</button>
   <p>Accidentally redeemed?</p>
-  <button type="submit" class="enter" id="undo-redeem" name="plus-count" value="10">Undo</button>
+  <button type="submit" class="enter" id="undo-redeem" name="plus-count" value="10">Undo</button> -->
   </form>
   <script src="static/js/prevent_evt.js"></script>
   <!-- <script src="static/prevent_evt.js"></script> -->
