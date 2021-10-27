@@ -47,7 +47,7 @@
 
                   <!-- <input hidden type="number" name="plus-count" value=-1> -->
                   <!-- take in event, prevent default, will prevent form from refreshing the page -->
-                  <button type="submit" class="enter" name="plus-count" value="-1">sub</button>
+                  <button type="submit" class="enter" id="sub-from-points" name="plus-count" value="-1">sub</button>
 
 
                   <!-- JS event listenering, event cancel to prevent reloading page -->
@@ -65,7 +65,7 @@
   <p>Reward Bank</p>
 
   <div>
-    Total: <span class="reward-total-counter">{{ client.reward_point }}</span>
+    Total: <span id="reward-total-counter">{{ client.reward_point }}</span>
   </div>
 
   <br>

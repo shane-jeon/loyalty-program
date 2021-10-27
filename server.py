@@ -365,9 +365,11 @@ def edit_client_reward(bu_id=None, client_id=None):
 @app.route("/adjusting_points", methods=['POST'])
 def adjusting_points():
     """Adjust user points."""
-
+    # import pdb; pdb.set_trace()
+    
     reward_point = int(request.form.get('point'))
     client_id = request.form.get('client_id')
+    print("*"*20)
     print("checking", client_id)
     bu_id = request.form.get('bu_id')
     print("checking", reward_point)
@@ -376,17 +378,19 @@ def adjusting_points():
     # print(reward_point)
     # print(type(reward_point))
 
-    business_user = crud.get_business_user_by_id(bu_id)
+    crud.get_business_user_by_id(bu_id)
     client = crud.get_client_by_id(client_id)
 
-    client_point = crud.adjust_client_points(client_id, reward_point)
+    crud.adjust_client_points(client_id, reward_point)
     # print("got here")
 
 
     total_client_point = client.reward_point
 
     # flash(f"{total_client_point}")
-    return redirect(url_for('edit_client_reward', business_user=business_user, client=client))
+    return {"new_points": total_client_point}  
+      
+    # return redirect(url_for('edit_client_reward', business_user=business_user, client=client))
     # return flash(f"{total_client_point}")
     # return "points have been adjusted!"
 
