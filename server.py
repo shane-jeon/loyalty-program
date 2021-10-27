@@ -102,6 +102,20 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
                 "That username already exists. Please choose a different one.")
 
+    # def validate_bu_password(self, bu_password):
+
+        # excluded_chars = " "
+        # required_chars = "~`! @#$%^&*()_-+={[}]|\:;"'<,>.?/"
+        # required_nums = "0123456789"
+        # alphabet_lower = "abcdefghijklmnopqrstuvwxyz"
+        # alphabet_upper = alphabet.upper() 
+
+        # for char in self.bu_password.data:
+        #     if char in excluded_chars:
+        #         raise ValidationError(f"Password cannot include spaces.")
+
+        #     elif char not in required_chars and not in required_nums or notin alphabet_lower and not in alphabet_upper:
+
 class LoginForm(FlaskForm):
 
     # StringField allows user to see characters

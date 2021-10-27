@@ -42,18 +42,21 @@
                 <div>
                   <!-- <input hidden type="number" name="plus-count" value=1> -->
                   <!-- <button type="submit" class="enter" id="add-to-points" name="plus-count" value="1">plus</button> -->
-                  
+            
 
                   <!-- <input hidden type="number" name="plus-count" value=-1> -->
                   <!-- take in event, prevent default, will prevent form from refreshing the page -->
                   <!-- <button type="submit" class="enter" id="sub-from-points" name="plus-count" value="-1">sub</button> -->
 
-                  <!-- <button type="submit" id="onepoint" name="add-sub-points" val="1">submit</button> -->
+                  <!-- <button type="s  ubmit" id="onepoint" name="add-sub-points" val="1">submit</button> -->
                   <!-- JS event listenering, event cancel to prevent reloading page -->
                   <input hidden type="text" id="client_id" name="client" value="{{ client.client_id }}">
                   <input hidden type="text" id="bu_id" name="bu" value="{{ business_user.id }}">
                   <input type="number" id="num_point" name="bu" value=0>
+                  <button type="button" id="plus_one" onclick=myFunction()>+</button>
                   <button type="submit" class="enter" id="add-to-points" name="plus-count">submit</button>
+                  <!-- different types of submit button, everytime form submits -->
+                  <!-- different button that is not submit -->
                 </div>
            
             </td>
@@ -66,7 +69,7 @@
 <br>
 
   <div>
-    Current Point Total: <span id="reward-total-counter"></span>
+    Current Point Total: <span id="reward-total-counter">320423</span>
   </div>
 
   <br>
