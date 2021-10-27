@@ -67,7 +67,7 @@ class RegisterForm(FlaskForm):
         min=4, max=20)], render_kw={"placeholder": "E-mail"})
 
     bu_username = StringField(validators=[InputRequired(), Length(
-        min=4, max=20)], render_kw={"placeholder": "Username"})
+        min=4, max=20, message='Username length must be between %(min)d and %(max)dcharacters')], render_kw={"placeholder": "Username"})
 
     # instead use PasswordField, will show black dots
     # minimum difference is because password will hash (not sure how long, so in db is set to 80)
@@ -89,6 +89,13 @@ class RegisterForm(FlaskForm):
     # validates if there is username that has already been typed in
     # queries database, checks if similar username
     def validate_bu_username(self, bu_username):
+
+        excluded_chars = " *?!'^+%&/()=}][{$#"
+
+        for char in self.bu_username.data:
+            if char in excluded_chars:
+                raise ValidationError(f"Character {char} is not allowed in a username.")
+
         existing_business_user_bu_username = crud.get_business_user_by_username(bu_username=bu_username.data)
 
         if existing_business_user_bu_username:
@@ -294,6 +301,7 @@ def signup_new_client():
     client = crud.get_client_by_email(client_email)
     business_user = crud.get_business_user_by_username(bu_username)
     print(business_user)
+
 
     if client:
         flash("There's already a client with that e-mail! Try again.")
