@@ -53,7 +53,10 @@
                   <input hidden type="text" id="client_id" name="client" value="{{ client.client_id }}">
                   <input hidden type="text" id="bu_id" name="bu" value="{{ business_user.id }}">
                   <input type="number" id="num_point" name="bu" value=0>
-                  <button type="button" id="plus_one" onclick=myFunction()>+</button>
+                  <!-- <button type="button" id=myFunction("1")>+</button>
+                  <p id="my-total"></p> -->
+                  <!-- <button type="button" id="plus_one" onclick=myFunction()>+</button> -->
+                  <!-- <button type="button" id="plus_one" onclick="alert('hello {{ client.reward_point + 1 }}')">+</button> -->
                   <button type="submit" class="enter" id="add-to-points" name="plus-count">submit</button>
                   <!-- different types of submit button, everytime form submits -->
                   <!-- different button that is not submit -->
@@ -84,8 +87,8 @@
   </section>
 
 </main>
-
-<script src="/static/js/prevent_evt.js></script>
+<!-- 
+<script src="/static/js/prevent_evt.js></script> -->
 
 {% endblock %}
 

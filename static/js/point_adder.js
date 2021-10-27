@@ -28,6 +28,12 @@ const incrementRewardTotal = (point) => {
     rewardTotal.html(total.toFixed());
 };
 
+$('#myFunction').on('click', (point) => {
+    const myTotal = $('.my-total');
+    const finalPoint = point + 1
+    myTotal.html(finalPoint.toFixed());
+});
+
 const decrementRewardTotal = (point) => {
     const rewardTotal = $('.reward-total-counter');
     
@@ -56,3 +62,6 @@ document.querySelector('#redeem-points').addEventListener('click', () => {
 document.querySelector('#undo-redeem').addEventListener('click', () => {
     undoRedeem(10);
 });
+
+// create a function to put in as id, my function, function takes in client.reward_points and adds by one
+// 2nd iteration w/point action

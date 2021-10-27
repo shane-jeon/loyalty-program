@@ -102,19 +102,20 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
                 "That username already exists. Please choose a different one.")
 
-    # def validate_bu_password(self, bu_password):
+    def validate_bu_password(self, bu_password):
 
-        # excluded_chars = " "
-        # required_chars = "~`! @#$%^&*()_-+={[}]|\:;"'<,>.?/"
+        excluded_chars = ' '
+        # required_chars = "~`! @#$%^&*()_-+={[}]|\:;'<,>.?/"
         # required_nums = "0123456789"
         # alphabet_lower = "abcdefghijklmnopqrstuvwxyz"
-        # alphabet_upper = alphabet.upper() 
+        # alphabet_upper = alphabet_lower.upper()
 
-        # for char in self.bu_password.data:
-        #     if char in excluded_chars:
-        #         raise ValidationError(f"Password cannot include spaces.")
+        for char in self.bu_password.data:
+            if char in excluded_chars:
+                raise ValidationError("Password cannot include spaces.")
 
-        #     elif char not in required_chars and not in required_nums or notin alphabet_lower and not in alphabet_upper:
+            # elif char not in required_chars and required_nums and alphabet_lower and alphabet_upper:
+            #     raise ValidationError("Your password needs to be stronger")
 
 class LoginForm(FlaskForm):
 
@@ -232,10 +233,10 @@ def logout():
 @login_required
 def directory(bu_id=None):
     """Show business user's directory."""
-    if request.method == 'GET':
-        bu_id = request.args.get('bu_id')
-        query_string =f"?bu_id={bu_id}"
-
+ 
+    bu_id = session["_user_id"]
+    query_string =f"?bu_id={bu_id}"
+    # print(session["_user_id"])
     business_user = crud.get_business_user_by_id(bu_id)
     # print(business_user)
     clients = crud.show_all_client()
