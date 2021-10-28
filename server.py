@@ -151,9 +151,14 @@ def index():
     return render_template('index.html')
 
 
-
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login")
 def login():
+    """show login page"""
+    form = LoginForm()
+    return render_template('login.html', form=form)
+
+@app.route("/login_form", methods=["POST"])
+def login_form():
     form = LoginForm()
     if form.validate_on_submit():
         # print("1", form.bu_username.data)
@@ -177,11 +182,11 @@ def login():
                 session["bu_username"] = form.bu_username.data
                 print("session")
                 print(session)
-                return redirect(url_for('directory', bu_id=business_user.id))
-        # return redirect(url_for('directory'))
-        return redirect(url_for('directory', bu_id=business_user.id))
 
-    return render_template('login.html', form=form)
+        return redirect(f'/directory/{business_user.id}')
+
+
+
 
 
 @app.route("/register", methods=['GET','POST'])
@@ -229,20 +234,20 @@ def logout():
 
 
 
-@app.route("/directory")
+@app.route("/directory/<bu_id>")
 @login_required
 def directory(bu_id=None):
     """Show business user's directory."""
  
     bu_id = session["_user_id"]
-    query_string =f"?bu_id={bu_id}"
-    # print(session["_user_id"])
     business_user = crud.get_business_user_by_id(bu_id)
+    # query_string =f"bu_id={bu_id}"
+    # print(session["_user_id"])
     # print(business_user)
     clients = crud.show_all_client()
     rewards = crud.show_all_reward()
 
-    return render_template('directory.html', query_string=query_string, business_user=business_user, clients=clients, rewards=rewards)
+    return render_template('directory.html', clients=clients, rewards=rewards, business_user=business_user, bu_id=bu_id)
 
 
 #################################################
@@ -251,18 +256,17 @@ def directory(bu_id=None):
 #################################################
 #################################################
 
-@app.route("/user_profile")
+@app.route("/user_profile/<bu_id>")
 @login_required
 def user_profile(bu_id=None):
     """Edit profile picture."""
-    if request.method == 'GET':
-        bu_id = request.args.get('bu_id')
-        query_string =f"?bu_id={bu_id}"
+
+    bu_id = session["_user_id"]
 
     business_user = crud.get_business_user_by_id(bu_id)
     # print(business_user)
 
-    return render_template('user_profile.html', query_string=query_string, business_user=business_user, clients=clients, rewards=rewards)
+    return render_template('user_profile.html', bu_id=bu_id, business_user=business_user, clients=clients, rewards=rewards)
 
 
 #################################################
@@ -273,42 +277,23 @@ def user_profile(bu_id=None):
 
 #####################    @APP.ROUTE/NEW_CLIENT     ###############################
 
-@app.route("/new_client")
+@app.route("/new_client/<bu_id>")
 @login_required
 def new_client(bu_id=None):
     """Show form to sign up a new client."""
 
-    # if request == 'POST':
-    #     client_name = request.form.get("name")
-    #     client_email = request.form.get("email")
-    #     bu_username = request.form.get("bu_username")
-    
-    #     client = crud.get_client_by_email(client_email)
-    #     business_user = crud.get_business_user_by_username(bu_username)
-    #     # print(client)
 
-    #     if client:
-    #         flash("There's already a client with that e-mail! Try again.")
-
-    #         # return redirect("/new_client")
-    #     else:
-    #         crud.create_client(client_name, client_email, business_user)
-            
-    #         return flash("New client added.")
-    
-    #     # return redirect(url_for('new_client', bu_id=business_user.id))
-
-    bu_id = request.args.get('bu_id')
-    query_string = f"?bu_id={bu_id}"
+    bu_id = session["_user_id"]
 
     business_user = crud.get_business_user_by_id(bu_id)
 
-    return render_template('register_client.html', query_string=query_string, business_user=business_user)
+    return render_template('register_client.html', business_user=business_user, bu_id=bu_id)
 
 @app.route("/new_client_signup", methods=['POST'])
 def signup_new_client():
     """Add new client to business user's profile"""
 
+    bu_id = session["_user_id"]
     client_name = request.form.get("name")
     client_email = request.form.get("email")
     bu_username = request.form.get("bu_username")
@@ -327,7 +312,7 @@ def signup_new_client():
         
         flash("New client added.")
 
-    return redirect(url_for('new_client', bu_id=business_user.id))
+    return redirect(f"/new_client/{{ bu_id }}")
 
 
 #################  @APP.ROUTE("/CLIENTS/<BUSINESS_USER_ID>/<CLIENT_ID>/<REWARD_ID>")  #################
@@ -346,14 +331,12 @@ def signup_new_client():
 #################  @APP.ROUTE("/CLIENTS/<BUSINESS_USER_ID>/<CLIENT_ID>")  #################
 
 # shows directory for corresponding business user id
-@app.route("/client_profile")
+@app.route("/client_profile/<bu_id>/<client_id>")
 @login_required
 def client_profile(bu_id=None, client_id=None):
     """Show client profile."""
     
-    bu_id = request.args.get('bu_id')
-    client_id = request.args.get('client_id')
-    query_string =f"?bu_id={bu_id}&client_id={client_id}"
+    bu_id = session["_user_id"]
 
     # business_user = in crud.py call function "get_business_user_by_id(id"
     client = crud.get_client_by_id(client_id)
@@ -362,27 +345,25 @@ def client_profile(bu_id=None, client_id=None):
  
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('client_profile.html', query_string=query_string, client=client, transactions=transactions, business_user=business_user)
+    return render_template('client_profile.html',client=client, transactions=transactions, business_user=business_user, bu_id=bu_id)
 
 
 #################################################################################
 
 
-@app.route("/edit_rewards")
+@app.route("/edit_rewards/<bu_id>/<client_id>")
 @login_required
 def edit_client_reward(bu_id=None, client_id=None):
     """Allows user to edit a client's points, rewards."""
     
-    bu_id = request.args.get('bu_id')
-    client_id = request.args.get('client_id')
-    query_string =f"?bu_id={bu_id}&client_id={client_id}"
+    bu_id = session["_user_id"]
 
     business_user = crud.get_business_user_by_id(bu_id)
     client = crud.get_client_by_id(client_id)
     rewards = crud.show_all_reward()
     # rewards = crud.get_reward_by_id(reward_id)
 
-    return render_template('edit_reward.html', query_string=query_string, business_user=business_user, client=client, rewards=rewards)
+    return render_template('edit_reward.html', bu_id=bu_id, business_user=business_user, client=client, rewards=rewards)
 
 
 @app.route("/adjusting_points", methods=['POST'])
@@ -392,9 +373,11 @@ def adjusting_points():
     
     # print("checkfirst", request.form.get('client_id'))
     # print("check", request.form.get('point'))
+    print("*"*20)
+    print(request.form.get('point'))
     reward_point = int(request.form.get('point'))
     client_id = request.form.get('client_id')
-    print("*"*20)
+    # print("*"*20)
     print("checking", client_id)
     bu_id = request.form.get('bu_id')
     print("checking", reward_point)
@@ -403,7 +386,7 @@ def adjusting_points():
     # print(reward_point)
     # print(type(reward_point))
 
-    crud.get_business_user_by_id(bu_id)
+    business_user =crud.get_business_user_by_id(bu_id)
     client = crud.get_client_by_id(client_id)
 
     crud.adjust_client_points(client_id, reward_point)
@@ -441,20 +424,23 @@ def adjusting_points():
 
 
 ################  @APP.ROUTE("/ADD_TRANSACTION/<BUSINESS_USER_ID/<CLIENT_ID>").  ####################
-@app.route('/add_transaction')
+@app.route('/add_transaction/<bu_id>/<client_id>')
 @login_required
 def transaction(bu_id=None ,client_id=None):
     """Show form to add client transaction"""
-    bu_id = request.args.get('bu_id')
-    client_id = request.args.get('client_id')
-    query_string = f"?bu_id={bu_id}&client_id={client_id}"
+    print("*"*20)
+    print("client id:", client_id)
+    bu_id = session["_user_id"]
+    # client_id = request.args.get('client_id')
     # change to singular later
     # "clients" is a way to tap into database THEN use crud function to grab w/e
     business_user = crud.get_business_user_by_id(bu_id)
     clients = crud.get_client_by_id(client_id)
+    print("*"*20)
+    print(clients)
 
     # SOOOOOO clients = clients is so i can put that before whatever attribute i need
-    return render_template('add_transaction.html', query_string=query_string, business_user=business_user,clients=clients)
+    return render_template('add_transaction.html', bu_id=bu_id, business_user=business_user,clients=clients)
 
 ##################  @APP.ROUTE("/NEW_TRANSACTION").  ##############################
 
@@ -487,53 +473,50 @@ def add_transaction():
 
 ################  @APP.ROUTE("/REWARDS/<BUSINESS_USER_ID") ########################
 
-@app.route("/rewards")
+@app.route("/rewards/<bu_id>")
 @login_required
 def rewards_page(bu_id=None):
 
-    bu_id = request.args.get('bu_id')
-    query_string = f"?bu_id={bu_id}"
+    bu_id = session["_user_id"]
 
     rewards = crud.show_all_reward()
     business_user = crud.get_business_user_by_id(bu_id)
 
-    return render_template('rewards.html', query_string=query_string, business_user=business_user, rewards=rewards)
+    return render_template('rewards.html', business_user=business_user, rewards=rewards, bu_id=bu_id)
 
 ########################  @APP.ROUTE("/ADD_REWARDS")  ##############################
 
-@app.route("/add_rewards")
+@app.route("/add_rewards/<bu_id>")
 @login_required
 def add_reward(bu_id=None):
     """Adds new reward for business user."""
     
-    bu_id = request.args.get('bu_id')
-    query_string = f"?bu_id={bu_id}"
+    bu_id = session["_user_id"]
     business_user = crud.get_business_user_by_id(bu_id)
 
-    return render_template('add_reward.html', query_string=query_string, business_user=business_user)
+    return render_template('add_reward.html', bu_id=bu_id, business_user=business_user)
 
 @app.route("/adding_reward", methods=['POST'])
 def adding_reward():
     """Adds new reward for business user."""
 
-    if request.method == 'POST':
-        reward_type = request.form.get('reward_type')
-        reward_cost = request.form.get('reward_cost')
-        bu_id = request.form.get('id')
-    
-        # RETURNS LIST OF BUSINESS USER, WILL NEED TO ITERATE TO GRAB BU_ID
-        # business_user = crud.show_all_business_user()
-    
-    #    MY ERROR, CAN ADD BUSINESS_USER_ID BUT NEED TO ADD AS HIDDEN INPUT
-        # print(id)
-        business_user = crud.get_business_user_by_id(bu_id)
-        crud.create_reward(reward_type, reward_cost)
-        
-        flash("Reward added.")
 
-        return redirect(url_for('add_reward', bu_id=business_user.id))
+    reward_type = request.form.get('reward_type')
+    reward_cost = request.form.get('reward_cost')
+    bu_id = session["_user_id"]
 
-    return render_template('add_reward.html', query_string=query_string, business_user=business_user)
+    # RETURNS LIST OF BUSINESS USER, WILL NEED TO ITERATE TO GRAB BU_ID
+    # business_user = crud.show_all_business_user()
+
+#    MY ERROR, CAN ADD BUSINESS_USER_ID BUT NEED TO ADD AS HIDDEN INPUT
+    # print(id)
+    crud.create_reward(reward_type, reward_cost)
+    
+    flash("Reward added.")
+
+    return redirect(f'/add_rewards/{bu_id}')
+
+
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application

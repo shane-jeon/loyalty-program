@@ -9,19 +9,21 @@
 <h3>
     User Profile:
 </h3>
-<!-- {{ business_user.bu_pic_path }} -->
+
 <img src={{ business_user.bu_pic_path }}>
 
 <h3>Your Clients</h3>
 <p>
-    <a href="{{ url_for('new_client', bu_id=business_user.id) }}">add a new client</a>
+
+    <a href="/new_client/{{bu_id}}">add a new client</a>
 </p>
 <ul>
     {% for client in clients %}
         {% if client.id == business_user.id %}
-        <!-- print({{ business_user.id }}) -->
+
           <li>
-            <a href="{{ url_for('client_profile', bu_id=business_user.id, client_id=client.client_id) }}">
+            <a href="/client_profile/{{bu_id}}/{{client.client_id}}">
+        
               {{ client.client_name }}
             </a>
           </li>
@@ -31,7 +33,7 @@
 
 <h3>Your Rewards</h3>
 <p>
-  <a href="{{ url_for('rewards_page', bu_id=business_user.id) }}">current rewards</a>
+  <a href="/rewards/<bu_id>">current rewards</a>
 </p>
 
 <!-- RETURN TO 10/14 -->

@@ -24,8 +24,8 @@
   <!-- {{session.get('bu_username')}} -->
 
   <p> 
-    <a href="{{ url_for('directory', bu_id=business_user.id) }}">return to directory</a>
-    <!-- <a href="/directory/{{ business_user.business_user_id }}">return to directory</a> -->
+    <!-- <a href="{{ url_for('directory', bu_id=business_user.id) }}">return to directory</a> -->
+    <a href="/directory/{{ bu_id }}">return to directory</a>
   </p>
 
 {% endblock %}

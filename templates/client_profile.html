@@ -14,9 +14,9 @@
 <h2>Client Profile</h2>
 
 <h3> Client Name: {{client.client_name}} </h3>
-
 <p>
-  <a href="{{ url_for('edit_client_reward', bu_id=business_user.id, client_id=client.client_id) }}">edit rewards</a>
+  <a href="/edit_rewards/{{ bu_id}}/{{ client.client_id }}">edit rewards</a>
+  <!-- <a href="{{ url_for('edit_client_reward', bu_id=business_user.id, client_id=client.client_id) }}">edit rewards</a> -->
 </p>
 
 <!-- <p>Reward Points: {{ client.reward_point}} </p>
@@ -25,7 +25,8 @@
 
 
 <p>
-    <a href="{{ url_for('transaction', bu_id=business_user.id, client_id=client.client_id) }}">add client transaction</a>
+  <a href="/add_transaction/{{ bu_id }}/{{ client.client_id }}">add client transaction</a>
+    <!-- <a href="{{ url_for('transaction', bu_id=business_user.id, client_id=client.client_id) }}">add client transaction</a> -->
 </p>
 
 <h4>{{ client.client_name }}'s' transactions</h4>
@@ -42,7 +43,7 @@
 
 
 <p> 
-  <a href="{{ url_for('directory', bu_id=business_user.id) }}">return to directory</a>
+  <a href="/directory/{{ bu_id }}">return to directory</a>
 </p>
 
 
