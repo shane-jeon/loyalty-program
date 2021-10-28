@@ -371,8 +371,8 @@ def adjusting_points():
     """Adjust user points."""
     # import pdb; pdb.set_trace()
     
-    # print("checkfirst", request.form.get('client_id'))
-    # print("check", request.form.get('point'))
+    print("checkfirst", request.form.get('client_id'))
+    print("check", request.form.get('point'))
     print("*"*20)
     print(request.form.get('point'))
     reward_point = int(request.form.get('point'))
