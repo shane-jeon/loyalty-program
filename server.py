@@ -500,7 +500,6 @@ def add_reward(bu_id=None):
 def adding_reward():
     """Adds new reward for business user."""
 
-
     reward_type = request.form.get('reward_type')
     reward_cost = request.form.get('reward_cost')
     bu_id = session["_user_id"]
@@ -516,7 +515,12 @@ def adding_reward():
 
     return redirect(f'/add_rewards/{bu_id}')
 
+@app.route("/deleting_reward", methods=['POST'])
+def deleting_reward():
 
+    delete_reward = request.form.get(reward.reward_type)
+
+    return crud.delete_reward(delete_reward)
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application

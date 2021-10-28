@@ -12,7 +12,6 @@ $('#submit-form').on('submit', evt => {
     $.post('/adjusting_points', pointInput, res => {
         // $('#reward-total-counter').html('new_points');
         console.log(res, "thIS IS THE RESULT")
-        console.log(pointInput)
         // JSON.stringify(res)
         // JSON.parse
         $('#reward-total-counter').html(res.new_points);

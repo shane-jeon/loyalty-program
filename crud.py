@@ -275,7 +275,13 @@ def create_reward(reward_type, reward_cost):
 
     return reward
 
+def delete_reward(reward_type):
+    """Delete reward."""
 
+    reward = Reward.query.filter_by(reward_type="reward_type")
+
+    db.session.delete(reward)
+    db.session.commit()
 ####################################################################
 #######################  def SHOW_ALL_REWARD #######################
 ####################################################################
