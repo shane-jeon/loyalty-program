@@ -103,13 +103,14 @@ with open('data/rewards_dummydata.json') as f:
 
 reward_in_db = []
 for reward in reward_data:
-    reward_type, reward_cost= (
+    reward_type, reward_cost, business= (
         reward['reward_type'],
         reward['reward_cost'],
+        choice(bus_in_db)
         # reward['client_reward']
     )
 
-    db_reward = crud.create_reward(reward_type, reward_cost)
+    db_reward = crud.create_reward(reward_type, reward_cost, business)
 
     reward_in_db.append(db_reward)
 

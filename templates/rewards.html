@@ -12,14 +12,17 @@
 <form id="delete-form", method="post", action="/deleting_reward">
 <ul>
   {% for reward in rewards %}
-    {% if reward %}
+    {% if reward.id == business_user.id %}
       <li>
-        {{ reward.reward_type }} {{ reward.reward_cost }} <button type="button" id="{{reward.reward_type}}" onclick="alert('reward deleted')">delete</button>
+        {{ reward.reward_type }} {{ reward.reward_cost }} <input type="radio" id="reward" value={{reward.reward_id}}>
  
         <br>
       </li>
     {% endif %}
   {% endfor %}
 </ul>
+<button onclick="alert('reward deleted')" type="submit">delete</button>
 </form>
+
+<script src="/static/js/delete_reward.js"></script>
 {% endblock %}

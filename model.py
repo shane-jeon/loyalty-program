@@ -47,6 +47,8 @@ class BusinessUser(db.Model, UserMixin):
 
     # variable = db.relationship('Class', back_populates='class_relationship_varaible')
     client = db.relationship('Client', back_populates='business_user')
+    client_reward = db.relationship('ClientReward', back_populates='business_user')
+    reward = db.relationship('Reward', back_populates='business_user')
 
 
 # #################################################
@@ -156,6 +158,7 @@ class Transaction(db.Model):
         return f'<Transaction transaction_id={self.transaction_id} appointment_type={self.appointment_type}, transaction_date={self.transaction_date}, client_id={self.client_id}>'
 
     client = db.relationship('Client', back_populates='transaction')
+    
 
 
 
@@ -174,6 +177,7 @@ class ClientReward(db.Model):
     client_reward_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     client_id = db.Column(db.Integer, db.ForeignKey('clients.client_id'))
     reward_id = db.Column(db.Integer, db.ForeignKey('rewards.reward_id'))
+    id = db.Column(db.Integer, db.ForeignKey('business_users.id'))
 
     def __repr__(self):
         return f'<ClientReward client_reward_id={self.client_reward_id}>'
@@ -182,6 +186,7 @@ class ClientReward(db.Model):
     reward = db.relationship('Reward', back_populates='client_reward')
     # relationship to clients table
     client = db.relationship('Client', back_populates='client_reward')
+    business_user = db.relationship('BusinessUser', back_populates='client_reward')
 
 
 
@@ -199,12 +204,14 @@ class Reward(db.Model):
     reward_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     reward_type = db.Column(db.Text, nullable=False)
     reward_cost = db.Column(db.Integer, nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('business_users.id'))
 
 
     def __repr__(self):
         return f'<Reward reward_id={self.reward_id} reward_type={self.reward_type}>'
 
     client_reward = db.relationship('ClientReward', back_populates='reward')
+    business_user = db.relationship('BusinessUser', back_populates='reward')
 
 
 

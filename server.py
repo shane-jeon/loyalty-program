@@ -296,10 +296,10 @@ def signup_new_client():
     bu_id = session["_user_id"]
     client_name = request.form.get("name")
     client_email = request.form.get("email")
-    bu_username = request.form.get("bu_username")
+    # bu_username = request.form.get("bu_username")
     # print(client_name)
     client = crud.get_client_by_email(client_email)
-    business_user = crud.get_business_user_by_username(bu_username)
+    business_user = crud.get_business_user_by_id(bu_id)
     print(business_user)
 
 
@@ -503,13 +503,14 @@ def adding_reward():
     reward_type = request.form.get('reward_type')
     reward_cost = request.form.get('reward_cost')
     bu_id = session["_user_id"]
+    business_user = crud.get_business_user_by_id(bu_id)
 
     # RETURNS LIST OF BUSINESS USER, WILL NEED TO ITERATE TO GRAB BU_ID
     # business_user = crud.show_all_business_user()
 
 #    MY ERROR, CAN ADD BUSINESS_USER_ID BUT NEED TO ADD AS HIDDEN INPUT
     # print(id)
-    crud.create_reward(reward_type, reward_cost)
+    crud.create_reward(reward_type, reward_cost, business_user)
     
     flash("Reward added.")
 
@@ -518,7 +519,8 @@ def adding_reward():
 @app.route("/deleting_reward", methods=['POST'])
 def deleting_reward():
 
-    delete_reward = request.form.get(reward.reward_type)
+    delete_reward = request.form.get('reward_id')
+    print(delete_reward)
 
     return crud.delete_reward(delete_reward)
 

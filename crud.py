@@ -263,11 +263,12 @@ def create_client_reward(client_id, reward_id):
 ######################  def CREATE_REWARD ##########################
 ####################################################################
 
-def create_reward(reward_type, reward_cost):
+def create_reward(reward_type, reward_cost, business):
     """Create reward."""
 
     reward = Reward(reward_type=reward_type,
                     reward_cost=reward_cost,
+                    id=business.id
     )
 
     db.session.add(reward)
@@ -275,10 +276,10 @@ def create_reward(reward_type, reward_cost):
 
     return reward
 
-def delete_reward(reward_type):
+def delete_reward(reward_id):
     """Delete reward."""
 
-    reward = Reward.query.filter_by(reward_type="reward_type")
+    reward = Reward.query.get(reward_id)
 
     db.session.delete(reward)
     db.session.commit()
