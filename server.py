@@ -339,13 +339,14 @@ def client_profile(bu_id=None, client_id=None):
     bu_id = session["_user_id"]
 
     # business_user = in crud.py call function "get_business_user_by_id(id"
+    client_reward = crud.get_client_point(client_id)
     client = crud.get_client_by_id(client_id)
     transactions = crud.show_all_transaction()
     business_user = crud.get_business_user_by_id(bu_id)
  
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('client_profile.html',client=client, transactions=transactions, business_user=business_user, bu_id=bu_id)
+    return render_template('client_profile.html',client=client, rewards=rewards,transactions=transactions, business_user=business_user, bu_id=bu_id)
 
 
 #################################################################################
@@ -519,10 +520,17 @@ def adding_reward():
 @app.route("/deleting_reward", methods=['POST'])
 def deleting_reward():
 
+    bu_id = session["_user_id"]
     delete_reward = request.form.get('reward_id')
+    print("********")
+    print()
     print(delete_reward)
+    print()
+    print(request.form)
+    print("********")
 
-    return crud.delete_reward(delete_reward)
+    crud.delete_reward(delete_reward)
+    return redirect(f'/rewards/{bu_id}')
 
 ## if this script is being called directly, than run(method) app(instance) 
 ## need to let module to scan for routes when creating a Flask application

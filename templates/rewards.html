@@ -9,13 +9,12 @@
   <!-- <a href="{{ url_for('add_reward', bu_id=business_user.id) }}">add new reward</a> -->
 </p>
 
-<form id="delete-form", method="post", action="/deleting_reward">
+<form id="delete-form" method="POST" action="/deleting_reward">
 <ul>
   {% for reward in rewards %}
     {% if reward.id == business_user.id %}
       <li>
-        {{ reward.reward_type }} {{ reward.reward_cost }} <input type="radio" id="reward" value={{reward.reward_id}}>
- 
+        {{ reward.reward_type }} {{ reward.reward_cost }} <input type="radio" name="reward_id" value="{{reward.reward_id}}">
         <br>
       </li>
     {% endif %}
@@ -24,5 +23,5 @@
 <button onclick="alert('reward deleted')" type="submit">delete</button>
 </form>
 
-<script src="/static/js/delete_reward.js"></script>
+<!-- <script src="/static/js/reward_edit.js"></script> -->
 {% endblock %}

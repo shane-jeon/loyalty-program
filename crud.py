@@ -246,18 +246,14 @@ def create_client_reward(client_id, reward_id):
 
 
 ####################################################################
-###################  def ADD_CLIENT_POINTS.   ######################
+##################  def GET_CLIENT_POINT.   ######################
 ####################################################################
 
-# def add_client_point(reward_point):
-#     """Add point to client reward account."""
-#     client = Client.query.all()
-#     client_point = client.reward_point=reward_point
+def get_client_point(client_id):
+    """Add point to client reward account."""
+    client_point = ClientReward.query.filter_by(client_id=client_id).first()
 
-#     db.session.add(client_point)
-#     db.session.commit()
-
-#     return client_point
+    return client_point
 
 ####################################################################
 ######################  def CREATE_REWARD ##########################
