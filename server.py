@@ -1,6 +1,7 @@
 """GlowUp Server"""
 
 ## from the flask library, import ...
+import os
 from flask import (
     Flask,
     session,
@@ -22,9 +23,10 @@ from flask_login import (
     )
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms.validators import InputRequired, Length, ValidationError, Optional
 from wtforms.fields.html5 import URLField
 from flask_bcrypt import Bcrypt
+from werkzeug.utils import secure_filename
 from urllib.parse import urlunsplit, urlencode
 from model import BusinessUser, connect_to_db
 from sqlalchemy.sql import text
@@ -71,7 +73,7 @@ class RegisterForm(FlaskForm):
 
     # instead use PasswordField, will show black dots
     # minimum difference is because password will hash (not sure how long, so in db is set to 80)
-    bu_password = PasswordField(validators=[InputRequired(), Length(
+    bu_password_original = PasswordField(validators=[InputRequired(), Length(
         min=4, max=20)], render_kw={"placeholder": "Password"})
 
     bu_name = StringField(validators=[InputRequired(), Length(
@@ -80,7 +82,7 @@ class RegisterForm(FlaskForm):
     bu_business = StringField(validators=[InputRequired(), Length(
     min=4, max=80)], render_kw={"placeholder": "Business Name"})
 
-    bu_pic_path = StringField(validators=[InputRequired(), Length(
+    bu_pic_path = StringField(validators=[Optional(), Length(
         min=4, max=500)], render_kw={"placeholder": "Profile Picture (optional) "})
 
     # button to register
@@ -102,7 +104,7 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
                 "That username already exists. Please choose a different one.")
 
-    def validate_bu_password(self, bu_password):
+    def validate_bu_password(self, bu_password_original):
 
         excluded_chars = ' '
         # required_chars = "~`! @#$%^&*()_-+={[}]|\:;'<,>.?/"
@@ -110,7 +112,7 @@ class RegisterForm(FlaskForm):
         # alphabet_lower = "abcdefghijklmnopqrstuvwxyz"
         # alphabet_upper = alphabet_lower.upper()
 
-        for char in self.bu_password.data:
+        for char in self.bu_password_original.data:
             if char in excluded_chars:
                 raise ValidationError("Password cannot include spaces.")
 
@@ -185,7 +187,9 @@ def login_form():
                 session["bu_username"] = form.bu_username.data
                 print("session")
                 print(session)
-
+        else:
+            flash("username or password not recognized.")
+            return redirect('/login')
         return redirect(f'/directory/{business_user.id}')
 
 
@@ -211,9 +215,11 @@ def register():
         # hashed_password = bcrypt.generate_password_hash(form.bu_password.data).decode('utf-8')
         # print(hashed_password)
 
+        print("*"*20)
+        print(form.bu_pic_path.data)
         business_user = crud.create_business_user(form.bu_email.data,
                                   form.bu_username.data,
-                                  bu_password_original.data,
+                                  form.bu_password_original.data,
                                   form.bu_name.data,
                                   form.bu_business.data,
                                   form.bu_pic_path.data)
@@ -259,17 +265,90 @@ def directory(bu_id=None):
 #################################################
 #################################################
 
-@app.route("/user_profile/<bu_id>")
-@login_required
-def user_profile(bu_id=None):
-    """Edit profile picture."""
 
-    bu_id = session["_user_id"]
+#************NOT READY FOR DEMO*************#
 
-    business_user = crud.get_business_user_by_id(bu_id)
-    # print(business_user)
+# @app.route("/user_profile/<bu_id>")
+# @login_required
+# def user_profile(bu_id=None):
+#     """Edit profile picture."""
 
-    return render_template('user_profile.html', bu_id=bu_id, business_user=business_user, clients=clients, rewards=rewards)
+#     bu_id = session["_user_id"]
+
+#     business_user = crud.get_business_user_by_id(bu_id)
+#     clients = crud.get_client_by_id
+
+#     # print(business_user)
+
+#     return render_template('user_account.html', bu_id=bu_id, business_user=business_user, clients=clients)
+
+
+# app.config["IMAGE_UPLOADS"] = "/home/hackbright/src/project/static/img/uploads/"
+# app.config["ALLOWED_IMAGE_EXTENSIONS"] =["PNG", "JPG", "JPEG"]
+# app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
+
+# def allowed_image(filename):
+#     """Checks if '.' is in uploaded file"""
+
+#     if not "." in filename:
+#         return False
+    
+#     # splits file name (from the right) w/'.', 1=? [1] index, so the item after the '.'
+#     ext = filename.rsplit(".", 1)[1]
+
+#     if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+#         return True
+#     else:
+#         return False
+
+# def allowed_image_filesize(filesize):
+#     """If filesize is less than 500 bytes return True, else."""
+
+#     if int(filesize) <= app.config["MAX_IMAGE_FILESIZE"]:
+#         return True
+
+#     else:
+#         return False
+
+# @app.route("/upload_image", methods=['POST'])
+# def upload_image():
+    
+#     bu_id = session["_user_id"]
+
+#     if request.files:
+
+#         print("*"*20)
+#         print()
+#         print(request.cookies)
+#         print("NOT GETTING FILESIZE FOR SOMEREASON RETURN TO THIS *******10.29********")
+#         print(request.cookies.get("filesize"))
+#         print()
+#         print("*"*20)
+
+#         # if not allowed_image_filesize(request.cookies.get("filesize")):
+#         #     print("File exceeded maximum size")
+#         #     return redirect(f"user_profile/{bu_id}")
+
+#         image = request.files["image"]
+
+#         if image.filename == "":
+#             print("Image must have a filename")
+#             return redirect(f"user_profile/{bu_id}")
+
+#         if not allowed_image(image.filename):
+#             print("That image extension is not allowed")
+#             return redirect(f"user_profile/{bu_id}")
+
+        
+#         filename = secure_filename(image.filename)
+        
+#         image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+
+#         print("*"*20)
+#         print()
+#         print("Image saved")
+
+#         return redirect(f"user_profile/{bu_id}")
 
 
 #################################################

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<div>
+    <br>
+    <h4>Hi, {{ business_user.bu_name }}<h4>
+</div>
+
+<hr>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+
+            <h4>upload image</h4>
+            <hr>
+
+            <form action="/upload_image" id="submit-form" method="POST" enctype="multipart/form-data">
+            
+                <div class="form-group">
+                    <label>Select image</label>
+                    <div class="custom-file">
+                        <input oninput="filesize(this);" type="file" class="custom-file-input" name="image" id="image">
+                        <label class="custom-file-label" for="image">Select image...</label>
+                    </div>
+                </div>
+                 
+                <br>
+                <button type="submit" class="btn btn-primary">upload image</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+    
+<br>
+<span>
+<p>hello</p>
+</span>
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function filesize(elem){
+
+        console.log(filesize=elem.files[0].size)
+        document.cookies = `filesize=${elem.files[0].size}`
+        console.log(document.cookies)
+    };
+</script>
+
+{% endblock %}

@@ -20,7 +20,7 @@ import bcrypt
 
 
 
-def create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path):
+def create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path="https://is1-ssl.mzstatic.com/image/thumb/Purple5/v4/5b/65/25/5b6525ef-38d4-af91-4d9a-659756e645e1/source/256x256bb.jpg"):
     """Create, add, & return new business user."""
     
     bu_password_code = bcrypt.hashpw(bu_password_original.encode('utf-8'), bcrypt.gensalt())
