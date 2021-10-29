@@ -34,7 +34,7 @@ class BusinessUser(db.Model, UserMixin):
     bu_email = db.Column(db.String(120), nullable=False, unique=True)
     bu_username = db.Column(db.String(30), nullable=False, unique=True)
     # changed "bu_password" to "bu_password", is 128 character hash
-    bu_password = db.Column(db.String(80), nullable=True)
+    bu_password = db.Column(db.String(500), nullable=True)
     bu_name = db.Column(db.String, nullable=False)
     bu_business = db.Column(db.String, nullable=False, unique=True)
     bu_pic_path = db.Column(db.String, nullable=True)
@@ -149,7 +149,7 @@ class Transaction(db.Model):
     
     transaction_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     appointment_type = db.Column(db.Text, nullable=False)
-    transaction_date =db.Column(db.DateTime)
+    transaction_date =db.Column(db.Date)
     total_cost = db.Column(db.String)
     client_id = db.Column(db.Integer, db.ForeignKey('clients.client_id'))
 

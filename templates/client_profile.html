@@ -4,19 +4,20 @@
 
 {% block body %}
 
-
+<!-- 
 {% for client_reward in client.client_reward %}
   {{ client_reward.reward.reward_type }}
   {{ client_reward.reward.reward_cost }}
-{% endfor %}
+{% endfor %} -->
   
 
 <h2>Client Profile</h2>
+<br>
 
-<h3> Client Name: {{client.client_name}} </h3>
-<p>{{client.client_name}}'s points: {{rewards.reward_point}}
-<p>
-  <a href="/edit_rewards/{{ bu_id}}/{{ client.client_id }}">edit rewards</a>
+<h3> Client: {{client.client_name}} </h3>
+<p>{{client.client_name}}'s points: {{client.reward_point}}
+  <br>
+  <a href="/edit_rewards/{{ bu_id}}/{{ client.client_id }}">edit reward points</a>
   <!-- <a href="{{ url_for('edit_client_reward', bu_id=business_user.id, client_id=client.client_id) }}">edit rewards</a> -->
 </p>
 

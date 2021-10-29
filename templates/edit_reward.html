@@ -24,6 +24,7 @@
         <th>Service</th>
         <th colspan="10">Point</th>
           {% for reward in rewards %}
+            {% if reward.id == business_user.id %}
       </tr>
 
       <tr>
@@ -33,6 +34,7 @@
         <td>
           {{ reward.reward_cost }}
         </td>
+          {% endif %}
         {% endfor %}
       </tr>     
         
@@ -55,7 +57,7 @@
     </table>
 
   <div>
-    Current Point Total: <span id="reward-total-counter"></span>
+    Current Point Total: <span id="reward-total-counter">{{client.reward_point}}</span>
   </div>
 
   <br>

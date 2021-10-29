@@ -28,16 +28,16 @@ bus_in_db = []
 
 for bu in bu_data:
     # assigning respective variables to access keys?
-    bu_email, bu_username, bu_password, bu_name, bu_business, bu_pic_path = (
+    bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path = (
         bu['bu_email'],
         bu['bu_username'],
-        bu['bu_password'],
+        bu['bu_password_original'],
         bu['bu_name'],
         bu['bu_business'],
         bu['bu_pic_path'])
 
     # db_bu is creating business user
-    db_bu = crud.create_business_user(bu_email, bu_username, bu_password, bu_name, bu_business,
+    db_bu = crud.create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business,
                                       bu_pic_path)
 
     # appending created business_user to bus_in_db

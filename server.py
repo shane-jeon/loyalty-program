@@ -169,10 +169,13 @@ def login_form():
         # print("got here 2")
         # print(business_user)
         if business_user:
-            # print("hey2")
+            print("*"*20)
+            print()
             # print(business_user.bu_password, form.bu_password.data)
-            # print(form.bu_password.data)
-            # print(business_user.bu_password)
+            print(form.bu_password.data)
+            print(business_user.bu_password)
+            print()
+            print("*"*20)
             if bcrypt.check_password_hash(business_user.bu_password, form.bu_password.data):
                 # print(form.bu_password.data)
                 login_user(business_user, remember=True)
@@ -193,7 +196,7 @@ def login_form():
 # @auth.route("/register", methods=['GET','POST'])
 def register():
     form = RegisterForm()
-    # EDGE CASE ==> PREVENT USER FROM ENTERING USERNAME WITH SPACES
+    # EDGE CASE ==> PREVENT USER FROM ENTERING USERNAME WITH SPACES (done 10/26)
 
     bu_email = form.bu_email.data
 
@@ -205,12 +208,12 @@ def register():
 
 
     elif form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.bu_password.data).decode('utf-8')
+        # hashed_password = bcrypt.generate_password_hash(form.bu_password.data).decode('utf-8')
         # print(hashed_password)
 
         business_user = crud.create_business_user(form.bu_email.data,
                                   form.bu_username.data,
-                                  hashed_password,
+                                  bu_password_original.data,
                                   form.bu_name.data,
                                   form.bu_business.data,
                                   form.bu_pic_path.data)
@@ -343,10 +346,10 @@ def client_profile(bu_id=None, client_id=None):
     client = crud.get_client_by_id(client_id)
     transactions = crud.show_all_transaction()
     business_user = crud.get_business_user_by_id(bu_id)
- 
+    rewards = crud.show_all_reward()
 
     # returns TEMPLATE, and variable from above w/field
-    return render_template('client_profile.html',client=client, rewards=rewards,transactions=transactions, business_user=business_user, bu_id=bu_id)
+    return render_template('client_profile.html',client=client, client_reward=client_reward, rewards=rewards, transactions=transactions, business_user=business_user, bu_id=bu_id)
 
 
 #################################################################################

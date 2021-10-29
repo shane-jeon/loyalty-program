@@ -4,7 +4,7 @@
 
 # importing database, classes, and connect_to_db from model.py
 from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, connect_to_db
-
+import bcrypt
 
 
 #################################################
@@ -20,9 +20,11 @@ from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, c
 
 
 
-def create_business_user(bu_email, bu_username, bu_password, bu_name, bu_business, bu_pic_path):
+def create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path):
     """Create, add, & return new business user."""
-
+    
+    bu_password_code = bcrypt.hashpw(bu_password_original.encode('utf-8'), bcrypt.gensalt())
+    bu_password = bu_password_code.decode('utf-8')
     business_user = BusinessUser(bu_email=bu_email, 
                                 bu_username=bu_username,
                                 bu_password=bu_password, 
