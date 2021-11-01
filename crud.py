@@ -6,7 +6,6 @@
 from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, connect_to_db
 import bcrypt
 
-
 #################################################
 #################################################
 ###########    BUSINESS_USERS     ###############
@@ -15,12 +14,10 @@ import bcrypt
 
 
 ####################################################################
-################  def CREATE_BUSINESS_USER() ########################
+################  def CREATE_BUSINESS_USER() #######################
 ####################################################################
 
-
-
-def create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path="https://is1-ssl.mzstatic.com/image/thumb/Purple5/v4/5b/65/25/5b6525ef-38d4-af91-4d9a-659756e645e1/source/256x256bb.jpg"):
+def create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path):
     """Create, add, & return new business user."""
     
     bu_password_code = bcrypt.hashpw(bu_password_original.encode('utf-8'), bcrypt.gensalt())
@@ -39,18 +36,14 @@ def create_business_user(bu_email, bu_username, bu_password_original, bu_name, b
     return business_user
 
 
-
 ####################################################################
 ################  def SHOW_ALL_BUSINESS_USER() ######################
 ####################################################################
-
-
 
 def show_all_business_user():
     """Return all business users"""
 
     return BusinessUser.query.all()
-
 
 
 ####################################################################
@@ -69,7 +62,6 @@ def get_business_user_by_id(id):
 ################  def GET_BUSINESS_USER_BY_USERNAME ################
 ####################################################################
 
-
 def get_business_user_by_username(bu_username):
     """Checks if business user email exists in database"""
 
@@ -80,6 +72,7 @@ def get_business_user_by_username(bu_username):
     # print("reached here 2")
     # print(business_user)
     return business_user
+
 
 ####################################################################
 ################  def GET_BUSINESS_USER_BY_EMAIL ################
@@ -97,11 +90,16 @@ def get_business_user_by_email(bu_email):
 
 
 
+#################################################
+#################################################
+###############    CLIENTS     ##################
+#################################################
+#################################################
+
 ####################################################################
 #######################  def CREATE_CLIENT #########################
 ####################################################################
 
-# don't need to add reward point, default to none
 def create_client(client_name, client_email, business,
                   reward_point=0):
     """Creates a business user's new client."""
@@ -112,13 +110,11 @@ def create_client(client_name, client_email, business,
                     id=business.id,
                     reward_point=reward_point,
     )
-    # pass in business name
 
     db.session.add(client)
     db.session.commit()
 
     return client
-
 
 
 ####################################################################
@@ -158,6 +154,9 @@ def get_client_by_email(client_email):
 
 
 ####################################################################
+###################  def ADJUST_CLIENT_POINTS ######################
+####################################################################
+
 def adjust_client_points(client_id, reward_point):
     """Adds reward point to client account."""
     # EDGECASE ==> GOING INTO NEGATIVE
@@ -176,11 +175,6 @@ def adjust_client_points(client_id, reward_point):
 
     return client.reward_point
 
-
- 
-# business user in session
-
-
 # Left Join
 # SELECT client_name FROM clients AS c LEFT JOIN business_users AS bu USING(id);
 
@@ -190,6 +184,13 @@ def adjust_client_points(client_id, reward_point):
 
 # bu_clients = db.session.query(Client, BusinessUser).outerjoin(BusinessUser).all()
 # problem, need to assign business user id to clients
+
+
+#################################################
+#################################################
+##############   TRANSACTIONS     ################
+#################################################
+#################################################
 
 ####################################################################
 ####################  def CREATE_TRANSACTION #########################
@@ -232,6 +233,12 @@ def get_transaction_by_id(transaction_id):
     return transaction
 
 
+#################################################
+#################################################
+###########    REWARDS/POINTS     ###############
+#################################################
+#################################################
+
 ####################################################################
 ###################  def CREATE_CLIENT_REWARD ######################
 ####################################################################
@@ -257,6 +264,7 @@ def get_client_point(client_id):
 
     return client_point
 
+
 ####################################################################
 ######################  def CREATE_REWARD ##########################
 ####################################################################
@@ -274,6 +282,11 @@ def create_reward(reward_type, reward_cost, business):
 
     return reward
 
+
+####################################################################
+######################  def DELETE_REWARD ##########################
+####################################################################
+
 def delete_reward(reward_id):
     """Delete reward."""
 
@@ -281,6 +294,8 @@ def delete_reward(reward_id):
 
     db.session.delete(reward)
     db.session.commit()
+
+
 ####################################################################
 #######################  def SHOW_ALL_REWARD #######################
 ####################################################################
@@ -304,7 +319,6 @@ def get_reward_by_id(reward_id):
 
 
 ############################################################################
-
 
 if __name__ == '__main__':
     from server import app

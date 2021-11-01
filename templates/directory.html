@@ -5,6 +5,27 @@
 {% block body %}
 <h2>Welcome {{ business_user.bu_name }}!</h2>
 <p>{{ business_user.bu_email }}</p>
+
+
+<section id="hello">
+  <form>
+    <!-- <p>
+      <label for="greeting">say hello!</label>
+    </p> -->
+    <!-- <p>
+      <input type="text" name="greeting" id="alert-message" />
+    </p> -->
+    <p>
+      <button type="submit">say hello!</button>
+    </p>
+  </form>
+</section>
+
+
+
+
+
+
 <!-- <a href="{{url_for('logout')}}">logout</a> -->
 <h3>
     User Profile:
@@ -31,16 +52,18 @@
     {% endfor %}
 </ul>
 
-<h3>Your Rewards</h3>
+<h3>Rewards</h3>
 <p>
   <a href="/rewards/{{bu_id}}">current rewards</a>
 </p>
+<!-- past rewards? link? -->
 
 <!-- RETURN TO 10/14 -->
-<!-- <h3>
-    <a href="/add_transaction/{{ clients.client_id }}"></a>
 
-</h3> -->
+  <!-- <p>
+    <a href="/all_transactions/{{ bu_id }}">Transactions</a>
+  </p> -->
 
+<script src="/static/js/alert.js"></script>
 {% endblock %}
 
