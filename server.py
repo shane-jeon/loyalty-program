@@ -164,11 +164,13 @@ class LoginForm(FlaskForm):
 def index():
     """Show index.html at localhost:5000."""
     
+    # idk why this works ~reversed~ but ok...
     if session: 
-        return redirect (f"/directory/{{bu_id}}")
+        return render_template('index.html')
+
 
     else:
-        return render_template('index.html')
+        return redirect (f"/directory/{{bu_id}}")
 
 
 #########################################    @APP.ROUTE/login    ###################################################

@@ -2,10 +2,18 @@
 
 <!-- {% block title %} GlowUp {% endblock %} -->
 
+{% block head %}
+
+<link rel="stylesheet"
+      href="/static/css/login_register.css">
+
+{% endblock %}
+
 {% block body %}
+<div id="whole-page">
   <div class="container">
   <div class="row">
-    <h2>Welcome.</h2>
+    <h2>welcome.</h2>
   </div>
     
   <div>
@@ -15,15 +23,20 @@
 
     {% else %}
     
-    <h2>Log In</h2>
+    <h4>Log In</h4>
     <form action="/login_form" method="POST">
-
-      {{ form.hidden_tag() }}
-      {{ form.bu_username }}
-
+      <div id="login">
+        {{ form.hidden_tag() }}
+        {{ form.bu_username }}
+      </div>
+      <div id="password">
       {{ form.bu_password }}
+      </div>
+
+      <div id="submit">
       {{ form.submit }}
       <br>
+      </div>
       <!-- <p>
         Email <input type="email" name="login-email">
       </p>
@@ -36,11 +49,12 @@
         <input type="submit">
       </p> -->
     </form>
-
+    <br>
+    <div id="reroute">
     <p>
-      <a href="{{ url_for('register') }}">No Account?</a>
+      <a id="register" href="{{ url_for('register') }}">No Account? No problem.</a>
     </p>
-
+    </div>
     <div class="row">
       <div class="col-6">
       </div>
@@ -49,6 +63,7 @@
 
   {% endif %}
   </div>
+</div>
 {% endblock %}
 
 {% block js %}

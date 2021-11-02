@@ -1,31 +1,44 @@
 {% extends 'base.html' %}
 
-{% block body %}
 
-<!-- see what is being returned from session.get -->
-<!-- <p>{{ session.get('bu_email')}}</p> -->
-<form class="new-client" method="POST" action="/new_client_signup">
-      <div>
-        <label>Client Name</label>
-        <input type="text" name="name" required>
-      </div>
-      <div>
-        <label>Client Email</label>
-        <input type="email" name="email" required>  
-      </div>
-      <div>
-        <input hidden type="text" name="bu_username" value={{ bu_id }}>  
-      </div>
-    <div>
-      <input type="submit" value="add client" class="btn btn-primary">
-    </div>
-  </form>
+{% block head %}
+
+<link rel="stylesheet"
+      href="/static/css/general_style.css">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+
+{% endblock %}
+
+
+{% block body %}
+<!-- <div id="background"> -->
+  <!-- see what is being returned from session.get -->
+  <!-- <p>{{ session.get('bu_email')}}</p> -->
+  <form class="new-client" method="POST" action="/new_client_signup">
+  <div>
+    <label>Client Name</label>
+      <input type="text" name="name" required>
+  </div>
+  <div>
+    <label>Client Email</label>
+    <input type="email" name="email" required>  
+  </div>
+  <div>
+    <input hidden type="text" name="bu_username" value={{ bu_id }}>  
+  </div>
+  <div>
+    <input type="submit" value="add client" class="btn btn-primary">
+  </div>
+</form>
 
   <!-- {{session.get('bu_username')}} -->
 
   <p> 
-    <!-- <a href="{{ url_for('directory', bu_id=business_user.id) }}">return to directory</a> -->
-    <a href="/directory/{{ bu_id }}">return to directory</a>
+  <!-- <a href="{{ url_for('directory', bu_id=business_user.id) }}">return to directory</a> -->
+  <a href="/directory/{{ bu_id }}">return to directory</a>
   </p>
-
-{% endblock %}
+<!-- </div> -->
+  {% endblock %}

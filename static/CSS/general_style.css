@@ -1,0 +1,50 @@
+/* body {
+    width: 100%;
+    background-color: #C2B6A6;
+    background-size: cover;
+} */
+
+/* {% block head %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+{% endblock%} */
+
+body {
+ 
+
+    background: hsla(15, 50%, 84%, 1);
+
+    background: linear-gradient(270deg, hsla(15, 50%, 84%, 0.5) 20%, hsla(0, 0%, 100%, 1) 100%);
+    
+    background: -moz-linear-gradient(270deg, hsla(15, 50%, 84%, 0.5) 20%, hsla(0, 0%, 100%, 1) 100%);
+    
+    background: -webkit-linear-gradient(270deg, hsla(15, 50%, 84%, 0.5) 20%, hsla(0, 0%, 100%, 1) 100%);
+    
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#EBCDC3", endColorstr="#FFFFFF", GradientType=1 );
+
+    background-size: cover;
+
+    background-position: center;
+      
+}
+
+h4 {
+    color: white;
+    font-family: Caveat, cursive;
+    font-weight: bold;
+    text-align: center;
+    font-size: 3rem;
+    margin-top: 2vh;
+}
+
+#bu_email {
+    color: white;
+    font-family: Caveat, cursive;
+    font-size: 2rem;
+    text-align: center;
+}
+
+#hello {
+    align-items: bottom;
+}

@@ -2,9 +2,12 @@
 
 {% block title %}{{ business_user.bu_name }}'s Page{% endblock %}
 
+
+
+
 {% block body %}
-<h2>Welcome {{ business_user.bu_name }}!</h2>
-<p>{{ business_user.bu_email }}</p>
+<h4>Welcome, {{ business_user.bu_name }}!</h4>
+<p id="bu_email">{{ business_user.bu_email }}</p>
 
 
 <section id="hello">

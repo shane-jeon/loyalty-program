@@ -1,0 +1,52 @@
+body {
+    width: 100%;
+    background-image: url('/static/img/beige_login_register.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+h2 {
+    color: white;
+    font-family: Trebuchet MS;
+    font-weight: bold;
+    text-align: start;
+    font-size: 4rem;
+    margin-top: 11vh;
+}
+
+h4 {
+    color: white;
+    font-family: Trebuchet MS;
+    font-weight: bold;
+    text-align: start;
+    font-size: 3rem;
+    margin-top: 10vh;
+    text-align: center;
+}
+
+#login {
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+#password {
+    text-align: center;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+}
+
+#submit {
+    text-align: center;
+    margin-top: 1vh;
+}
+
+#reroute {
+    color: white;
+    text-align: center;
+}
+
+#register {
+    color: white;
+    text-decoration: none; 
+}
