@@ -1,37 +1,55 @@
 {% extends 'base.html' %}
 
 
-
-
 {% block body %}
 
-<h4>Your reward programs</h4>
+<section class="container mt-4">
 
-<p>
-  <a href="/add_rewards/{{ bu_id }}">add new reward</a>
-  <!-- <a href="{{ url_for('add_reward', bu_id=business_user.id) }}">add new reward</a> -->
-</p>
+  <h4>your reward programs</h4>
 
-<!-- <section id=> -->
-  <form id="delete-form" method="POST" action="/deleting_reward">
-  <ul>
-    {% for reward in rewards %}
-      {% if reward.id == business_user.id %}
-        <li>
-          {{ reward.reward_type }} {{ reward.reward_cost }} <input type="radio" name="reward_id" value="{{reward.reward_id}}">
-          <br>
-        </li>
-      {% endif %}
-    {% endfor %}
-  </ul>
-  <!-- <button id="delete-button" type="submit">delete</button> -->
-  <button onclick="alert('reward deleted')" type="submit">delete</button>
-  </form>
-<!-- </section> -->
 
-<p>
-  <a href="/directory/{{ bu_id }}">return to directory</a>
-  <!-- <a href="{{ url_for('add_reward', bu_id=business_user.id) }}">add new reward</a> -->
-</p>
 
+  <div class="row align-items-center justify-content-evenly static-height">
+    <div class="col"></div>
+    <div class="col">
+      <div id="profile" class="box-see-rewards">
+        <div class="entry box-section">
+          <p>
+            <a href="/add_rewards/{{ bu_id }}">add new reward</a>
+           <!-- <a href="{{ url_for('add_reward', bu_id=business_user.id) }}">add new reward</a> -->
+          </p>
+        </div>
+
+
+        <form id="delete-form" method="POST" action="/deleting_reward">
+          <ul class="list-text">
+            {% for reward in rewards %}
+              {% if reward.id == business_user.id %}
+                <li class="align">
+                  {{ reward.reward_type }} {{ reward.reward_cost }} <input type="radio" name="reward_id" value="{{reward.reward_id}}">
+                  <br>
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+
+          <div class="button-margin">
+            <p>
+              <button class="btn custom-button-1" onclick="alert('reward deleted')" type="submit">delete</button>
+            </p>
+          </div>
+
+          </form>
+
+       </div>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <p>
+    <a href="/directory/{{ bu_id }}">return to directory</a>
+    <!-- <a href="{{ url_for('add_reward', bu_id=business_user.id) }}">add new reward</a> -->
+  </p>
+
+</section>
 {% endblock %}

@@ -7,51 +7,65 @@
 
 
 {% block body %}
-
+<!-- <div
+class="row align-items-center justify-content-center
+       static-height cover-photo"
+>
+<div class="col-5">
+  <h4>client</h4>
+</div>
+</div> -->
 <!-- 
 {% for client_reward in client.client_reward %}
   {{ client_reward.reward.reward_type }}
   {{ client_reward.reward.reward_cost }}
 {% endfor %} -->
   
+<section class="container mt-4">
+  
 
-<h2>Client Profile</h2>
-<br>
+  <div class="row align-items-center justify-content-evenly static-height">
+        
+    <div class="col-4">
 
-<h3> Client: {{client.client_name}} </h3>
-<p>{{client.client_name}}'s points: {{client.reward_point}}
-  <br>
-  <a href="/edit_rewards/{{ bu_id}}/{{ client.client_id }}">edit reward points</a>
-  <!-- <a href="{{ url_for('edit_client_reward', bu_id=business_user.id, client_id=client.client_id) }}">edit rewards</a> -->
-</p>
+      <h3>Client Profile</h3>
 
-<!-- <p>Reward Points: {{ client.reward_point}} </p>
-<p>Rewards Available: {{ client.num_of_reward }}</p> -->
+      <div class="box-points">
 
+        <h6> {{client.client_name}} </h6>
+        <p>{{client.client_name}}'s points: {{client.reward_point}} <br>
+          <a href="/edit_rewards/{{ bu_id}}/{{ client.client_id }}">edit reward points</a>
+        </p>
+      </div>
 
+    </div>
 
-<p>
-  <a href="/add_transaction/{{ bu_id }}/{{ client.client_id }}">add client transaction</a>
+  <div class="col-4">
+
+    
+    <h6 class="transaction">transactions</h6>
+
+    <p>
+      <a class="add-trans" href="/add_transaction/{{ bu_id }}/{{ client.client_id }}">add client transaction</a>
     <!-- <a href="{{ url_for('transaction', bu_id=business_user.id, client_id=client.client_id) }}">add client transaction</a> -->
-</p>
+    </p>
+    <div class="scroll">
+    {% for transaction in transactions %}
+      {% if transaction.client_id == client.client_id %}
 
-<h4>{{ client.client_name }}'s' transactions</h4>
-{% for transaction in transactions %}
-  {% if transaction.client_id == client.client_id %}
-  <p>
-    Transaction Date: {{ transaction.transaction_date}} <br>
-    Appointment Type: {{ transaction.appointment_type }} <br>
-    Cost: ${{ transaction.total_cost }}  
-  </p>
+   <p>
+      Transaction Date: {{ transaction.transaction_date}} <br>
+      Appointment Type: {{ transaction.appointment_type }} <br>
+      Cost: ${{ transaction.total_cost }}  
+    </p>
 
-  {% endif %}
-{% endfor %}
+      {% endif %}
+    {% endfor %}
 
+</div>
 
-<p> 
+</section>
+<p class="returnto"> 
   <a href="/directory/{{ bu_id }}">return to directory</a>
 </p>
-
-
-
 {% endblock %}

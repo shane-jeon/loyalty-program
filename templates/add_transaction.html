@@ -6,29 +6,47 @@
 {% block body %}
 
 
-<h2>Create a transaction for the client</h2>
 
 
-<form class='add-transaction' method='POST' action="/new_transaction">
-    <div>
-    <!-- default date date -->
-      <label>Transaction Date</label>
-      <input type="date" name="transaction_date">
-    </div>
-     <!-- appointment type -->
-     <label>Appointment Type</label>
-     <input type="text" name="appointment_type" required>
-    <div>
-      <label>Total Cost</label>
-      <input type="number" name="total_cost" required>
-    </div>
-    <div>
-        <input hidden type="text" name="client_id" value={{ clients.client_id }}>
-    </div>
-    <div>
-        <input type="submit" value="add transaction" class="btn btn-primary">
-    </div>
-</form>
+<div class="row align-items-center justify-content-evenly static-height">
+  <h4>create client transaction</h4>
+  <div class="col"></div>
+
+    <div class="col">
+
+      <div id="profile" class="box-create-transaction">
+
+        <form class='add-transaction' method='POST' action="/new_transaction">
+          
+          <div class="box-section">
+           <!-- default date date -->
+            <label>Transaction Date</label>
+            <input type="date" name="transaction_date">
+          </div>
+
+         <div class="box-section">
+           <!-- appointment type -->
+           <label>Appointment Type</label>
+           <input type="text" name="appointment_type" required>
+          </div>
+
+         <div class="box-section">
+           <label>Total Cost</label>
+           <input type="number" name="total_cost" required>
+         </div>
+
+         <div>
+           <input hidden type="text" name="client_id" value={{ clients.client_id }}>
+         </div>
+
+         <div>
+          <input type="submit" value="add transaction" class="btn btn-primary">
+         </div>
+        </form>
+      </div>
+   </div>
+   <div class="col"></div>
+</div>
 
 
 <!-- LOOK INTO/RETURN TO SQLALCHEMY CHAINING 10/16 8:53PM -->

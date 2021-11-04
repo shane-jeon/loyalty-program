@@ -1,44 +1,57 @@
 {% extends 'base.html' %}
 
 
-{% block head %}
-
-<link rel="stylesheet"
-      href="/static/css/general_style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
-
-{% endblock %}
 
 
 {% block body %}
-<!-- <div id="background"> -->
-  <!-- see what is being returned from session.get -->
-  <!-- <p>{{ session.get('bu_email')}}</p> -->
-  <form class="new-client" method="POST" action="/new_client_signup">
-  <div>
-    <label>Client Name</label>
-      <input type="text" name="name" required>
+<!-- <div
+class="row align-items-center justify-content-center
+       static-height cover-photo"
+>
+<div class="col-5">
+  <h4>add new client</h4>
+</div>
+</div> -->
+<section class="container mt-4">
+  <h4>add new client</h4>
+  <div class="row align-items-center justify-content-evenly static-height">
+    <div class="col"></div>
+    <div class="col">
+      <div id="profile" class="box-add-clients">
+        <form class="new-client" method="POST" action="/new_client_signup">
+
+          <div class="entry box-section">
+
+            <div class="entry label">
+              <label>Client Name</label>
+            </div>
+
+            <input type="text" name="name" required>
+          </div>
+
+          <div class="entry box-section">
+            <div class="entry label">
+              <label >Client Email</label>
+            </div>
+            <input type="email" name="email" required>  
+            
+          </div>
+          <input hidden type="text" name="bu_username" value={{ bu_id }}>  
+          <p>
+            <input type="submit" value="add client" class="btn custom-button-1">
+          </p>
+        </form>
+      </div>
+    </div>     
+    <div class="col"></div>  
   </div>
-  <div>
-    <label>Client Email</label>
-    <input type="email" name="email" required>  
-  </div>
-  <div>
-    <input hidden type="text" name="bu_username" value={{ bu_id }}>  
-  </div>
-  <div>
-    <input type="submit" value="add client" class="btn btn-primary">
-  </div>
-</form>
 
   <!-- {{session.get('bu_username')}} -->
 
-  <p> 
+  <p class="returnto"> 
   <!-- <a href="{{ url_for('directory', bu_id=business_user.id) }}">return to directory</a> -->
   <a href="/directory/{{ bu_id }}">return to directory</a>
   </p>
-<!-- </div> -->
+  
+</section>
   {% endblock %}

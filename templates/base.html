@@ -26,7 +26,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
 
   {% endblock %}
     <style>
@@ -34,11 +34,14 @@
         position: fixed;
         left: 0;
         bottom: 0;
+        height: 40px;
         width: 100%;
-        background-color: white;
         color: black;
         text-align: center;
-      }
+        background-image: url('/static/img/sakura.png');
+        background-repeat: repeat;
+}
+
     </style>
 
     
@@ -102,7 +105,7 @@
 
     {% for msg in get_flashed_messages() %}
 
-    <p class="flash-msg">
+    <p class="flash-msg alert-info">
 
       {{ msg }}
 

@@ -4,66 +4,61 @@
 
 {% block head %}
 
-<link rel="stylesheet"
-      href="/static/css/login_register.css">
+  <link rel="stylesheet" href="/static/css/login_register.css">
 
 {% endblock %}
 
 {% block body %}
-<div id="whole-page">
-  <div class="container">
+
+
+
+<section class="container mt-4">
+
   <div class="row">
     <h2>welcome.</h2>
   </div>
-    
-  <div>
+
     {% if session['login'] %}
-    
-  </div>
 
     {% else %}
-    
-    <h4>Log In</h4>
-    <form action="/login_form" method="POST">
+
+  <h4>Log In</h4>
+<div class="container">
+  <form action="/login_form" method="POST">
+
+    <label>
       <div id="login">
         {{ form.hidden_tag() }}
         {{ form.bu_username }}
       </div>
+
       <div id="password">
-      {{ form.bu_password }}
+        {{ form.bu_password }}
       </div>
 
-      <div id="submit">
+    
+    </label>
+ 
+    <div id="submit">
       {{ form.submit }}
       <br>
-      </div>
-      <!-- <p>
-        Email <input type="email" name="login-email">
-      </p>
+    </div>
 
-      <p>
-        Password <input type="password" name="login-password">
-      </p>
 
-      <p>
-        <input type="submit">
-      </p> -->
-    </form>
-    <br>
-    <div id="reroute">
+  </form>
+</div> 
+  <br>
+
+  <div id="reroute">
     <p>
       <a id="register" href="{{ url_for('register') }}">No Account? No problem.</a>
     </p>
-    </div>
-    <div class="row">
-      <div class="col-6">
-      </div>
-    </div>
-    
-
-  {% endif %}
   </div>
-</div>
+
+
+    {% endif %}
+ 
+</section>
 {% endblock %}
 
 {% block js %}

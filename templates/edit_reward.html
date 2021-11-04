@@ -3,66 +3,86 @@
 {% block title %} {{client.client_name }}'s available rewards {% endblock %}
 
 {% block body %}
-<p> 
-  <a href="/directory/{{ bu_id }}">return to directory</a>
-</p>
-
-<header>
-  <h2>edit {{client.client_name}}'s rewards</h2>
-</header>
-<!-- <p>
-  Reward Points: <span id="points-add-counter">0</span> 
-</p> -->
 
 
-<!-- OK....SO I DO HAVE TO USE EVENT LISTENERS -->
+<section class="container mt-4">
 
-    <h3>transactions</h3>
-    <table> <table>
+  <h4>edit {{client.client_name}}'s points</h4>
 
-      <tr>
-        <th>Service</th>
-        <th colspan="10">Point</th>
-          {% for reward in rewards %}
-            {% if reward.id == business_user.id %}
-      </tr>
 
-      <tr>
-        <td>
-          {{ reward.reward_type }}
-        </td>
-        <td>
-          {{ reward.reward_cost }}
-        </td>
-          {% endif %}
-        {% endfor %}
-      </tr>     
+
+  <div class="row align-items-center justify-content-evenly static-height">
+    <div class="col"></div>
+      <div class="col">
+
+
+        <div id="profile" class="box-edit-rewards">
+
+
+          <!-- <p>
+            Reward Points: <span id="points-add-counter">0</span> 
+          </p> -->
+
+
+          <!-- OK....SO I DO HAVE TO USE EVENT LISTENERS -->
+
+      
+        <table> <table>
+
+          <tr>
+            <th>Service</th>
+            <th colspan="10">Point</th>
+              {% for reward in rewards %}
+                {% if reward.id == business_user.id %}
+          </tr>
+
+          <tr>
+            <td>
+              {{ reward.reward_type }}
+            </td>
+            <td>
+              {{ reward.reward_cost }}
+            </td>
+              {% endif %}
+            {% endfor %}
+          </tr>     
         
           <tr>
             <td> 
               <form action="/adjusting_points" id="submit-form" method="post">
                 <div>
-            
                   <input hidden type="text" id="client_id" name="client" value="{{ client.client_id }}">
                   <input hidden type="text" id="bu_id" name="bu" value="{{ business_user.id }}">
+                  <!-- <p> -->
                   <input type="number" id="num_point" name="bu" value="1">
+                  <br>
                   <button type="submit" class="enter" id="add-to-points" name="plus-count">submit</button>
                   <!-- different types of submit button, everytime form submits -->
                   <!-- different button that is not submit -->
+                <!-- </p> -->
                 </div>
-           
+              </form>
             </td>
           </tr>
   
-    </table>
+        </table>
 
-  <div>
-    Current Point Total: <span id="reward-total-counter">{{client.reward_point}}</span>
+          <div>
+            Current Point Total: <span id="reward-total-counter">{{client.reward_point}}</span>
+          </div>
+
+
+
+        </div>
+    </div>
+    <div class="col"></div>
   </div>
+</section>
 
-  <br>
+<p class="returnto"> 
+  <a href="/directory/{{ bu_id }}">return to directory</a>
+</p>
 
-</form>
 <script src="/static/js/prevent_evt.js"></script>
 
 {% endblock %}

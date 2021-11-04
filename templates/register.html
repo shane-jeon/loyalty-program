@@ -1,80 +1,66 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+  <link rel="stylesheet" href="/static/css/login_register.css">
 {% endblock%}
 
 {% block body %}
-
-<h2>Please register as a user</h2>
-
-    <!-- {% with messages = get_flashed_messages() %}
-    {% if messages %} -->
-      <div class="notification is-danger">
+<section class="container mt-4">
+  <h4>register user</h4>
+  <div class="row">
+  </div>
+      <!-- {% with messages = get_flashed_messages() %}
+      {% if messages %} -->
+  <!-- <div class="notification is-danger"> -->
         <!-- {{ messages[0] }} Go to <a href="{{url_for('login') }}">login page</a> -->
+  <!-- </div> -->
+      <!-- {% endif %}
+      {% endwith%} -->
+  <div class="container">
+    <label>
+      <form class="user-registration" method="POST" action="/register">
+        {{ form.hidden_tag() }}
       
+        <div id="email">
+      
+        {{ form.bu_email }}
+        <br>
+        {{ form.bu_username }}
 
-      </div>
-    <!-- {% endif %}
-    {% endwith%} -->
+        <!-- {% for field, errors in form.errors.items() %} 
+          <small class="form-text text-muted ">
+            {{ ', '.join(errors) }}
+          </small>
+        {% endfor %} -->
+        <br>
+      
+        {{ form.bu_password_original }}
+    
+        <br>
+        {{ form.bu_name }}
+    
+        <br>
+        {{ form.bu_business }}
+    
+        <br>
+        {{ form.bu_pic_path}}
 
-    <form class="user-registration" method="POST" action="/register">
-      {{ form.hidden_tag() }}
-      <br>
-      <br>
-      {{ form.bu_email }}
-      <br>
-      <br>
-      {{ form.bu_username }}
+        </div>
+    </label>
+  <!-- </div>
+  </div> -->
 
-      <!-- {% for field, errors in form.errors.items() %} 
-        <small class="form-text text-muted ">
-          {{ ', '.join(errors) }}
-        </small>
-      {% endfor %} -->
-      <br>
-      <br>
-      {{ form.bu_password_original }}
-      <br>
-      <br>
-      {{ form.bu_name }}
-      <br>
-      <br>
-      {{ form.bu_business }}
-      <br>
-      <br>
-      {{ form.bu_pic_path}}
-      <br>
-      <br>
+  <button id="submit">
       {{ form.submit }}
       <br>
-      <br>
-      <!-- <div>
-        <label>Email</label>
-        <input type="email" name="registration-email" required>
-      </div>
-      <div>
-        <label>Password</label>
-        <input type="password" name="registration-password" required>  
-      </div>
-      <div>
-        <label>Name</label>
-        <input type="text" name="name" required>
-      </div>
-      <div>
-        <label>Business Name</label>
-        <input type="text" name="business" required>  
-      </div>
-      <div>
-        <label>Profile Picture</label>
-        <input type="url" name="pic_path" url="https://indianakitchen.com/wp-content/uploads/2015/03/Ham-Sandwich.jpg">  
-      </div>
-    <div>
-      <input type="submit" value="Register" class="btn btn-primary">
-    </div> -->
+  </button>
+</div>
+
   </form>
+<div class="container">
+  <a id="reroute" href="{{ url_for('login') }}">already have an existing account?</a>
+ 
+</div>
 
-  <a href="{{ url_for('login') }}">already have an existing account?</a>
-  <br>
-
+</section>
   {% endblock %}

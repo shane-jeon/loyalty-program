@@ -3,29 +3,48 @@
 
 {% block body %}
 
-<h2>Create new reward type</h2>
 
-<form class='add-reward', method='POST', action="/adding_reward">
-  <div>
-      <label>Reward type</label>
-      <input type="text" name="reward_type">
-  </div>
-  <div>
-      <label>Required number of points</label>
-      <input type="number" name="reward_cost">
-  </div>
-  <div>
-    <input hidden type="text" name="bu_username" value={{ session.get('_user_id') }}>  
-</div>
-  <div>
-      <button type="submit">add reward</button>
-  </div>
-</form>
 
-<p> 
-  <a href="/directory/{{ bu_id }}">return to directory</a>
-  <br>
-  <a href="/rewards/{{ bu_id }}">see your rewards</a>
-</p>
+<section class="container mt-4">
 
+
+  <h4>add new reward</h4>
+
+
+    <div class="row align-self-center justify-content-md-between">
+      <div class="col"></div>
+      <div class="col-3">
+        <!-- <div class="box"> -->
+          <div id="profile" class="box-rewards">
+            <form class='add-reward', method='POST', action="/adding_reward">
+              
+              <div class="entry box-section">
+                <label class="entry label">Reward type</label>
+                  <input type="text" name="reward_type">
+              </div>
+
+              <div class="entry box-section">
+                <label class="entry label">Required number of points</label>
+                  <input type="number" name="reward_cost">
+              </div>
+
+                <input hidden type="text" name="bu_username" value={{ session.get('_user_id') }}>  
+
+              <button class="btn custom-button-1" type="submit">add reward</button>
+            </form>
+          </div>
+        <!-- </div> -->
+      </div>
+      <div class="col"></div>
+    </div>
+
+
+  <p> 
+    <br>
+    <a href="/directory/{{ bu_id }}">return to directory</a>
+    <br>
+    <br>
+    <a href="/rewards/{{ bu_id }}">see your rewards</a>
+  </p>
+</section>
 {% endblock %}
