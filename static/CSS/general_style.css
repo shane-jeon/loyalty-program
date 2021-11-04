@@ -244,4 +244,25 @@ p.returnto{
     color: white;
     box-shadow: 2px 2px 0 gray;
 }
+
+.point-form {
+    margin: 0 auto;
+    width: 250px;
+}
+
+#add-to-points {
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
   
+.table-head {
+    margin-top: 30px;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+p.edit-link {
+    font-style: italic;
+    font-size: 15px;
+}

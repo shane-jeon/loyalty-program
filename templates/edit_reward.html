@@ -2,6 +2,7 @@
 
 {% block title %} {{client.client_name }}'s available rewards {% endblock %}
 
+
 {% block body %}
 
 
@@ -30,12 +31,15 @@
         <table> <table>
 
           <tr>
+            <div class="table-head">
             <th>Service</th>
             <th colspan="10">Point</th>
+          </div>
+
               {% for reward in rewards %}
                 {% if reward.id == business_user.id %}
           </tr>
-
+  
           <tr>
             <td>
               {{ reward.reward_type }}
@@ -49,14 +53,16 @@
         
           <tr>
             <td> 
-              <form action="/adjusting_points" id="submit-form" method="post">
+              <form class="point-form" action="/adjusting_points" id="submit-form" method="post">
                 <div>
                   <input hidden type="text" id="client_id" name="client" value="{{ client.client_id }}">
                   <input hidden type="text" id="bu_id" name="bu" value="{{ business_user.id }}">
                   <!-- <p> -->
                   <input type="number" id="num_point" name="bu" value="1">
                   <br>
-                  <button type="submit" class="enter" id="add-to-points" name="plus-count">submit</button>
+                  <div>
+                  <button type="submit" class="enter btn custom-button-1" id="add-to-points" name="plus-count">submit</button>
+                </div>
                   <!-- different types of submit button, everytime form submits -->
                   <!-- different button that is not submit -->
                 <!-- </p> -->
