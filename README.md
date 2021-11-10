@@ -22,6 +22,17 @@ The GlowUp web app is the culmination of my bootcamp experience. My Hackbright c
 ## General Info 
 This project is a customer loyalty rewards programs, tallying up customer points to redeem later on for rewards promoted by the business user.
 
+Web app is very user friendly and self-explanatory. 
+
+    - Register as user (or alternatively, input username and password available in data file--bu_dummydata.json)
+    - Add clients
+    - In client profile, 
+        - adjust client reward points (adding and "redeeming" need to be entered manually)
+        - add client transactions
+    - Add/delete rewards (enter reward name and number of points required)
+    
+
+
 ## <a name="technologiesused"></a>Technologies Used 
 - Python 
 - JavaScript
