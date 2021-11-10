@@ -15,7 +15,9 @@ The GlowUp web app is the culmination of my bootcamp experience. My Hackbright c
 * [Technologies Used](#technologiesused)
 * [How to locally run GlowUp](#localrun)
 * [How to use There and Back Again](#use)
-* [About me] (#aboutme)
+* [Project Status](#projectstatus)
+* [Data Model](#datamodel)
+* [About Me](#aboutme)
 
 ## General Info 
 This project is a customer loyalty rewards programs, tallying up customer points to redeem later on for rewards promoted by the business user.
@@ -37,7 +39,7 @@ This project is a customer loyalty rewards programs, tallying up customer points
 - SQLAlchemy
 
 
-## <name="localrun"></a>How to locally run GlowUp
+## <a name="localrun"></a>How to locally run GlowUp
 * Create a virtual environment, activate it, and install GlowUp's dependences from requirements.txt
     * `virtualenv env`
     * `source env/bin/activate`
@@ -58,11 +60,13 @@ This project is a customer loyalty rewards programs, tallying up customer points
 * Enter localhost:5000 in browser to see web app
    
 
-## Data Model 
-baby's first data model
+## <a name="datamodel"></a>Data Model 
+
+    Baby's first data model
+
 ![data_model_loyalty](/static/img/data_model.png)
 
-# Project Status 
+# <a name="projectstatus"></a>Project Status 
 Still a work in progress...
 
 ## <a name="aboutme"></a>About me
