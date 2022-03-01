@@ -122,15 +122,14 @@ def update_business_user(id):
 ####################################################################
 
 def create_client(client_name, client_email, business,
-                  reward_point=0, client_pic_path="/static/img/pusheen_default.jpg"):
+                  reward_point=0):
     """Creates a business user's new client."""
     
     client = Client(client_name=client_name,
                     client_email=client_email,
                     # associated w/model.py BusinessUser
                     id=business.id,
-                    reward_point=reward_point,
-                    client_pic_path=client_pic_path
+                    reward_point=reward_point
     )
 
     db.session.add(client)

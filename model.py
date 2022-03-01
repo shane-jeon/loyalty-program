@@ -1,10 +1,8 @@
 """Models for loyalty program project"""
 
-# importing SQLAlchemy constructor function
+# import SQL alchemy to link SQL and PYTHON
 from flask_sqlalchemy import SQLAlchemy
-# flask WTForms to populate database
 from flask_wtf import FlaskForm
-# all of below relevant to incorporating security
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
@@ -12,9 +10,7 @@ from flask_login import UserMixin
 # importing werkzeug
 # from werkzeug.security import generate_password_hash, check_password_hash
 
-
-
-# calling to create SQLAlchemy instance at variable db
+# db object, representing database
 db = SQLAlchemy()
 
 
@@ -30,11 +26,9 @@ db = SQLAlchemy()
 class BusinessUser(db.Model, UserMixin):
     """Business user information."""
 
-    # defining table name
     __tablename__ = 'business_users'
 
-    # specifying types of columns, in this case integer, it is primary key,...
-    # ...should autoincrement
+    # table fields
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     # email is String type w/max size of 120 characters
     bu_email = db.Column(db.String(120), nullable=False, unique=True)
@@ -48,16 +42,13 @@ class BusinessUser(db.Model, UserMixin):
 
 
     def __repr__(self):
-        """User repr method."""
         return f"""<Business_user id={self.id} bu_email={self.bu_email}
         bu_username={self.bu_username} bu_business={self.bu_business}>"""
 
     # variable = db.relationship('Class', back_populates='class_relationship_varaible')
-    # backpopulating to connect tables
     client = db.relationship('Client', back_populates='business_user')
     client_reward = db.relationship('ClientReward', back_populates='business_user')
     reward = db.relationship('Reward', back_populates='business_user')
-    # photo = db.relationship('Photo', back_populates='business_user')
 
 
 # #################################################
@@ -129,7 +120,6 @@ class Client(db.Model):
     client_name = db.Column(db.Text, nullable=False)
     client_email = db.Column(db.String(254), nullable=False, unique=True)
     reward_point = db.Column(db.Integer, nullable=True)
-    # client_pic_path = db.Column(db.String(254), nullable=True)
     id = db.Column(db.Integer, db.ForeignKey('business_users.id'))
 
     def __repr__(self):
@@ -141,33 +131,8 @@ class Client(db.Model):
     client_reward = db.relationship('ClientReward', back_populates='client')
     # relationship to transactions table
     transaction = db.relationship('Transaction', back_populates='client')
-    # # relationship to photo table
-    # photo = db.relationship('Photos', back_populates='client')
 
-#################################################
-#################################################
-###############  photos   ######################
-#################################################
-#################################################
-#################################################
 
-# class Photo(db.Model):
-#     """Business User and Client profile pictures."""
-
-#     __tablename__ = 'photos'
-
-#     photo_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-#     bu_pic_path = db.Column(db.String(254))
-#     client_pic_path = db.Column(db.String(254))
-#     id = db.Column(db.Integer, db.ForeignKey('business_users.id'))
-#     client_id = db.Column(db.Integer, db.ForeignKey('clients.client_id'))
-
-#     def __repr__(self):
-#         return f'<Business User photo_id={self.photo_id}, bu_pic_path={self.bu_pic_path}, client_pic_path={self.client_pic_path}>'
-
-#     # relationship to business_users table
-#     business_user = db.relationship('BusinessUser', back_populates='photo')
-#     client = db.relationship('Client', back_populates='photo')
 
 
 #################################################

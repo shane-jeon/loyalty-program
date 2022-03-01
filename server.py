@@ -153,7 +153,7 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField("Login")
 
-class EditProfileForm(FlaskForm):
+# class EditProfileForm(FlaskForm):
 
 
 #################################################
