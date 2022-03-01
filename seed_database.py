@@ -60,13 +60,33 @@ for client in client_data:
         client['client_email'],
         choice(bus_in_db),
         client['reward_point']
-    )    
+    ) 
 
     db_client = crud.create_client(client_name, client_email, business,
                                    reward_point)
 
     clients_in_db.append(db_client)
 
+#################################################
+#################################################
+###############     photos      ################
+#################################################
+#################################################
+# with open('data/client_dummydata.json') as f:
+#     client_data = json.loads(f.read())
+
+# photos_in_db = []
+# for photo in photo_data:
+#     bu_pic_path, client_pic_path = (
+#         photo['bu_pic_path'],
+#         client['client_pic_path'],
+#         choice(bus_in_db),
+#     )    
+
+#     db_photo = crud.create_client(client_name, client_email, business,
+#                                    reward_point)
+
+#     clients_in_db.append(db_client)
 
 #################################################
 #################################################

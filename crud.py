@@ -1,4 +1,5 @@
 """CRUD ('CREATE, READ, UPDATE, DESTROY') operations."""
+# actions to perform on set of data
 
 # CRUD.py acts as a bridge from database tables to python
 
@@ -17,7 +18,7 @@ import bcrypt
 ################  def CREATE_BUSINESS_USER() #######################
 ####################################################################
 
-def create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path):
+def create_business_user(bu_email, bu_username, bu_password_original, bu_name, bu_business, bu_pic_path="/static/img/pusheen_default.jpg"):
     """Create, add, & return new business user."""
     
     bu_password_code = bcrypt.hashpw(bu_password_original.encode('utf-8'), bcrypt.gensalt())
@@ -89,6 +90,26 @@ def get_business_user_by_email(bu_email):
     return business_user
 
 
+####################################################################
+################  def UPDATE_BUSINESS_USER() #######################
+####################################################################
+
+def update_business_user(id):
+    """Update business user profile."""
+
+    business_user = BusinessUser.query.get(id)
+
+#     bu_email = request.form['bu_email]
+#     bu_password = request.form['bu_password']
+    new_bu_name = request.form['bu_name']
+    business_user.bu_name = new_bu_name
+#     bu_business = request.form['bu_business']
+#     bu_pic_path = request.form['bu_pic_path']
+
+    db.session.commit()
+
+    return business_user
+
 
 #################################################
 #################################################
@@ -101,7 +122,7 @@ def get_business_user_by_email(bu_email):
 ####################################################################
 
 def create_client(client_name, client_email, business,
-                  reward_point=0):
+                  reward_point=0, client_pic_path="/static/img/pusheen_default.jpg"):
     """Creates a business user's new client."""
     
     client = Client(client_name=client_name,
@@ -109,6 +130,7 @@ def create_client(client_name, client_email, business,
                     # associated w/model.py BusinessUser
                     id=business.id,
                     reward_point=reward_point,
+                    client_pic_path=client_pic_path
     )
 
     db.session.add(client)
@@ -185,7 +207,17 @@ def adjust_client_points(client_id, reward_point):
 # bu_clients = db.session.query(Client, BusinessUser).outerjoin(BusinessUser).all()
 # problem, need to assign business user id to clients
 
+#################################################
+#################################################
+#################   PHOTOS     ##################
+#################################################
+#################################################
 
+####################################################################
+#######################  def CREATE_PHOTO #########################
+####################################################################
+
+# def create_photo(bu_pic_path, client_pic_path)
 #################################################
 #################################################
 ##############   TRANSACTIONS     ################

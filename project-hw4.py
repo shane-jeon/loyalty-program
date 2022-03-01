@@ -114,3 +114,16 @@ rewards:
 ### 3.0
 -edge cases (?)
 -ability to undo redeems...
+
+
+##01/27/2021
+##############################
+
+## 3.0
+- upload photo feature
+    - add flash message indicating photo has successfully been uploaded...
+    - include profile pic display
+- automatically scale photo to fit html page
+- possibly work on scaling for html page (not as high priority)
+- password/user login forget e-mail
+- allow for login with either username or e-mail

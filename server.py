@@ -28,12 +28,13 @@ from flask_wtf import FlaskForm
 
 from wtforms import StringField, PasswordField, SubmitField, TextAreaField
 
-from wtforms.validators import InputRequired, Length, ValidationError, Optional
+from wtforms.validators import InputRequired, DataRequired, Length, ValidationError, Optional
 
 from wtforms.fields.html5 import URLField
 
 from flask_bcrypt import Bcrypt
 
+# to check for secure filename during image upload
 from werkzeug.utils import secure_filename
 
 from urllib.parse import urlunsplit, urlencode
@@ -48,6 +49,9 @@ from jinja2 import StrictUndefined
 
 # from werkzeug.security import generate_password_hash, check_password_hash
 
+# Creating instance of class, first argument is name of application's module
+# __name__ is needed so Flask knows where to look for resources such as...
+# ... templates and static files
 app = Flask(__name__)
 bcrypt = Bcrypt(app)
 app.secret_key = "*xZJ_0d7c#+ii0C"
@@ -149,6 +153,8 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField("Login")
 
+class EditProfileForm(FlaskForm):
+
 
 #################################################
 #################################################
@@ -160,6 +166,10 @@ class LoginForm(FlaskForm):
 
 #########################################    @APP.ROUTE/    ###################################################
 
+# route() decorator tells Flask what URL should trigger function
+# route() decorator also binds a function to a URL
+# function will ten return message I want displayed in user's browser
+# default content type is HTML (so render template or enter HTML)
 @app.route('/')
 def index():
     """Show index.html at localhost:5000."""
@@ -293,6 +303,9 @@ def logout():
 
 #############################################    @APP.ROUTE/register    #############################################
 
+# Can add variable sections to URL by marking sections with <variable name>
+# Function will receive <variable name> as keyword argument
+#  --option to use converter to specify type of argument like <converter: variable_name>
 @app.route("/directory/<bu_id>")
 @login_required
 def directory(bu_id=None):
@@ -317,96 +330,90 @@ def directory(bu_id=None):
 #################################################
 #################################################
 
-
-
-
-
-
-#**********************************************NOT READY FOR DEMO**********************************************************#
-
-# @app.route("/user_profile/<bu_id>")
-# @login_required
-# def user_profile(bu_id=None):
-#     """Edit profile picture."""
-
-#     bu_id = session["_user_id"]
-
-#     business_user = crud.get_business_user_by_id(bu_id)
-#     clients = crud.get_client_by_id
-
-#     # print(business_user)
-
-#     return render_template('user_account.html', bu_id=bu_id, business_user=business_user, clients=clients)
-
-# app.config["IMAGE_UPLOADS"] = "/home/hackbright/src/project/static/img/uploads/"
-# app.config["ALLOWED_IMAGE_EXTENSIONS"] =["PNG", "JPG", "JPEG"]
-# app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
-
-# def allowed_image(filename):
-#     """Checks if '.' is in uploaded file"""
-
-#     if not "." in filename:
-#         return False
-    
-#     # splits file name (from the right) w/'.', 1=? [1] index, so the item after the '.'
-#     ext = filename.rsplit(".", 1)[1]
-
-#     if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
-#         return True
-#     else:
-#         return False
-
-# def allowed_image_filesize(filesize):
-#     """If filesize is less than 500 bytes return True, else."""
-
-#     if int(filesize) <= app.config["MAX_IMAGE_FILESIZE"]:
-#         return True
-
-#     else:
-#         return False
-
-# @app.route("/upload_image", methods=['POST'])
+# @app.route("/upload-image")
 # def upload_image():
+#     return render_template("settings.html")
+
+app.config["IMAGE_UPLOADS"] = "/home/hackbright/src/loyalty-program/static/img/uploads/"
+# to ensure file has name (see line ___)
+# file type that I have specified
+app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
+app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
+
+def allowed_image(filename):
     
-#     bu_id = session["_user_id"]
+    if not "." in filename:
+        return False
 
-#     if request.files:
+    # to split extension from filename and store as valuable...rsplit--> want to split from right, at dot, and take 1st element
+    ext = filename.rsplit(".", 1)[1]
 
-#         print("*"*20)
-#         print()
-#         print(request.cookies)
-#         print("NOT GETTING FILESIZE FOR SOMEREASON RETURN TO THIS *******10.29********")
-#         print(request.cookies.get("filesize"))
-#         print()
-#         print("*"*20)
+    # if uppercase version of extension is in app config, will return True
+    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+        return True
+    else:
+        return False
 
-#         # if not allowed_image_filesize(request.cookies.get("filesize")):
-#         #     print("File exceeded maximum size")
-#         #     return redirect(f"user_profile/{bu_id}")
 
-#         image = request.files["image"]
+# check file size is in reasonable limit
+def allowed_image_filesize(filesize):
 
-#         if image.filename == "":
-#             print("Image must have a filename")
-#             return redirect(f"user_profile/{bu_id}")
+    if int(filesize) < app.config["MAX_IMAGE_FILESIZE"]:
+        return True
+    else:
+        return False
 
-#         if not allowed_image(image.filename):
-#             print("That image extension is not allowed")
-#             return redirect(f"user_profile/{bu_id}")
+@app.route("/settings/user_profile/<bu_id>", methods=["GET", "POST"])
+@login_required
+def upload_image(bu_id=None):
+    bu_id = session["_user_id"]
+    business_user = crud.get_business_user_by_id(bu_id)
+
+    if request.method == "POST":
         
-#         filename = secure_filename(image.filename)
-        
-#         image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+        # like request.forms/request.args creates unique storage obj containing files coming in from form--if request.files, want to perform action
+        if request.files:
+            
+            if not allowed_image_filesize(request.cookies.get("filesize")):
+                print("File exceeded maximum size")
+                return redirect(request.url)
 
-#         print("*"*20)
-#         print()
-#         print("Image saved")
+            # since input name is "image", can access it as below
+            image = request.files["image"]
 
-#         return redirect(f"user_profile/{bu_id}")
+            # will stop file upload that does not have filename
+            if image.filename == "":
+                print("Image must have a filename")
+                return redirect(request.url)
 
-# *************************************************************************************************************************#
-# *************************************************************************************************************************#
-# *************************************************************************************************************************#
+            # checks if image extension is type that can be accepted
+            if not allowed_image(image.filename):
+                print()
+                print("*"*22)
+                print("That image extension is not allowed")
+                print("*"*22)
+                print()
+                return redirect(request.url)
+            
+            # will provide santized name for image
+            else:
+                filename = secure_filename(image.filename)
+
+                # method for file storage method, given directory from IMAGE_UPLOADS. .filename is attribute to file storage obj
+                image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+
+            print("Image saved")
+
+            return redirect(request.url)
+
+            print("*"*20)
+            print()
+            print("Image saved")
+            print("*"*20)
+            print()
+
+    return render_template('settings.html', bu_id=bu_id, business_user=business_user)
+
 
 
 #################################################
