@@ -6,16 +6,23 @@ The following updates to my HB capstone project's ReadMe file come after returni
 ## Revisitation thoughts and comments:
 I took great pride in completing my capstone project as a part of Hackbright Academy's software engineering program. However, upon revisiting my project's GitHub repository, I realized taht I could have approached it with a greater sense of professionalism. I kindly request that you keep this in mind while reviewing my Git commit messages.
 
-### Personal Objective: Addressing Password Vulnerabilities
+## Table of Contents
+* [Personal Objective](#personalobjective)
+* [Data Flow](#dataflow)
+* [Data Model](#datamodel)
+* [About Me](#aboutme2023)
+
+### <a name="personalobjective"></a>Personal Objective: Addressing Password Vulnerabilities
 As a tech enthusiast, I was motivated to enhance the security of the user login experirence for my capstone project. To mitigate the risk of storing plain text passwords in the database, I employed bCrypt to hash passwords during the registration process
 
 The password hashing process utilizes bCrypt's `hashpw` method. The original password is converted ot bytes using `encode` and then hashed with a generated salt. The resulting hash is then decoded and stored in the database.
 
 The `login_form` function, provided by Flask, handles the POST request for the login form. After validating the LoginForm object, the business user with the given username is retrieved. If the business user exists, bCrypt's `check_password_hash` method is used to compare the stored hashed password with the provided password. If the passwords match, the user is able to login. 
 
-### From Backend to Frontend
+### <a name="dataflow"></a>From Backend to Frontend
 #### `model.py`
 This code is a part of a loyalty program project built using Python and Flask. It defines the database schema using SQLAlchemy, the ORM used for interacting with the database. The code defines a table business_users which stores information about business users such as email, username, password, name, business, and a picture path. The code also defines the class BusinessUser as a model for the table.
+
 #### `crud.py`
 Contains functions to manage the business user and client data for the rewards program application.
 
@@ -51,7 +58,11 @@ Script for populating PostgreSQL database for the loyalty rewards program. It do
 A Python Flask web application that provides a web interface for users to register, login and logout of the application. The application uses the Flask framework, the Flask-Login library for handling user authentication, the Flask-WTF library for form handling, and the Flask-Bcrypt library for password hashing. The application also uses a database (via the model.py file and the crud module) to store information about registered business users. The code implements forms for user registration and login, and also sets up login manager for handling user authentication.
 
 
-# Last updated 2021
+##### <a name="aboutme2023"></a>About me
+Full Stack Software Engineer with technical education and hands-on experience creating, testing, and launching applications from idea to production. Seeking to leverage skills in dynamic and stimulating work environment. Passionate about staying current with latest technologies and continuously working to refine and expand knowledge. Confident in ability to make valuable contributions to complex projects with strong work ethic and natural flexibility in adapting to new challenges.
+
+
+### Last updated 2021
 # GlowUp - customer loyalty app
 Glow Up is a web application inspired by my sister's dream, of expanding her 
 business as an aesthetician. In her particular instance, my sister wanted to offer
