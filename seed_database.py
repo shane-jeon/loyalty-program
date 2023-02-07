@@ -15,9 +15,7 @@ model.db.create_all()
 
 
 #################################################
-#################################################
 ###############    business      ################
-#################################################
 #################################################
 
 # grabs data from dummy file
@@ -45,10 +43,9 @@ for bu in bu_data:
 
 
 #################################################
-#################################################
 ###############     clients      ################
 #################################################
-#################################################
+#
 
 with open('data/client_dummydata.json') as f:
     client_data = json.loads(f.read())
@@ -67,31 +64,9 @@ for client in client_data:
 
     clients_in_db.append(db_client)
 
-#################################################
-#################################################
-###############     photos      ################
-#################################################
-#################################################
-# with open('data/client_dummydata.json') as f:
-#     client_data = json.loads(f.read())
 
-# photos_in_db = []
-# for photo in photo_data:
-#     bu_pic_path, client_pic_path = (
-#         photo['bu_pic_path'],
-#         client['client_pic_path'],
-#         choice(bus_in_db),
-#     )    
-
-#     db_photo = crud.create_client(client_name, client_email, business,
-#                                    reward_point)
-
-#     clients_in_db.append(db_client)
-
-#################################################
 #################################################
 ###############   transactions   ################
-#################################################
 #################################################
 
 with open('data/transaction_dummydata.json') as f:
@@ -113,9 +88,7 @@ for transaction in transaction_data:
 
 
 #################################################
-#################################################
 ###############     rewards       ###############
-#################################################
 #################################################
 
 with open('data/rewards_dummydata.json') as f:
@@ -127,7 +100,6 @@ for reward in reward_data:
         reward['reward_type'],
         reward['reward_cost'],
         choice(bus_in_db)
-        # reward['client_reward']
     )
 
     db_reward = crud.create_reward(reward_type, reward_cost, business)
