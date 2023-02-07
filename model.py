@@ -17,11 +17,10 @@ db = SQLAlchemy()
 
 
 #################################################
-#################################################
 ###############  business_users  ################
 ###############    table       ##################
 #################################################
-#################################################
+
 
 class BusinessUser(db.Model, UserMixin):
     """Business user information."""
@@ -51,61 +50,9 @@ class BusinessUser(db.Model, UserMixin):
     reward = db.relationship('Reward', back_populates='business_user')
 
 
-# #################################################
-# #################################################
-# ###############  registration     ################
-# ###############   login       ##################
-# #################################################
-# #################################################
-
-# # created registration form that inherits from FlaskForm
-# class RegisterForm(FlaskForm):
-#     """Register user form."""
-#     # StringField allows user to see characters
-#     # InputRequired() --> must be filled out
-#     # min and max for characters username, placeholder is placeholder for Username, use with render_kw
-#     bu_username = StringField(validators=[InputRequired(), Length(
-#         min=4, max=20)], render_kw={"placeholder": "Username"})
-
-#     # instead use PasswordField, will show black dots
-#     # minimum difference is because password will hash (not sure how long, so in db is set to 80)
-#     bu_password = PasswordField(validators=[InputRequired(), Length(
-#         min=4, max=20)], render_kw={"placeholder": "Password"})
-
-#     # button to register
-#     submit = SubmitField("Register")
-
-#     # validates if there is username that has already been typed in
-#     # queries database, checks if similar username
-#     def validate_bu_username(self, bu_username):
-#         existing_business_user_bu_username = BusinessUser.query.filter_by(bu_username=bu_username.data).first()
-
-#         if existing_business_user_bu_username:
-#             raise ValidationError(
-#                 "That username already exists. PLease choose a different one.")
-
-# class LoginForm(FlaskForm):
-
-#     # StringField allows user to see characters
-#     # InputRequired() --> must be filled out
-#     # min and max for characters username, placeholder is placeholder for Username, use with render_kw
-#     bu_username = StringField(validators=[InputRequired(), Length(
-#         min=4, max=20)], render_kw={"placeholder": "Username"})
-
-#     # instead use PasswordField, will show black dots
-#     # minimum difference is because password will hash (not sure how long, so in db is set to 80)
-#     bu_password = PasswordField(validators=[InputRequired(), Length(
-#         min=4, max=20)], render_kw={"placeholder": "Password"})
-
-#     # button to register
-#     submit = SubmitField("Login")
-
-
-#################################################
 #################################################
 ###############  clients         ################
 ###############    table       ##################
-#################################################
 #################################################
 
 
@@ -133,13 +80,9 @@ class Client(db.Model):
     transaction = db.relationship('Transaction', back_populates='client')
 
 
-
-
-#################################################
 #################################################
 ###############  transactions.   ################
 ###############    table       ##################
-#################################################
 #################################################
 
 class Transaction(db.Model):
@@ -160,14 +103,9 @@ class Transaction(db.Model):
     client = db.relationship('Client', back_populates='transaction')
     
 
-
-
-
-#################################################
 #################################################
 ###############  client_rewards  ################
 ###############    table       ##################
-#################################################
 #################################################
 
 class ClientReward(db.Model):
@@ -189,12 +127,9 @@ class ClientReward(db.Model):
     business_user = db.relationship('BusinessUser', back_populates='client_reward')
 
 
-
-#################################################
 #################################################
 ###############    rewards       ################
 ###############    table       ##################
-#################################################
 #################################################
 
 class Reward(db.Model):
@@ -214,11 +149,8 @@ class Reward(db.Model):
     business_user = db.relationship('BusinessUser', back_populates='reward')
 
 
-
-#################################################
 #################################################
 ###############  connect_to_db   ################
-#################################################
 #################################################
 
 def connect_to_db(flask_app, db_uri='postgresql:///loyalty', echo=True):
@@ -233,12 +165,6 @@ def connect_to_db(flask_app, db_uri='postgresql:///loyalty', echo=True):
     print('Connected to the db!')
 
 
-
-#################################################
-#################################################
-############__name__ == "__main__"   ############
-#################################################
-#################################################
 
 if __name__ == "__main__":
     from flask import Flask
