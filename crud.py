@@ -1,9 +1,7 @@
 """CRUD ('CREATE, READ, UPDATE, DESTROY') operations."""
 # actions to perform on set of data
-
 # CRUD.py acts as a bridge from database tables to python
 
-# importing database, classes, and connect_to_db from model.py
 from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, connect_to_db
 import bcrypt
 
@@ -66,12 +64,7 @@ def get_business_user_by_id(id):
 def get_business_user_by_username(bu_username):
     """Checks if business user email exists in database"""
 
-    # print(bu_username)
-    # print("over_here")
     business_user = BusinessUser.query.filter_by(bu_username=bu_username).first()
-    # print(business_user, "hi")
-    # print("reached here 2")
-    # print(business_user)
     return business_user
 
 
@@ -99,12 +92,8 @@ def update_business_user(id):
 
     business_user = BusinessUser.query.get(id)
 
-#     bu_email = request.form['bu_email]
-#     bu_password = request.form['bu_password']
     new_bu_name = request.form['bu_name']
     business_user.bu_name = new_bu_name
-#     bu_business = request.form['bu_business']
-#     bu_pic_path = request.form['bu_pic_path']
 
     db.session.commit()
 
@@ -167,10 +156,7 @@ def get_client_by_id(client_id):
 def get_client_by_email(client_email):
     """Checks if business user email exists in database."""
 
-    # print("reached here")
     client = Client.query.filter_by(client_email=client_email).first()
-    # print("reached here 2")
-    # print(client_name)
     return client
 
 
@@ -191,7 +177,6 @@ def adjust_client_points(client_id, reward_point):
     # # # when calling funciton, call w/client_id and 2nd argument, pass
     # # # in number that can be positive or negative
 
-    # db.session.add()
     db.session.commit()
 
     return client.reward_point
@@ -206,17 +191,7 @@ def adjust_client_points(client_id, reward_point):
 # bu_clients = db.session.query(Client, BusinessUser).outerjoin(BusinessUser).all()
 # problem, need to assign business user id to clients
 
-#################################################
-#################################################
-#################   PHOTOS     ##################
-#################################################
-#################################################
 
-####################################################################
-#######################  def CREATE_PHOTO #########################
-####################################################################
-
-# def create_photo(bu_pic_path, client_pic_path)
 #################################################
 #################################################
 ##############   TRANSACTIONS     ################
