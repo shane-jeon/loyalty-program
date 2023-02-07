@@ -1,5 +1,9 @@
 ![headerimg](/static/img/glow_up.png)
 
+# [GlowUp 2021 Initial ReadMe.md](#last-updated-2021)
+The following updates to my HB capstone project's ReadMe file come after returning to my project after a little more than a year.
+
+# Last updated 2021
 # GlowUp - customer loyalty app
 Glow Up is a web application inspired by my sister's dream, of expanding her 
 business as an aesthetician. In her particular instance, my sister wanted to offer
