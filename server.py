@@ -177,7 +177,6 @@ def index():
 
 
 #########################################    @APP.ROUTE/login    ###################################################
-
 @app.route("/login")
 def login():
     """Renders login.html template."""
@@ -187,7 +186,6 @@ def login():
 
 
 #############################################    @APP.ROUTE/login_form    ##########################################
-
 @app.route("/login_form", methods=["POST"])
 def login_form():
     """Route for login form POST request."""
@@ -208,14 +206,12 @@ def login_form():
 
 
 #############################################    @APP.ROUTE/register    #############################################
-
 @app.route("/register", methods=['GET','POST'])
 def register():
     """Renders register.html template, and route for 'user-registration' form POST request."""
 
     form = RegisterForm(request.form)
     # EDGE CASE ==> PREVENT USER FROM ENTERING USERNAME WITH SPACES (done 10/26)
-
     bu_email = form.bu_email.data
 
     check_user = crud.get_business_user_by_email(bu_email)
@@ -238,7 +234,6 @@ def register():
     return render_template('register.html', form=form)
 
 #############################################    @APP.ROUTE/logout    #############################################
-
 @app.route('/logout', methods=['GET', 'POST'])
 @login_required
 def logout():
@@ -246,15 +241,11 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-
-#################################################
 #################################################
 ###############   DIRECTORY     ##################
 #################################################
-#################################################
 
 #############################################    @APP.ROUTE/register    #############################################
-
 # Can add variable sections to URL by marking sections with <variable name>
 # Function will receive <variable name> as keyword argument
 #  --option to use converter to specify type of argument like <converter: variable_name>
@@ -272,80 +263,10 @@ def directory(bu_id=None):
     return render_template('directory.html', clients=clients, rewards=rewards, business_user=business_user, bu_id=bu_id)
 
 #################################################
-###############   USER PROFILE    ###############
-#################################################
-
-# not functional
-
-# app.config["IMAGE_UPLOADS"] = "/home/hackbright/src/loyalty-program/static/img/uploads/"
-# # to ensure file has name (see line ___)
-# # file type that I have specified
-# app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
-# app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
-
-# def allowed_image(filename):
-    
-#     if not "." in filename:
-#         return False
-#     # to split extension from filename and store as valuable...rsplit--> want to split from right, at dot, and take 1st element
-#     ext = filename.rsplit(".", 1)[1]
-#     # if uppercase version of extension is in app config, will return True
-#     if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
-#         return True
-#     else:
-#         return False
-
-
-# # check file size is in reasonable limit
-# def allowed_image_filesize(filesize):
-
-#     if int(filesize) < app.config["MAX_IMAGE_FILESIZE"]:
-#         return True
-#     else:
-#         return False
-
-# @app.route("/settings/user_profile/<bu_id>", methods=["GET", "POST"])
-# @login_required
-# def upload_image(bu_id=None):
-#     bu_id = session["_user_id"]
-#     business_user = crud.get_business_user_by_id(bu_id)
-
-#     if request.method == "POST":
-#         # like request.forms/request.args creates unique storage obj containing files coming in from form--if request.files, want to perform action
-#         if request.files:
-#             if not allowed_image_filesize(request.cookies.get("filesize")):
-#                 print("File exceeded maximum size")
-#                 return redirect(request.url)
-
-#             # since input name is "image", can access it as below
-#             image = request.files["image"]
-
-#             # will stop file upload that does not have filename
-#             if image.filename == "":
-#                 print("Image must have a filename")
-#                 return redirect(request.url)
-
-#             # checks if image extension is type that can be accepted
-#             if not allowed_image(image.filename):
-#                 return redirect(request.url)
-            
-#             # will provide santized name for image
-#             else:
-#                 filename = secure_filename(image.filename)
-
-#                 # method for file storage method, given directory from IMAGE_UPLOADS. .filename is attribute to file storage obj
-#                 image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
-
-#             return redirect(request.url)
-
-#     return render_template('settings.html', bu_id=bu_id, business_user=business_user)
-
-#################################################
 ###############   CLIENTS     ##################
 #################################################
 
 #############################################    @APP.ROUTE/new_client/<bu_id>    #############################################
-
 @app.route("/new_client/<bu_id>")
 @login_required
 def new_client(bu_id=None):
@@ -358,7 +279,6 @@ def new_client(bu_id=None):
 
 
 #############################################    @APP.ROUTE/register    #############################################
-
 @app.route("/new_client_signup", methods=['POST'])
 def signup_new_client():
     """Route for form 'new-client', on register_client.html.
@@ -398,7 +318,6 @@ def client_profile(bu_id=None, client_id=None):
 
 
 ####################################  @APP.ROUTE("/edit_rewards/<bu_id>/<client_id>")  #####################################
-
 @app.route("/edit_rewards/<bu_id>/<client_id>")
 @login_required
 def edit_client_reward(bu_id=None, client_id=None):
@@ -415,7 +334,6 @@ def edit_client_reward(bu_id=None, client_id=None):
     return render_template('edit_reward.html', bu_id=bu_id, business_user=business_user, client=client, rewards=rewards)
 
 ####################################  @APP.ROUTE("/adjusting_points")  ############################################
-
 @app.route("/adjusting_points", methods=['POST'])
 def adjusting_points():
     """Route for 'submit-form' POST request on 'edit_reward.html'."""
@@ -435,7 +353,6 @@ def adjusting_points():
 #################################################
 
 ####################################  @APP.ROUTE("/add_transaction/<bu_id>/<client_id>")  ############################################
-
 @app.route('/add_transaction/<bu_id>/<client_id>')
 @login_required
 def transaction(bu_id=None ,client_id=None):
@@ -447,7 +364,6 @@ def transaction(bu_id=None ,client_id=None):
     return render_template('add_transaction.html', bu_id=bu_id, business_user=business_user,clients=clients)
 
 ####################################  @APP.ROUTE("/new_transaction")  ############################################
-
 @app.route('/new_transaction', methods=['POST'])
 def add_transaction():
     """Adds transaction to client profile, rendering form from 'add_transaction.html'."""
@@ -471,7 +387,6 @@ def add_transaction():
 #################################################
 
 ####################################  @APP.ROUTE("/rewards/<bu_id>")  ############################################
-
 @app.route("/rewards/<bu_id>")
 @login_required
 def rewards_page(bu_id=None):
@@ -487,7 +402,6 @@ def rewards_page(bu_id=None):
 
 
 ####################################  @APP.ROUTE("/add_rewards/<bu_id>")  ############################################
-
 @app.route("/add_rewards/<bu_id>")
 @login_required
 def add_reward(bu_id=None):
@@ -500,7 +414,6 @@ def add_reward(bu_id=None):
 
 
 ####################################  @APP.ROUTE("/add_rewards/<bu_id>")  ############################################
-
 @app.route("/adding_reward", methods=['POST'])
 def adding_reward():
     """Processes POST form request from 'add_reward.html'."""
@@ -515,7 +428,6 @@ def adding_reward():
     return redirect(f'/add_rewards/{bu_id}')
 
 #######################################  @APP.ROUTE("/deleting_reward")  ############################################
-
 @app.route("/deleting_reward", methods=['POST'])
 def deleting_reward():
     """Deletes reward from '/add_rewards' route, 'add_reward.html'."""
