@@ -1,6 +1,6 @@
 ![headerimg](/static/img/glow_up.png)
 
-# [GlowUp 2021 Initial ReadMe.md](#last-updated-2021)
+#### [GlowUp 2021 Initial ReadMe.md](#last-updated-2021)
 The following updates to my HB capstone project's ReadMe file come after returning to my project after a little more than a year.
 
 ## Revisitation thoughts and comments:
@@ -34,17 +34,18 @@ Script for populating PostgreSQL database for the loyalty rewards program. It do
 
 - Drops and creates a new database called "loyalty" using the os.system function.
 
-- Connects to the database using the model module and creates the necessary tables using model.db.create_all().
+- Connects to the database using the model module and creates the necessary tables using `model.db.create_all()`.
 
-- Loads business user data from a file data/bu_dummydata.json using the json module and creates business users in the database using the crud module.
+- From file `data/bu_dummydata.json`, using json module and crud module to add to database:
+    - Loads business user data and creates business users
 
-- Loads client data from a file data/client_dummydata.json using the json module and creates clients in the database using the crud module, with each client randomly assigned to a business user.
+    - Loads client data and creates clients, with each client randomly assigned to a business user.
 
-- Loads transaction data from a file data/transaction_dummydata.json using the json module and creates transactions in the database using the crud module, with each transaction randomly assigned to a client.
+    - Loads transaction data and creates transactions, with each transaction randomly assigned to a client.
 
-- Loads reward data from a file data/rewards_dummydata.json using the json module and creates rewards in the database using the crud module, with each reward randomly assigned to a business user.
+    - Loads reward data and creates rewards, with each reward randomly assigned to a business user.
 
-- Creates client-reward associations by randomly assigning rewards to clients.
+    - Creates client-reward associations by randomly assigning rewards to clients.
 
 #### `server.py`
 A Python Flask web application that provides a web interface for users to register, login and logout of the application. The application uses the Flask framework, the Flask-Login library for handling user authentication, the Flask-WTF library for form handling, and the Flask-Bcrypt library for password hashing. The application also uses a database (via the model.py file and the crud module) to store information about registered business users. The code implements forms for user registration and login, and also sets up login manager for handling user authentication.
