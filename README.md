@@ -13,6 +13,42 @@ The password hashing process utilizes bCrypt's `hashpw` method. The original pas
 
 The `login_form` function, provided by Flask, handles the POST request for the login form. After validating the LoginForm object, the business user with the given username is retrieved. If the business user exists, bCrypt's `check_password_hash` method is used to compare the stored hashed password with the provided password. If the passwords match, the user is able to login. 
 
+### From Backend to Frontend
+#### `model.py`
+This code is a part of a loyalty program project built using Python and Flask. It defines the database schema using SQLAlchemy, the ORM used for interacting with the database. The code defines a table business_users which stores information about business users such as email, username, password, name, business, and a picture path. The code also defines the class BusinessUser as a model for the table.
+#### `crud.py`
+Contains functions to manage the business user and client data for the rewards program application.
+
+The functions use the SQLAlchemy ORM to interact with the database and manipulate the objects of the BusinessUser, Client, Transaction, ClientReward, and Reward models.
+
+Some of the functions include:
+
+- `create_business_user`: to create a new business user with given information (email, username, password, name, business, and profile picture path). **The ***password is hashed using bcrypt*** before being stored in the database.**
+- `show_all_business_user`, `get_business_user_by_id`, `get_business_user_by_username`, `get_business_user_by_email`: functions to retrieve information about business users from the database
+- `create_client`: to create a new client for a business user with given information (name, email, and associated business user).
+- `show_all_client`, `get_client_by_id`, `get_client_by_email`: functions to retrieve information about clients from the database
+- `adjust_client_points`: to adjust the reward points for a client with a given client ID by the specified reward points.
+
+#### `seed_database.py`
+Script for populating PostgreSQL database for the loyalty rewards program. It does the following steps:
+
+- Drops and creates a new database called "loyalty" using the os.system function.
+
+- Connects to the database using the model module and creates the necessary tables using model.db.create_all().
+
+- Loads business user data from a file data/bu_dummydata.json using the json module and creates business users in the database using the crud module.
+
+- Loads client data from a file data/client_dummydata.json using the json module and creates clients in the database using the crud module, with each client randomly assigned to a business user.
+
+- Loads transaction data from a file data/transaction_dummydata.json using the json module and creates transactions in the database using the crud module, with each transaction randomly assigned to a client.
+
+- Loads reward data from a file data/rewards_dummydata.json using the json module and creates rewards in the database using the crud module, with each reward randomly assigned to a business user.
+
+- Creates client-reward associations by randomly assigning rewards to clients.
+
+#### `server.py`
+A Python Flask web application that provides a web interface for users to register, login and logout of the application. The application uses the Flask framework, the Flask-Login library for handling user authentication, the Flask-WTF library for form handling, and the Flask-Bcrypt library for password hashing. The application also uses a database (via the model.py file and the crud module) to store information about registered business users. The code implements forms for user registration and login, and also sets up login manager for handling user authentication.
+
 
 # Last updated 2021
 # GlowUp - customer loyalty app
