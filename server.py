@@ -47,7 +47,6 @@ import crud
 
 from jinja2 import StrictUndefined
 
-# from werkzeug.security import generate_password_hash, check_password_hash
 
 # Creating instance of class, first argument is name of application's module
 # __name__ is needed so Flask knows where to look for resources such as...
@@ -67,12 +66,12 @@ def load_business_user(id):
     return BusinessUser.query.get(id)
 
 
-################################################
+
 ################################################
 #############   registration     ###############
 #############     login       ##################
 ################################################
-################################################
+
 
 # created registration form that inherits from FlaskForm
 class RegisterForm(FlaskForm):
@@ -153,18 +152,14 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField("Login")
 
-# class EditProfileForm(FlaskForm):
 
-
-#################################################
 #################################################
 ###########    login, logout &      #############
 ############     registration     ###############
 #################################################
-#################################################
 
 
-#########################################    @APP.ROUTE/    ###################################################
+#########################################    VIEWS    ###################################################
 
 # route() decorator tells Flask what URL should trigger function
 # route() decorator also binds a function to a URL
@@ -174,10 +169,8 @@ class LoginForm(FlaskForm):
 def index():
     """Show index.html at localhost:5000."""
     
-    # idk why this works ~reversed~ but ok...
     if session: 
         return render_template('index.html')
-
 
     else:
         return redirect (f"/directory/{{bu_id}}")
@@ -201,34 +194,16 @@ def login_form():
 
     form = LoginForm()
     if form.validate_on_submit():
-        # print("1", form.bu_username.data)
-        # print("2", type(form.bu_username.data))
-
         business_user = crud.get_business_user_by_username(form.bu_username.data)
-        # print("3", form.bu_username.data)
-
         if business_user:
-            # print("*"*20)
-            # print()
-            # print(business_user.bu_password, form.bu_password.data)
-            # print(form.bu_password.data)
-            # print(business_user.bu_password)
-            # print()
-            # print("*"*20)
-
             if bcrypt.check_password_hash(business_user.bu_password, form.bu_password.data):
-
-                # print(form.bu_password.data)
                 login_user(business_user, remember=True)
                 session["bu_username"] = form.bu_username.data
                 print("session")
                 print(session)
-
         else:
-
             flash("username or password not recognized.")
             return redirect('/login')
-
         return redirect(f'/directory/{business_user.id}')
 
 
@@ -239,7 +214,6 @@ def register():
     """Renders register.html template, and route for 'user-registration' form POST request."""
 
     form = RegisterForm(request.form)
-    # form = RegisterForm(request.form, bu_pic_path="/static/img/download-1.jpg")
     # EDGE CASE ==> PREVENT USER FROM ENTERING USERNAME WITH SPACES (done 10/26)
 
     bu_email = form.bu_email.data
@@ -252,28 +226,6 @@ def register():
 
 
     elif form.validate_on_submit():
-
-        # moved below to crud.py
-        # hashed_password = bcrypt.generate_password_hash(form.bu_password.data).decode('utf-8')
-        # print(hashed_password)
-        # print("*"*20)
-        # print()
-        # print(form.bu_pic_path.data)
-        # print()
-        # print("*"*20)
-
-        # if form.bu_pic_path.data is None:
-
-        #     bu_pic = "/static/img/download-1.jpg"
-
-        #     crud.create_business_user(form.bu_email.data,
-        #                           form.bu_username.data,
-        #                           form.bu_password_original.data,
-        #                           form.bu_name.data,
-        #                           form.bu_business.data,
-        #                           bu_pic)
-
-        # else:
         crud.create_business_user(form.bu_email.data,
                                 form.bu_username.data,
                                 form.bu_password_original.data,
@@ -314,112 +266,82 @@ def directory(bu_id=None):
     bu_id = session["_user_id"]
     business_user = crud.get_business_user_by_id(bu_id)
 
-    # query_string =f"bu_id={bu_id}"
-    # print(session["_user_id"])
-    # print(business_user)
-
     clients = crud.show_all_client()
     rewards = crud.show_all_reward()
 
     return render_template('directory.html', clients=clients, rewards=rewards, business_user=business_user, bu_id=bu_id)
 
-
-#################################################
 #################################################
 ###############   USER PROFILE    ###############
 #################################################
-#################################################
 
-# @app.route("/upload-image")
-# def upload_image():
-#     return render_template("settings.html")
+# not functional
 
-app.config["IMAGE_UPLOADS"] = "/home/hackbright/src/loyalty-program/static/img/uploads/"
-# to ensure file has name (see line ___)
-# file type that I have specified
-app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
-app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
+# app.config["IMAGE_UPLOADS"] = "/home/hackbright/src/loyalty-program/static/img/uploads/"
+# # to ensure file has name (see line ___)
+# # file type that I have specified
+# app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["PNG", "JPG", "JPEG", "GIF"]
+# app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
 
-def allowed_image(filename):
+# def allowed_image(filename):
     
-    if not "." in filename:
-        return False
-
-    # to split extension from filename and store as valuable...rsplit--> want to split from right, at dot, and take 1st element
-    ext = filename.rsplit(".", 1)[1]
-
-    # if uppercase version of extension is in app config, will return True
-    if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
-        return True
-    else:
-        return False
+#     if not "." in filename:
+#         return False
+#     # to split extension from filename and store as valuable...rsplit--> want to split from right, at dot, and take 1st element
+#     ext = filename.rsplit(".", 1)[1]
+#     # if uppercase version of extension is in app config, will return True
+#     if ext.upper() in app.config["ALLOWED_IMAGE_EXTENSIONS"]:
+#         return True
+#     else:
+#         return False
 
 
-# check file size is in reasonable limit
-def allowed_image_filesize(filesize):
+# # check file size is in reasonable limit
+# def allowed_image_filesize(filesize):
 
-    if int(filesize) < app.config["MAX_IMAGE_FILESIZE"]:
-        return True
-    else:
-        return False
+#     if int(filesize) < app.config["MAX_IMAGE_FILESIZE"]:
+#         return True
+#     else:
+#         return False
 
-@app.route("/settings/user_profile/<bu_id>", methods=["GET", "POST"])
-@login_required
-def upload_image(bu_id=None):
-    bu_id = session["_user_id"]
-    business_user = crud.get_business_user_by_id(bu_id)
+# @app.route("/settings/user_profile/<bu_id>", methods=["GET", "POST"])
+# @login_required
+# def upload_image(bu_id=None):
+#     bu_id = session["_user_id"]
+#     business_user = crud.get_business_user_by_id(bu_id)
 
-    if request.method == "POST":
-        
-        # like request.forms/request.args creates unique storage obj containing files coming in from form--if request.files, want to perform action
-        if request.files:
+#     if request.method == "POST":
+#         # like request.forms/request.args creates unique storage obj containing files coming in from form--if request.files, want to perform action
+#         if request.files:
+#             if not allowed_image_filesize(request.cookies.get("filesize")):
+#                 print("File exceeded maximum size")
+#                 return redirect(request.url)
+
+#             # since input name is "image", can access it as below
+#             image = request.files["image"]
+
+#             # will stop file upload that does not have filename
+#             if image.filename == "":
+#                 print("Image must have a filename")
+#                 return redirect(request.url)
+
+#             # checks if image extension is type that can be accepted
+#             if not allowed_image(image.filename):
+#                 return redirect(request.url)
             
-            if not allowed_image_filesize(request.cookies.get("filesize")):
-                print("File exceeded maximum size")
-                return redirect(request.url)
+#             # will provide santized name for image
+#             else:
+#                 filename = secure_filename(image.filename)
 
-            # since input name is "image", can access it as below
-            image = request.files["image"]
+#                 # method for file storage method, given directory from IMAGE_UPLOADS. .filename is attribute to file storage obj
+#                 image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
 
-            # will stop file upload that does not have filename
-            if image.filename == "":
-                print("Image must have a filename")
-                return redirect(request.url)
+#             return redirect(request.url)
 
-            # checks if image extension is type that can be accepted
-            if not allowed_image(image.filename):
-                print()
-                print("*"*22)
-                print("That image extension is not allowed")
-                print("*"*22)
-                print()
-                return redirect(request.url)
-            
-            # will provide santized name for image
-            else:
-                filename = secure_filename(image.filename)
+#     return render_template('settings.html', bu_id=bu_id, business_user=business_user)
 
-                # method for file storage method, given directory from IMAGE_UPLOADS. .filename is attribute to file storage obj
-                image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
-
-            print("Image saved")
-
-            return redirect(request.url)
-
-            print("*"*20)
-            print()
-            print("Image saved")
-            print("*"*20)
-            print()
-
-    return render_template('settings.html', bu_id=bu_id, business_user=business_user)
-
-
-
-#################################################
 #################################################
 ###############   CLIENTS     ##################
-#################################################
 #################################################
 
 #############################################    @APP.ROUTE/new_client/<bu_id>    #############################################
@@ -429,9 +351,7 @@ def upload_image(bu_id=None):
 def new_client(bu_id=None):
     """Renders template register_client.html, displays new client registration form."""
 
-
     bu_id = session["_user_id"]
-
     business_user = crud.get_business_user_by_id(bu_id)
 
     return render_template('register_client.html', business_user=business_user, bu_id=bu_id)
@@ -449,20 +369,14 @@ def signup_new_client():
     bu_id = session["_user_id"]
     client_name = request.form.get("name")
     client_email = request.form.get("email")
-    # bu_username = request.form.get("bu_username")
-    # print(client_name)
     client = crud.get_client_by_email(client_email)
     business_user = crud.get_business_user_by_id(bu_id)
-    print(business_user)
 
     if client:
         flash("There's already a client with that e-mail! Try again.")
-
     else:
         crud.create_client(client_name, client_email, business_user)
-        
         flash("New client added.")
-
     return redirect(f"/new_client/{{ bu_id }}")
 
 ####################################  @APP.ROUTE("/client_profile/<bu_id>/<client_id>")  #####################################
@@ -497,7 +411,6 @@ def edit_client_reward(bu_id=None, client_id=None):
     business_user = crud.get_business_user_by_id(bu_id)
     client = crud.get_client_by_id(client_id)
     rewards = crud.show_all_reward()
-    # rewards = crud.get_reward_by_id(reward_id)
 
     return render_template('edit_reward.html', bu_id=bu_id, business_user=business_user, client=client, rewards=rewards)
 
@@ -506,48 +419,20 @@ def edit_client_reward(bu_id=None, client_id=None):
 @app.route("/adjusting_points", methods=['POST'])
 def adjusting_points():
     """Route for 'submit-form' POST request on 'edit_reward.html'."""
-    # import pdb; pdb.set_trace()
-    
-    # print("checkfirst", request.form.get('client_id'))
-    # print("check", request.form.get('point'))
-    # print("*"*20)
-    # print(request.form.get('point'))
-
     reward_point = int(request.form.get('point'))
     client_id = request.form.get('client_id')
-
-    # print("*"*20)
-    # print("checking", client_id)
-
     bu_id = request.form.get('bu_id')
-
-    # print("checking", reward_point)
-    # print(client_id)
-    # print(type(client_id))
-    # print(reward_point)
-    # print(type(reward_point))
-
     # I don't know if I still need this, but I don't want to break my code 10/29/21
     business_user =crud.get_business_user_by_id(bu_id)
     client = crud.get_client_by_id(client_id)
-
     crud.adjust_client_points(client_id, reward_point)
-    # print("got here")
-
-
     total_client_point = client.reward_point
 
-    # print(total_client_point)
-    # flash(f"{total_client_point}")
     return {"new_points": total_client_point}
 
-
-#################################################
 #################################################
 ###############  TRANSACTIONS  ##################
 #################################################
-#################################################
-
 
 ####################################  @APP.ROUTE("/add_transaction/<bu_id>/<client_id>")  ############################################
 
@@ -555,21 +440,9 @@ def adjusting_points():
 @login_required
 def transaction(bu_id=None ,client_id=None):
     """Renders 'add_transaction.html', shows form (for route '/new_transaction') to add transaction."""
-
-    # print("*"*20)
-    # print("client id:", client_id)
-
     bu_id = session["_user_id"]
-
-    # client_id = request.args.get('client_id')
-    # change to singular later
-    # "clients" is a way to tap into database THEN use crud function to grab w/e
-
     business_user = crud.get_business_user_by_id(bu_id)
     clients = crud.get_client_by_id(client_id)
-
-    # print("*"*20)
-    # print(clients)
 
     return render_template('add_transaction.html', bu_id=bu_id, business_user=business_user,clients=clients)
 
@@ -584,7 +457,6 @@ def add_transaction():
     total_cost = request.form.get('total_cost')
     client_id = request.form.get("client_id")
 
-
     client = crud.get_client_by_id(client_id)
 
     crud.create_transaction(transaction_date, appointment_type, total_cost, client)
@@ -595,9 +467,7 @@ def add_transaction():
 
 
 #################################################
-#################################################
 ###############    REWARDS     ##################
-#################################################
 #################################################
 
 ####################################  @APP.ROUTE("/rewards/<bu_id>")  ############################################
@@ -610,7 +480,6 @@ def rewards_page(bu_id=None):
     with options to add a new reward or delete existing."""
 
     bu_id = session["_user_id"]
-
     rewards = crud.show_all_reward()
     business_user = crud.get_business_user_by_id(bu_id)
 
@@ -640,9 +509,7 @@ def adding_reward():
     reward_cost = request.form.get('reward_cost')
     bu_id = session["_user_id"]
     business_user = crud.get_business_user_by_id(bu_id)
-
     crud.create_reward(reward_type, reward_cost, business_user)
-    
     flash("Reward added.")
 
     return redirect(f'/add_rewards/{bu_id}')
@@ -655,12 +522,6 @@ def deleting_reward():
 
     bu_id = session["_user_id"]
     delete_reward = request.form.get('reward_id')
-    # print("********")
-    # print()
-    # print(delete_reward)
-    # print()
-    # print(request.form)
-    # print("********")
 
     crud.delete_reward(delete_reward)
     return redirect(f'/rewards/{bu_id}')
