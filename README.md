@@ -3,6 +3,17 @@
 # [GlowUp 2021 Initial ReadMe.md](#last-updated-2021)
 The following updates to my HB capstone project's ReadMe file come after returning to my project after a little more than a year.
 
+## Revisitation thoughts and comments:
+I took great pride in completing my capstone project as a part of Hackbright Academy's software engineering program. However, upon revisiting my project's GitHub repository, I realized taht I could have approached it with a greater sense of professionalism. I kindly request that you keep this in mind while reviewing my Git commit messages.
+
+### Personal Objective: Addressing Password Vulnerabilities
+As a tech enthusiast, I was motivated to enhance the security of the user login experirence for my capstone project. To mitigate the risk of storing plain text passwords in the database, I employed bCrypt to hash passwords during the registration process
+
+The password hashing process utilizes bCrypt's `hashpw` method. The original password is converted ot bytes using `encode` and then hashed with a generated salt. The resulting hash is then decoded and stored in the database.
+
+The `login_form` function, provided by Flask, handles the POST request for the login form. After validating the LoginForm object, the business user with the given username is retrieved. If the business user exists, bCrypt's `check_password_hash` method is used to compare the stored hashed password with the provided password. If the passwords match, the user is able to login. 
+
+
 # Last updated 2021
 # GlowUp - customer loyalty app
 Glow Up is a web application inspired by my sister's dream, of expanding her 
