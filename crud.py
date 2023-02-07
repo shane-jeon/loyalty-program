@@ -6,9 +6,7 @@ from model import db, BusinessUser, Client, Transaction, ClientReward, Reward, c
 import bcrypt
 
 #################################################
-#################################################
 ###########    BUSINESS_USERS     ###############
-#################################################
 #################################################
 
 
@@ -193,14 +191,11 @@ def adjust_client_points(client_id, reward_point):
 
 
 #################################################
-#################################################
 ##############   TRANSACTIONS     ################
 #################################################
-#################################################
 
-####################################################################
 ####################  def CREATE_TRANSACTION #########################
-####################################################################
+
 
 def create_transaction(transaction_date, appointment_type, total_cost, client):
     """Create client transaction."""
@@ -216,20 +211,14 @@ def create_transaction(transaction_date, appointment_type, total_cost, client):
 
     return transaction
 
-
-####################################################################
-###################  def SHOW_ALL_TRANSACTION #######################
-####################################################################
+###################  def SHOW_ALL_TRANSACTION ######################
 
 def show_all_transaction():
     """Show all client transactions."""
     
     return Transaction.query.all()
 
-
-####################################################################
 ###################  def GET_TRANSACTION_BY_ID ######################
-####################################################################
 
 def get_transaction_by_id(transaction_id):
     """Display transaction by transaction_id."""
@@ -238,16 +227,11 @@ def get_transaction_by_id(transaction_id):
 
     return transaction
 
-
-#################################################
 #################################################
 ###########    REWARDS/POINTS     ###############
 #################################################
-#################################################
 
-####################################################################
 ###################  def CREATE_CLIENT_REWARD ######################
-####################################################################
 
 def create_client_reward(client_id, reward_id):
     """Create client reward."""
@@ -260,20 +244,13 @@ def create_client_reward(client_id, reward_id):
     return client_reward
 
 
-####################################################################
 ##################  def GET_CLIENT_POINT.   ######################
-####################################################################
-
 def get_client_point(client_id):
     """Add point to client reward account."""
     client_point = ClientReward.query.filter_by(client_id=client_id).first()
 
     return client_point
-
-
-####################################################################
 ######################  def CREATE_REWARD ##########################
-####################################################################
 
 def create_reward(reward_type, reward_cost, business):
     """Create reward."""
@@ -288,10 +265,7 @@ def create_reward(reward_type, reward_cost, business):
 
     return reward
 
-
-####################################################################
 ######################  def DELETE_REWARD ##########################
-####################################################################
 
 def delete_reward(reward_id):
     """Delete reward."""
@@ -301,20 +275,14 @@ def delete_reward(reward_id):
     db.session.delete(reward)
     db.session.commit()
 
-
-####################################################################
 #######################  def SHOW_ALL_REWARD #######################
-####################################################################
 
 def show_all_reward():
     """Show all reward."""
 
     return Reward.query.all()
 
-
-####################################################################
 #######################  def GET_REWARD_BY_ID #######################
-####################################################################
 
 def get_reward_by_id(reward_id):
     """Get reward by reward_id."""
@@ -323,8 +291,6 @@ def get_reward_by_id(reward_id):
 
     return reward
 
-
-############################################################################
 
 if __name__ == '__main__':
     from server import app
